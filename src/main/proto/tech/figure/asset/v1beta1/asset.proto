@@ -10,7 +10,7 @@ import "validate/validate.proto";
 
 /*
 An Asset is the representation of an NFT on Provenance Blockchain, and can be any type of digital asset
-represented by one or more [Google Protocol Buffer](https://developers.google.com/protocol-buffers)
+represented by one or more [Google Protocol Buffers](https://developers.google.com/protocol-buffers).
 
 For specific asset types, use a domain-specific protobuf, such as a [`Loan`](loan#loan-1), in the `kv` map.
 
