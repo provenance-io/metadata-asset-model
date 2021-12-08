@@ -31,7 +31,7 @@ class AssetTest {
 
         val asset2 = Asset.parseFrom(asset1.toByteArray())
         val data = asset2.getKvOrThrow(FileNFT.KEY_BYTES)
-        writeFile("output.png", data.unpack(BytesValue::class.java).value.toByteArray())
+        writeFile("build/output.png", data.unpack(BytesValue::class.java).value.toByteArray())
     }
 }
 
