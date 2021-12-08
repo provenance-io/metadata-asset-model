@@ -1,21 +1,21 @@
 syntax = "proto3";
 
-package tech.figure.loan.v1;
+package tech.figure.loan.v1beta1;
 
 option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
-import "tech/figure/loan/v1/heloc.proto";
-import "tech/figure/loan/v1/mortgage.proto";
-import "tech/figure/loan/v1/student_loan.proto";
-import "tech/figure/util/v1/account.proto";
-import "tech/figure/util/v1/credit_report.proto";
-import "tech/figure/util/v1/document.proto";
-import "tech/figure/util/v1/fee.proto";
-import "tech/figure/util/v1/income.proto";
-import "tech/figure/util/v1/person.proto";
-import "tech/figure/util/v1/types.proto";
+import "tech/figure/loan/v1beta1/heloc.proto";
+import "tech/figure/loan/v1beta1/mortgage.proto";
+import "tech/figure/loan/v1beta1/student_loan.proto";
+import "tech/figure/util/v1beta1/account.proto";
+import "tech/figure/util/v1beta1/credit_report.proto";
+import "tech/figure/util/v1beta1/document.proto";
+import "tech/figure/util/v1beta1/fee.proto";
+import "tech/figure/util/v1beta1/income.proto";
+import "tech/figure/util/v1beta1/person.proto";
+import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
 
 /*

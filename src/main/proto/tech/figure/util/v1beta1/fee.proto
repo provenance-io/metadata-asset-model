@@ -4,7 +4,7 @@ package tech.figure.util;
 
 option java_multiple_files = true;
 
-import "tech/figure/util/v1/types.proto";
+import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
 
 /**

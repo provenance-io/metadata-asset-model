@@ -3,8 +3,8 @@ package tech.figure.proto
 import com.google.protobuf.*
 import com.google.protobuf.Any
 import org.junit.jupiter.api.Test
-import tech.figure.asset.v1.Asset
-import tech.figure.asset.v1.AssetOuterClassBuilders
+import tech.figure.asset.v1beta1.Asset
+import tech.figure.asset.v1beta1.AssetOuterClassBuilders
 import tech.figure.proto.util.FileNFT
 import java.io.File
 import java.util.*

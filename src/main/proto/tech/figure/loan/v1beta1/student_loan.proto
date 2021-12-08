@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package tech.figure.loan.v1;
+package tech.figure.loan.v1beta1;
 
 option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
-import "tech/figure/util/v1/account.proto";
-import "tech/figure/util/v1/education.proto";
-import "tech/figure/util/v1/types.proto";
+import "tech/figure/util/v1beta1/account.proto";
+import "tech/figure/util/v1beta1/education.proto";
+import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
 
 /**
