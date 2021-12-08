@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package tech.figure.loan.v1;
+
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "tech/figure/util/v1/address.proto";
+import "tech/figure/util/v1/property.proto";
+import "tech/figure/util/v1/types.proto";
+import "validate/validate.proto";
+
+/*
+A home Mortgage loan
+ */
+message Mortgage {
+  tech.figure.util.Property lien_property        = 1 [(validate.rules).message.required = true]; // Property for which this mortgage was obtained
+  uint32                        lien_position        = 2 [(validate.rules).uint32.gt = 0];           // Lien position: 1 = first lien position, 2 or more = junior lien position
+  tech.figure.util.Money        cash_out_amount      = 3;                                            // Cash proceeds to the borrower from a cash out refinancing after all other loans to be paid by the mortgage proceeds have been satisfied
+  bool                          arm_flag             = 4;                                            // True if loan is an Adjustable Rate Mortgage
+  ARM                           arm                  = 5;                                            // If Adjustable-Rate Mortgage, the ARM terms
+  bool                          io_flag              = 6;                                            // True if loan is an interest-only loan
+  uint32                        io_term_months       = 7;                                            // Number of months mortgage is interest-only
+  bool                          escrow_flag          = 8;                                            // Escrow enabled flag: Indicates whether various home ownership expenses (taxes, insurance, HOA dues) are paid by the borrower directly or through an escrow account. Borrower paid=false, paid through escrow=true
+  bool                          neg_am_flag          = 9;                                            // True if negative amortization
+  bool                          agency_eligible_flag = 10;                                           // Desktop Underwriter: true if agency eligible. If Jumbo, should be false
+  string                        agency_program       = 11;                                           // If agency eligible, the program to which this loan complies (e.g. FNMA HB, FNMA, JUMBO)
+  Escrow                        escrow               = 12;                                           // Items held in escrow for this loan
+  Recording                     recording_info       = 13;                                           // Mortgage county recording information
+}
+
+/*
+Terms and dates for an Adjustable-Rate Mortgage (ARM)
+ */
+message ARM {
+  tech.figure.util.Rate index                            = 1;
+  uint32                initial_fixed_rate_period_months = 2;
+  tech.figure.util.Date initial_payment_adj_date         = 3;
+  tech.figure.util.Rate initial_rate_adj_cap             = 4;
+  tech.figure.util.Date initial_rate_adj_date            = 5;
+  tech.figure.util.Rate initial_rate_adj_floor           = 6;
+  tech.figure.util.Rate lifetime_rate_adj_cap            = 7;
+  tech.figure.util.Rate margin                           = 8;
+  tech.figure.util.Rate max_rate                         = 9;
+  tech.figure.util.Rate min_rate                         = 10;
+  tech.figure.util.Date next_rate_adj_date               = 11;
+  tech.figure.util.Rate subs_rate_adj_cap                = 12;
+  uint32                subs_rate_adj_period_months      = 13;
+}
+
+/*
+Monies held in an account, typically by the servicer, for paying certain expenses related to the lien property,
+such as taxes and insurance.
+ */
+message Escrow {
+  tech.figure.util.Money escrow_monthly_amount  = 1; // Sum of all monthly escrow amounts paid by the borrower in addition to the monthly payment amount
+  tech.figure.util.Money pre_paid_escrow_amount = 2; // Prepaid escrow (paid out at closing to insurance / tax entities)
+  tech.figure.util.Money initial_escrow_amount  = 3; // Initial/starting escrow balance (held in escrow account by the servicer for future use)
+  repeated InsuranceEscrow     insurance_coverage     = 4; // Homeowner's insurance
+  repeated TaxEscrow     tax_escrow             = 5; // Property tax escrow
+  HomeOwnersAssociationEscrow  hoa                    = 6; // Home Owner's Association information and dues
+}
+
+/*
+Detail about escrow withholding for a Home Owners' Association for the lien property
+ */
+message HomeOwnersAssociationEscrow {
+  bool                                escrow_flag           = 1; // Indication whether HOA dues are part of escrow
+  tech.figure.util.Money              escrow_monthly_amount = 2; // If escrow flag is set, the amount withheld from the loan payment for this item
+  EscrowWithdrawPolicy                withdraw_policy       = 3; // HOA dues payment policy
+  tech.figure.util.ContactInformation contact_info          = 4; // HOA contact information
+}
+
+/*
+Detail about escrow withholding for insurance related to the lien property
+ */
+message InsuranceEscrow {
+  bool                                escrow_flag           = 1;  // Indication whether loan is escrowed for this type of insurance
+  tech.figure.util.Money              escrow_monthly_amount = 2;  // If escrow flag is set, the amount withheld from the loan payment for this item
+  string                              type                  = 3;  // Type of insurance, e.g. HOMEOWNERS, FLOOD, EARTHQUAKE, CONDO, HOA, PMI, MIP
+  tech.figure.util.Money              coverage_amount       = 4;  // Amount for which the property is insured
+  tech.figure.util.Date               expiration_date       = 5;  // Policy expiration date
+  string                              policy_number         = 7;  // Policy account number
+  EscrowWithdrawPolicy                withdraw_policy       = 8;  // Insurance escrow payment policy
+  tech.figure.util.Date               start_date            = 9;  // Policy start date
+  tech.figure.util.ContactInformation contact_info          = 10; // Insurance company contact information
+}
+
+/*
+Detail about escrow witholding for tax payments related to the lien property
+ */
+message TaxEscrow {
+  bool                                escrow_flag           = 1; // Indication whether loan is escrowed for taxes
+  tech.figure.util.Money              escrow_monthly_amount = 2; // If escrow flag is set, the amount withheld from the loan payment for this item
+  string                              tax_type              = 3; // Type of tax, e.g. COMBINED, CITY, COUNTY, SCHOOL, MISC, BONDS, HOA_DUES, MOBILE_HOME, GROUND_RENT, OTHER, DELINQUENT
+  EscrowWithdrawPolicy                withdraw_policy       = 4; // Tax escrow payment policy
+  string                              tax_year              = 5; // Initial tax year
+  tech.figure.util.ContactInformation contact_info          = 6; // Tax authority contact information
+}
+
+/*
+Describes how and when funds are withdrawn from an escrow account to pay an item
+ */
+message EscrowWithdrawPolicy {
+  tech.figure.util.Date  first_withdraw_date = 1; // The initial withdraw date after funding
+  string                 withdraw_frequency  = 2; // How often funds are withdrawn from escrow account to pay this item e.g. MONTHLY, SEMIANNUAL, YEARLY
+  tech.figure.util.Money withdraw_amount     = 3; // Amount to be withdrawn at the given frequency
+}
+
+/*
+The registration of the mortgage in a public record by a government agency
+ */
+message Recording {
+  tech.figure.util.UUID     recorded_document_id     = 1 [(validate.rules).message.required = true];
+  tech.figure.util.Status   recording_status         = 2;
+  google.protobuf.Timestamp recorded_timestamp       = 3;
+  string                    instrument_number        = 4;
+  tech.figure.util.Date     security_instrument_date = 5;
+  tech.figure.util.Date     county_recorded_date     = 6;
+  string                    document_number          = 7;
+  string                    book                     = 8;
+  string                    page                     = 9;
+  string                    county_recorded          = 10;
+  string                    town_recorded            = 11;
+  string                    state_recorded           = 12;
+  string                    recordation_number       = 13;
+}

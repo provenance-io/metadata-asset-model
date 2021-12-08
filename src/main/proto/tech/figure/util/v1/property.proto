@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "tech/figure/util/v1/address.proto";
+import "tech/figure/util/v1/options.proto";
+import "tech/figure/util/v1/types.proto";
+import "validate/validate.proto";
+
+message Property {
+  tech.figure.util.Address address         = 1;
+  PropertyLocation         location        = 2;
+  PropertySite             site            = 3;
+  PropertyOwnership        ownership       = 4;
+  string                   type            = 5;
+  string                   usage           = 6;
+  string                   occupancy_type  = 7;
+  Appraisal                appraisal       = 8;
+  int32                    number_of_units = 9;
+}
+
+message Appraisal {
+  Money appraisal_amount = 1;
+  Date  appraisal_date   = 2;
+}
+
+message PropertyLocation {
+  google.protobuf.DoubleValue latitude               = 1;
+  google.protobuf.DoubleValue longitude              = 2;
+  string                      fips_code              = 3;
+  string                      parcel_number          = 4;
+  string                      parcel_sequence        = 5;
+  string                      carrier_route          = 6;
+  string                      alternate_apn          = 7;
+  string                      apn                    = 8;
+  string                      census_block           = 9;
+  string                      county                 = 10;
+  string                      legal_block            = 11;
+  string                      legal_description      = 12;
+  string                      legal_lot              = 13;
+  string                      legal_book_page        = 14;
+  string                      neighborhood_code      = 15;
+  string                      state                  = 16;
+  string                      school_district        = 17;
+  string                      subdivision            = 18;
+  string                      township               = 19;
+  string                      township_range_section = 20;
+  string                      census_tract           = 21;
+  string                      tract_number           = 22;
+  string                      map_reference1         = 23;
+  string                      map_reference2         = 24;
+  string                      census_block_group     = 25;
+  string                      municipality_name      = 26;
+  string                      neighborhood           = 27;
+  string                      school_district_name   = 28;
+  string                      market_area            = 29;
+}
+
+message PropertyOwnership {
+  repeated string owner_names             = 1;
+  repeated string vesting_owners          = 2;
+  Address         address                 = 3;
+  string          phone_number            = 4;
+  string          vesting_etal            = 5;
+  string          vesting_ownership_right = 6;
+  string          owner_occupied_ind      = 7;
+  string          pending_record_ind      = 8;
+  string          corporate_owner         = 9;
+  string          owner_vesting_code      = 10;
+}
+
+message PropertySite {
+  int32  acres               = 1;
+  string building_class      = 2;
+  string building_depth      = 3;
+  string building_width      = 4;
+  string commercial_units    = 5;
+  string county_use_code     = 6;
+  string land_use            = 7;
+  int32  lot_square_feet     = 8;
+  string lot_depth           = 9;
+  string lot_shape           = 10;
+  string lot_width           = 11;
+  int32  number_of_buildings = 12;
+  int32  residential_units   = 13;
+  string sewer_type          = 14;
+  string site_influence      = 15;
+  string state_land_use      = 16;
+  string topography          = 17;
+  string usable_lot_area     = 18;
+  string water               = 19;
+  string water_district      = 20;
+  string zoning              = 21;
+  string state_land_use_code = 22;
+  string zoning_code         = 23;
+  string county_use          = 24;
+}
+

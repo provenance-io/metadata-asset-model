@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "tech/figure/util/v1/address.proto";
+import "tech/figure/util/v1/options.proto";
+import "tech/figure/util/v1/types.proto";
+import "validate/validate.proto";
+
+/*
+Represents an account where currency is held, either in a traditional financial institution or a Provenance Blockchain account.
+ */
+message Account {
+  tech.figure.util.UUID account_owner_id = 1 [(validate.rules).message.required = true]; // UUID of the borrower/owner of the account (if loan, should match one of `Loan.borrowers` IDs)
+  oneof                 type_specific {
+    option (validate.required)   = true;
+    FinancialAccount  financial  = 2; // Traditional financial account, e.g. bank account
+    ProvenanceAccount provenance = 3; // Provenance Blockchain account
+  }
+}
+
+/*
+An account on the Provenance Blockchain, located at `address`.
+
+See <a href="https://docs.provenance.io/blockchain/basics/accounts">Account Documentation</a> for details.
+ */
+message ProvenanceAccount {
+  string address     = 2 [(validate.rules).string = {min_len: 41, pattern: "^(pb|tp)1.+"}]; // Provenance Blockchain address for this account. <a href="https://docs.provenance.io/blockchain/basics/accounts">See Documentation</a>
+  string description = 3;                                                                   // Optional field to denote account use, name, or type (e.g. FUNDING, MARKER, or USER_ACCOUNT)
+}
+
+/*
+Represents the location of an account at a financial institution, located by `account` and `routing` numbers
+ */
+message FinancialAccount {
+  tech.figure.util.UUID  id                    = 1 [(validate.rules).message.required = true];                                            // Unique UUID identifier for this bank account
+  string                 owner_name            = 12 [(tech.figure.util.pii) = true];                                                      // Name of the person who owns this account
+  string                 financial_institution = 13;                                                                                      // Name of bank or financial institution
+  string                 account_number        = 10 [(tech.figure.util.pii) = true, (validate.rules).string = {min_len: 4, max_len: 17}]; // 4-17 digit Account number
+  string                 routing_number        = 11 [(tech.figure.util.pii) = true, (validate.rules).string.len = 9];                     // 9-digit Routing number
+  repeated MoneyMovement movement              = 8;                                                                                       // Instructions for moving money from this account
+}
+
+/*
+Specification of how money may be sent to this account: ACH or wire transfer (domestic or international/SWIFT).
+ */
+message MoneyMovement {
+  oneof type_specific {
+    option (validate.required) = true;
+    ACH  ach                   = 1; // ACH
+    WIRE wire                  = 2; // Wire transfer, domestic or international/SWIFT
+  }
+}
+
+/*
+ACH is the most common method of transferring funds bank-to-bank.
+
+The Automated Clearing House protocol has been in use since 1974.
+> Watch out ACH, USDF comin' to gitcha!
+ */
+message ACH {
+  AccountType account_type = 16 [(validate.rules).enum.defined_only = true]; // CHECKING, SAVINGS, or OTHER
+  string      owner_type   = 25;                                             // If required for ACH, type of account, e.g. INDIVIDUAL or COMMERCIAL
+
+  enum AccountType {
+    ACCOUNT_TYPE_UNKNOWN = 0;
+    CHECKING             = 1 [(tech.figure.util.description) = "Checking"];
+    SAVINGS              = 2 [(tech.figure.util.description) = "Savings"];
+    OTHER                = 3 [(tech.figure.util.description) = "Other"];
+  }
+}
+
+/*
+A wire transfer is an electronic transfer of funds via a network that is administered by banks and transfer service agencies worldwide.
+ */
+message WIRE {
+  tech.figure.util.Address account_address    = 1 [(tech.figure.util.pii) = true, (validate.rules).message.required = true]; // Account owner mailing address
+  string                   wire_instructions  = 2 [(tech.figure.util.pii) = true, (validate.rules).string.min_len = 1];      // Wire-specific instructions
+  SWIFT                    swift_instructions = 3;                                                                           // If international wire, include Swift instructions
+}
+
+/*
+Society for Worldwide Interbank Financial Telecommunications (SWIFT) is member-owned cooperative for sending
+international wire transfers.
+ */
+message SWIFT {
+  string                   swift_id           = 23 [(tech.figure.util.pii) = true, (validate.rules).string.min_len = 1];      // SWIFT bank account Id
+  tech.figure.util.Address swift_bank_address = 24 [(tech.figure.util.pii) = true, (validate.rules).message.required = true]; // SWIFT bank mailing address
+}

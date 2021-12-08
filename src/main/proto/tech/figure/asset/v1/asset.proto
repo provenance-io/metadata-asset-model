@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package tech.figure.asset.v1;
+
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "tech/figure/util/v1/types.proto";
+import "validate/validate.proto";
+
+/*
+An Asset is the representation of an NFT on Provenance Blockchain, and can be any type of digital asset
+represented by one or more [Google Protocol Buffer](https://developers.google.com/protocol-buffers)
+
+For specific asset types, use a domain-specific protobuf, such as a [`Loan`](loan#loan-1), in the `kv` map.
+
+INSERT_EXAMPLE
+ */
+message Asset {
+  tech.figure.util.UUID            id          = 1 [(validate.rules).message.required = true]; // Required UUID identifier for this asset
+  string                           type        = 2;                                            // Optional user-defined type (e.g. LOAN, ART, PROPERTY TITLE, FUND, SHARE CLASS)
+  string                           description = 3;                                            // Optional user-defined description, title, name, etc. for display
+  map<string, google.protobuf.Any> kv          = 4 [(validate.rules).map.min_pairs = 1];       // Key-value store of asset data
+}

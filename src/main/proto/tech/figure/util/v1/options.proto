@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "google/protobuf/descriptor.proto";
+
+/*
+Adds a human-readable description to an enum value
+ */
+extend google.protobuf.EnumValueOptions {
+  string description = 50003;
+}
+
+/*
+Marks a field as containing potentially-sensitive Personally Identifying Information (PII).
+
+By annotating a field with this option, it's possible to traverse a protobuf and remove
+any field marked as PII
+ */
+extend google.protobuf.FieldOptions {
+  bool pii = 65536; // True if this field value contains Personally Identifying Information (PII).
+}

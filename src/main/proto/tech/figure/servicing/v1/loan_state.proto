@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package tech.figure.servicing.v1;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "tech/figure/util/v1/person.proto";
+import "tech/figure/util/v1/types.proto";
+import "validate/validate.proto";
+
+/**
+Aggregation of loan state across a structure (group) of loans
+ */
+message LoanStructureState {
+  string             marker_address = 1; // Provenance Blockchain Address for the Marker representing this loan structure
+  repeated LoanState loan_states    = 2; // Loan state data for loans included in the structure
+}
+
+/*
+Loan state data (servicing data) at a point in time
+ */
+message LoanState {
+  tech.figure.util.UUID     loan_id               = 1 [(validate.rules).message.required = true];                                             // Loan identifier for which this state is calculated
+  google.protobuf.Timestamp effective_time        = 2 [(validate.rules).timestamp.required = true, (validate.rules).timestamp.lt_now = true]; // Timestamp when this state was produced
+  string                    loan_type             = 3 [(validate.rules).string.min_len = 1];                                                  // Type of loan (e.g. MORTGAGE, HELOC, PERSONAL_LOAN)
+  string                    servicer_name         = 4 [(validate.rules).string.min_len = 1];                                                  // Name of servicer for loan
+  tech.figure.util.Money    total_unpaid_prin_bal = 5 [(validate.rules).message.required = true];                                             // Total unpaid principal balance
+  tech.figure.util.Money    accrued_interest      = 6 [(validate.rules).message.required = true];                                             // Total interest accrued to-date
+  tech.figure.util.Money    daily_int_amount      = 7 [(validate.rules).message.required = true];                                             // Accrued interest amount per day
+  /*
+Loan status, such as
+  IN REPAY
+  1-9 DAYS DELQ
+  10-29 DAYS DELQ
+  30-59 DAYS DELQ
+  60-89 DAYS DELQ
+  90+ DAYS DELQ
+  PAID_CLOSED
+  PAID_OPEN
+  FORBEARANCE
+  TRANSFERRED
+*/
+  tech.figure.util.Status    loan_status            = 8;
+  tech.figure.util.Borrowers current_borrower_info  = 9;  // Borrower(s), co-signers, etc
+  tech.figure.util.Money     current_p_and_i        = 10; // Currently monthly loan payment amount including principal and interest
+  tech.figure.util.Rate      current_interest_rate  = 11; // The current interest rate used to calculate the principal and interest payment
+  tech.figure.util.Date      int_accrual_start_date = 12; // The date on which interest accrual began
+  tech.figure.util.Date      int_paid_through_date  = 13; // The date through which interest is paid with the current payment. The effective date from which interest will be calculated for the application of the next payment.
+  tech.figure.util.Date      maturity_date          = 14; // The date when a loan reaches maturity
+  tech.figure.util.Date      next_due_date          = 15; // Date of next due payment for loan
+  int32                      days_delinquent        = 16; // Number of days delinquent
+  int32                      remaining_term_months  = 17; // Remaining loan term in months
+  tech.figure.util.Rate      servicing_fee_rate     = 18; // The fee paid to the servicer, stated as a percentage of the outstanding loan balance
+  tech.figure.util.Rate      apr                    = 19; // Annualized Percentage Rate of the loan
+  bool                       autopay_flag           = 20; // If true, payments are automatically deducted from borrower's financial account
+  tech.figure.util.Money     deferred_int_balance   = 21; // Accumulated Interest balance since forbearance_begin_date
+  tech.figure.util.Date      delinquent_date        = 22; // If delinquent, date first payment was missed that made the loan currently delinquent
+  uint32                     days_forbearance       = 23; // Days elapsed since entering Forbearance
+  tech.figure.util.Date      forbearance_begin_date = 24; // Date forbearance period begins
+  tech.figure.util.Date      forbearance_end_date   = 25; // Date forbearance period ends
+  tech.figure.util.Money     interest_paid          = 26; // Total interest paid to-date
+  tech.figure.util.Rate      interest_rate_cap      = 27; // Interest rate cap
+  tech.figure.util.Date      last_payment_date      = 28; // Last payment received date
+  tech.figure.util.Money     monthly_payment_amount = 29; // The minimum monthly payment amount that borrower needs to repay on the loan
+  tech.figure.util.Money     principal_paid         = 30; // Sum of amount paid to principal
+  tech.figure.util.Money     past_due_amount        = 31; // Amount past due
+  /*
+  Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.
+  For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a>
+  */
+  map<string, google.protobuf.Any> kv = 99;
+}

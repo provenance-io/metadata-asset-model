@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "tech/figure/util/v1/types.proto";
+import "validate/validate.proto";
+
+/**
+Describes a fee charged, typically as part of a loan origination
+ */
+message Fee {
+  tech.figure.util.Rate  rate    = 1;                                            // If a loan, describes the fee amount as a percentage of loan principal amount
+  tech.figure.util.Money amount  = 2 [(validate.rules).message.required = true]; // Value amount of origination fee charged
+  string                 type    = 3 [(validate.rules).string.min_len = 1];      // Fee type, e.g. ORIGINATION_FEE
+  string                 subtype = 4;                                            // Subtype allows variation of fee type. For an origination fee, subtype might be: NO_FEE, CAPITALIZED, UNCAPITALIZED_SPREAD, UNCAPITALIZED_UPFRONT
+}
