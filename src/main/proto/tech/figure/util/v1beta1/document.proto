@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "tech/figure/util/v1beta1/person.proto";
+import "tech/figure/util/v1beta1/options.proto";
+import "tech/figure/util/v1beta1/types.proto";
+import "validate/validate.proto";
+
+/*
+Data or document digitally-signed by the source that created the data/document.
+ */
+message SignedData {
+  DocumentMetadata           meta      = 1 [(validate.rules).message.required = true];  // Information about the data/document
+  DigitalSignature           signature = 22 [(validate.rules).message.required = true]; // Signature of vendor on this data/document
+  google.protobuf.BytesValue data      = 2 [(validate.rules).message.required = true];  // Byte array of data/docum``ent contents
+}
+
+/*
+Information about a file or document. `DocumentMetadata` includes only describing information about the file; the
+actual contents of the file are stored elsewhere (described by the `uri`).
+ */
+message DocumentMetadata {
+  tech.figure.util.UUID id            = 1 [(validate.rules).message.required = true]; // Identifier unique to this document
+  string                uri           = 2;                                            // URI Location where document is hosted/located
+  string                file_name     = 3;                                            // Name of the original file, including file extension
+  string                content_type  = 4 [(validate.rules).string.min_len = 1];      // Where possible, use MIME type, such as `application/pdf` or `application/xml`
+  string                document_type = 5 [(validate.rules).string.min_len = 1];      // Examples: HELOC_AGREEMENT, CREDIT_DISCLOSURE, PROOF_OF_RECORDED_DEED, TRANSFER_OF_SERVICING_RIGHTS, etc.
+  Checksum              checksum      = 6;                                            // Hash or checksum of document bytes
+}
+
+/*
+A cryptographic digital signature of a document/file
+ */
+message DigitalSignature {
+  string                    signature                      = 10 [(validate.rules).string.min_len = 1]; //
+  google.protobuf.Timestamp time_received_from_third_party = 11;                                       // Date/time document was received
+  string                    vendor_name                    = 12 [(validate.rules).string.min_len = 1]; // Name of the vendor/firm providing this digitally-signed data
+}
+
+/*
+Represents metadata about document electronically-signed by a person.
+
+_Note: Actual document file/data is stored separately._
+ */
+message ESignedDoc {
+  tech.figure.util.DocumentMetadata signed_document      = 1; // Fully-completed, electronically-signed document metadata
+  tech.figure.util.DocumentMetadata unsigned_document    = 2; // Representation of document without signature. Usually a document template.
+  ElectronicSignature               electronic_signature = 3; // Customer's electronic signature data
+  map<string, string>               substitution_data    = 4; // If `unsigned_document` is a template, this is the data inserted into the template. Key is the field name.
+  Checksum                          signed_doc_checksum  = 5; // Checksum (hash) of the signed version of the document
+}
+
+/*
+An Electronic Signature (e-signature) is a digital replacement for a handwritten signature.
+
+_Note: this distinct from a cryptographic [DigitalSignature](util#digitalsignature)._
+ */
+message ElectronicSignature {
+  Checksum              checksum    = 1; // Checksum (hash) of the e-signature
+  repeated ESigData     data        = 3;
+  tech.figure.util.UUID person_id   = 4 [(validate.rules).message.required = true]; // Id of the person who signed the document (e.g. a borrower Id)
+  tech.figure.util.UUID asset_id    = 5 [(validate.rules).message.required = true]; // Id of the asset to which this document relates (e.g. a loan Id)
+  tech.figure.util.UUID document_id = 6 [(validate.rules).message.required = true]; // Id of the signed document
+}
+
+message ESigData {
+  tech.figure.util.UUID     person_id                = 1 [(validate.rules).message.required = true];
+  Notary                    notary                   = 2;
+  string                    email                    = 3 [(tech.figure.util.pii) = true, (validate.rules).string.email = true];
+  string                    ip                       = 4;
+  string                    user_agent               = 5;
+  string                    two_factor_signing_token = 7;
+  google.protobuf.Timestamp two_factor_timestamp     = 8;
+  google.protobuf.Timestamp signing_timestamp        = 9;
+  tech.figure.util.Name     name                     = 10;
+  repeated Witness          witnesses                = 11;
+}
+
+/*
+Detail of the notary (person) who witnessed the signing and their commission information.
+ */
+message Notary {
+  tech.figure.util.UUID     person_id             = 1 [(validate.rules).message.required = true];
+  tech.figure.util.Name     name                  = 2;
+  string                    commission_id         = 3;
+  google.protobuf.Timestamp commission_expiration = 4;
+  bool                      is_resident           = 5;
+}
+
+/*
+A non-notary witness to the document signing
+ */
+message Witness {
+  tech.figure.util.UUID person_id = 1 [(validate.rules).message.required = true];
+  tech.figure.util.Name name      = 2;
+}

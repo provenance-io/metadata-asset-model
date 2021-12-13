@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "tech/figure/util/v1beta1/options.proto";
+import "tech/figure/util/v1beta1/types.proto";
+
+/**
+Describes a educational course of study toward a degree
+ */
+message Education {
+  string      school_name        = 3;  // Name of educational institution
+  string      school_code        = 4;  // School code
+  DegreeLevel degree_level       = 5;  // Degree obtained or working toward
+  Date        start_date         = 6;  // Date program of study started
+  Date        end_date           = 7;  // Date program of study ended or planned to end
+  bool        is_degree_complete = 8;  // True if course of study was completed and degree awarded
+  string      graduation_month   = 10; // Month of graduation
+  string      graduation_year    = 11; // Year of graduation
+
+  enum DegreeLevel {
+    UNKNOWN_DEGREE_LEVEL = 0;
+    BA                   = 1 [(description) = "Bachelor of Arts"];
+    BS                   = 2 [(description) = "Bachelor of Science or Engineering"];
+    MA                   = 3 [(description) = "Master of Arts"];
+    MS                   = 4 [(description) = "Master of Science or Engineering"];
+    MBA                  = 5 [(description) = "Master of Business Administration"];
+    JD                   = 6 [(description) = "Juris Doctor"];
+    PHD                  = 7 [(description) = "Doctor of Philosophy"];
+    MD                   = 8 [(description) = "Doctor of Medicine"];
+    DO                   = 9 [(description) = "Doctor of Osteopathic Medicine"];
+    DDS_DMD              = 10 [(description) = "Doctor of Dental Surgery"];
+    DVM_VMD              = 11 [(description) = "Doctor of Veterinary Medicine"];
+    PHARMD               = 12 [(description) = "Doctor of Pharmacy"];
+    DPT                  = 13 [(description) = "Doctor of Physical Therapy"];
+    DNP                  = 14 [(description) = "Doctor of Nursing"];
+    OD                   = 15 [(description) = "Doctor of Optometry"];
+  }
+}

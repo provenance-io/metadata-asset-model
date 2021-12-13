@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "tech/figure/util/v1beta1/options.proto";
+import "validate/validate.proto";
+
+/*
+Physical or mailing address
+ */
+message Address {
+  string street         = 10 [(tech.figure.util.pii) = true]; // Street address including number, e.g. "123 Main St."
+  string street2        = 15 [(tech.figure.util.pii) = true]; // Used for multi-line street addresses
+  string street3        = 20 [(tech.figure.util.pii) = true]; // Used for multi-line street addresses
+  string city           = 25;                                 // City
+  string state          = 30;                                 // State or Province
+  string country        = 35;                                 // Country/nation
+  string zip            = 40;                                 // Zip Code
+  string unit_number    = 45;                                 // Unit number, e.g. apartment number ("Apt #3B")
+  string address_type   = 50;                                 // e.g. HOME, MAILING, SECONDARY, INVESTMENT
+  string ownership_type = 55;                                 // Property ownership type: e.g. SOLE, JOINT, TRUST, LLC, etc
+}
+
+/*
+Telephone number
+ */
+message PhoneNumber {
+  string number      = 2 [(tech.figure.util.pii) = true]; // Phone number
+  string number_type = 11;                                // e.g. HOME, MOBILE, WORK
+}
+
+/**
+Contact information for a third-party
+ */
+message ContactInformation {
+  string                   name    = 10 [(tech.figure.util.pii) = true];                                       // Name of contract person or company
+  PhoneNumber              phone   = 11;                                                                       // Phone number
+  string                   email   = 12 [(tech.figure.util.pii) = true, (validate.rules).string.email = true]; // RFC 1034-compliant email address
+  tech.figure.util.Address address = 14 [(tech.figure.util.pii) = true];                                       // Mailing address
+  string                   fax     = 15 [(tech.figure.util.pii) = true];                                       // Fax number
+  string                   url     = 16 [(validate.rules).string.uri = true];                                  // A web url relating to the contact - their homepage, their company's homepage, etc
+}

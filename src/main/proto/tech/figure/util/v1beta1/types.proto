@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package tech.figure.util;
+
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
+
+/*
+Universally Unique Identifier.
+
+As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
+ */
+message UUID {
+  string value = 1 [(validate.rules).string.uuid = true];
+}
+
+/*
+An ISO8601 Date.
+
+In Java: Use `LocalDate` to represent this value.  (For `OffsetDateTime`, use a protobuf `Timestamp`.)
+ */
+message Date {
+  string value = 1 [(validate.rules).string.pattern = "\\d{4}-\\d{2}-\\d{2}"]; // Date stored as ISO8601 string in the form "yyyy-MM-dd". EX: "2020-05-22"
+}
+
+/*
+Rate/percentage expressed as a decimal between 0 and 1.0, where 1.0 represents 100%.
+
+In Java: Use `BigDecimal` to represent this value.
+ */
+message Rate {
+  double value = 1 [(validate.rules).double = {gte: 0; lte: 1 }]; // Value in the range [0,1], inclusive
+}
+
+/*
+A monetary `amount` in specified `currency`.
+
+In Java: Use <a href="https://www.joda.org/joda-money/">Joda Money</a>, `BigMoney`, or `BigDecimal` to represent this value.
+ */
+message Money {
+  double amount   = 1 [(validate.rules).double.gte = 0]; // Positive amounts only
+  string currency = 2 [(validate.rules).string.len = 3]; // ISO 4217 3-digit currency code
+}
+
+/*
+A Status indicator along with the timestamp it became effective
+ */
+message Status {
+  string                    status         = 1 [(validate.rules).string.min_len = 1]; // Status string is context-dependant
+  google.protobuf.Timestamp effective_time = 2;                                       // Date/time this status was establish
+}
+
+/*
+A Checksum (hash) produced by a checksum `algorithm`.
+ */
+message Checksum {
+  string checksum  = 1 [(validate.rules).string.min_len = 1]; // The hash of the data
+  string algorithm = 2 [(validate.rules).string.min_len = 1]; // Checksum algorithm, e.g. MD5, SHA256
+}
+

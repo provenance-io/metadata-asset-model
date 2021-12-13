@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package tech.figure.loan.v1beta1;
+
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "tech/figure/util/v1beta1/account.proto";
+import "tech/figure/util/v1beta1/education.proto";
+import "tech/figure/util/v1beta1/types.proto";
+import "validate/validate.proto";
+
+/**
+New or Refinance student loan
+ */
+message StudentLoan {
+  repeated tech.figure.util.Education education      = 1; // Student's educational study for which this loan pertains
+  repeated StudentLoanPayoff          payoffs        = 2; // For student loan refinance, previous student loans to be paid off as part of this refinance
+  bool                                deferment_flag = 3; // If true, payments on this loan are current deferred
+  string                              deferment_type = 4; // e.g. GRACE, MILITARY
+}
+
+/**
+Detail on previous loan to payoff during a student loan refinance
+ */
+message StudentLoanPayoff {
+  tech.figure.util.UUID            id               = 1 [(validate.rules).message.required = true]; // Id for this loan payoff
+  string                           servicer_name    = 2;                                            // Name of servicer to send payoff to
+  string                           account_number   = 3;                                            // Loan account number
+  string                           sequence_number  = 4;                                            // Loan sequence number
+  tech.figure.util.Money           ten_day_payoff   = 5;                                            // 10-day payoff quote amount
+  tech.figure.util.Account         servicer_account = 6;                                            // ACH or Wire info, and account address
+  map<string, google.protobuf.Any> kv               = 7;                                            // Key-value map of additional information need to complete payoff
+}

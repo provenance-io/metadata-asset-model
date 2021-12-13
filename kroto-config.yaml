@@ -1,0 +1,3 @@
+protoBuilders:
+  - unwrapBuilders: false
+    useDslMarkers: true
