@@ -3,7 +3,7 @@ package tech.figure.proto.util
 import com.google.protobuf.*
 import com.google.protobuf.Any
 import java.util.*
-import tech.figure.util.UUID as ProtoUUID
+import tech.figure.util.v1beta1.UUID as ProtoUUID
 
 fun ByteArray.toProtoAny(): Any = Any.pack(
     BytesValue.newBuilder().setValue(ByteString.copyFrom(this)).build()

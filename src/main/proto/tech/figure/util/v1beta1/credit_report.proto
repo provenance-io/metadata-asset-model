@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package tech.figure.util;
+package tech.figure.util.v1beta1;
 
 option java_multiple_files = true;
 
@@ -12,8 +12,8 @@ import "validate/validate.proto";
 Detailed breakdown of an individual's credit history prepared by a credit bureau.
  */
 message CreditReport {
-  tech.figure.util.UUID     id               = 1 [(validate.rules).message.required = true]; // Id of this report
-  tech.figure.util.UUID     borrower_id      = 2 [(validate.rules).message.required = true]; // Id of the borrower for whom this report was generated
+  tech.figure.util.v1beta1.UUID     id               = 1 [(validate.rules).message.required = true]; // Id of this report
+  tech.figure.util.v1beta1.UUID     borrower_id      = 2 [(validate.rules).message.required = true]; // Id of the borrower for whom this report was generated
   google.protobuf.Timestamp report_timestamp = 3;                                            // Date and time this report was generated
   string                    credit_provider  = 4;                                            // Name of credit report provider: EXPERIAN, TRANS_UNION, EQUIFAX
   CreditPullType            pull_type        = 5;                                            // SOFT or HARD credit pull

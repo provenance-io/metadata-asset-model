@@ -17,7 +17,7 @@ For specific asset types, use a domain-specific protobuf, such as a [`Loan`](loa
 INSERT_EXAMPLE
  */
 message Asset {
-  tech.figure.util.UUID            id          = 1 [(validate.rules).message.required = true]; // Required UUID identifier for this asset
+  tech.figure.util.v1beta1.UUID    id          = 1 [(validate.rules).message.required = true]; // Required UUID identifier for this asset
   string                           type        = 2;                                            // Optional user-defined type (e.g. LOAN, ART, PROPERTY TITLE, FUND, SHARE CLASS)
   string                           description = 3;                                            // Optional user-defined description, title, name, etc. for display
   map<string, google.protobuf.Any> kv          = 4 [(validate.rules).map.min_pairs = 1];       // Key-value store of asset data

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package tech.figure.util;
+package tech.figure.util.v1beta1;
 
 option java_multiple_files = true;
 
@@ -11,7 +11,7 @@ import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
 
 message Property {
-  tech.figure.util.Address address         = 1;
+  tech.figure.util.v1beta1.Address address         = 1;
   PropertyLocation         location        = 2;
   PropertySite             site            = 3;
   PropertyOwnership        ownership       = 4;

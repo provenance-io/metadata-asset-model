@@ -12,12 +12,12 @@ import "tech/figure/util/v1beta1/types.proto";
 A Home Equity Line of Credit (HELOC) Loan
  */
 message Heloc {
-  tech.figure.util.Property lien_property          = 1; // Subject property
+  tech.figure.util.v1beta1.Property lien_property          = 1; // Subject property
   uint32                        lien_position          = 2; // Lien position: 1 = first lien position, 2 or higher = junior lien position
   google.protobuf.UInt32Value   draw_term_in_months    = 3; // Total number of months the borrower can draw on the line
-  tech.figure.util.Rate         draw_percentage        = 4; // The maximum amount a borrower can redraw as a percent of the paid balance of the original draw (borrower cannot draw more than the original balance)
-  tech.figure.util.Status       recording_status       = 5; // Loan recording status (e.g. PENDING, RECORDED)
-  tech.figure.util.Money        credit_limit_amount    = 6; // HELOC credit limit
+  tech.figure.util.v1beta1.Rate         draw_percentage        = 4; // The maximum amount a borrower can redraw as a percent of the paid balance of the original draw (borrower cannot draw more than the original balance)
+  tech.figure.util.v1beta1.Status       recording_status       = 5; // Loan recording status (e.g. PENDING, RECORDED)
+  tech.figure.util.v1beta1.Money        credit_limit_amount    = 6; // HELOC credit limit
   int32                         paid_draw_bonus_months = 7; // Number of months draw period is extended by if paid off in original draw period
   bool                          static_draw_rate_flag  = 8; // If true, use interest_rate for any future draws. If false, use current prime rate
 }

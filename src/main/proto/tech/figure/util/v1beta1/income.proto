@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package tech.figure.util;
+package tech.figure.util.v1beta1;
 
 option java_multiple_files = true;
 
@@ -9,8 +9,8 @@ import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
 
 message Income {
-  tech.figure.util.UUID      borrower_id            = 1 [(validate.rules).message.required = true]; // Id of borrower for whom these records pertain
-  tech.figure.util.Money     stated_yearly_income   = 2;                                            // Annual income as stated by the individual
+  tech.figure.util.v1beta1.UUID      borrower_id            = 1 [(validate.rules).message.required = true]; // Id of borrower for whom these records pertain
+  tech.figure.util.v1beta1.Money     stated_yearly_income   = 2;                                            // Annual income as stated by the individual
   VerifiedIncome             verified_yearly_income = 3;                                            // Annual income as verified through some process
   repeated IncomeSource      income_sources         = 4;                                            // Borrower's sources of income (other than asset accounts)
   repeated AssetIncomeSource asset_income_sources   = 5;                                            // Income from asset accounts (e.g. investments, retirement, etc.)
@@ -26,8 +26,8 @@ message VerifiedIncome {
 
 message IncomeSource {
   string                    source                 = 2 [(validate.rules).string.min_len = 1];        // Name of employer or source of income (e.g. self-employed, child support, alimony)
-  tech.figure.util.Money    yearly_amount          = 3 [(validate.rules).message.required = true];   // Yearly income amount form this income source
-  tech.figure.util.Status                    employment_status      = 4;                                              // E.g. FULL_TIME, PART_TIME, STUDENT, UNEMPLOYED
+  tech.figure.util.v1beta1.Money    yearly_amount          = 3 [(validate.rules).message.required = true];   // Yearly income amount form this income source
+  tech.figure.util.v1beta1.Status                    employment_status      = 4;                                              // E.g. FULL_TIME, PART_TIME, STUDENT, UNEMPLOYED
   google.protobuf.Timestamp verification_timestamp = 5 [(validate.rules).timestamp.required = true]; // Date/time at which employment was verified
 }
 

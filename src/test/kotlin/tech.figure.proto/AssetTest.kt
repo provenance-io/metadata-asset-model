@@ -35,7 +35,7 @@ class AssetTest {
     }
 }
 
-private fun UUID.toProtoUUID(): tech.figure.util.UUID = tech.figure.util.UUID.newBuilder().setValue(this.toString()).build()
+private fun UUID.toProtoUUID(): tech.figure.util.v1beta1.UUID = tech.figure.util.v1beta1.UUID.newBuilder().setValue(this.toString()).build()
 
 fun ByteArray.toProtoAny(): Any = Any.pack(
     BytesValue.newBuilder().setValue(ByteString.copyFrom(this)).build()
