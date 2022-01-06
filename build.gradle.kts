@@ -1,5 +1,7 @@
 import com.google.protobuf.gradle.*
-
+import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+import java.net.URI
 
 
 buildscript {
@@ -21,6 +23,8 @@ plugins {
     id("com.github.marcoferrer.kroto-plus") version "0.6.1"
     `java-library`
     `maven-publish`
+    signing
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
 repositories {
@@ -32,6 +36,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+val projectVersion = project.property("version")?.takeIf { it != "unspecified" } ?: "1.0-SNAPSHOT"
 
 object Versions {
     const val Protobuf = "3.19.1"
@@ -104,14 +109,81 @@ tasks.withType<Test> {
     reports.html.isEnabled = true
 }
 
+
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "tech.figure.asset"
             artifactId = "metadata-asset-model"
-            version = "1.0.0-SNAPSHOT"
+            version = "$projectVersion"
 
             from(components["java"])
+
+            pom {
+                name.set("Asset Metadata Model")
+                description.set("Asset/NFT reference data model for Provenance Blockchain metadata module")
+                url.set("https://figure.tech")
+
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("vwagner")
+                        name.set("Valerie Wagner")
+                        email.set("tech@figure.com")
+                    }
+                }
+
+                scm {
+                    connection.set("git@github.com:provenance-io/metadata-asset-model.git")
+                    developerConnection.set("git@github.com/provenance-io/metadata-asset-model.git")
+                    url.set("https://github.com/provenance-io/metadata-asset-model")
+                }
+            }
+        }
+    }
+    signing {
+        sign(publishing.publications["maven"])
+    }
+}
+
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username.set(findProject("ossrhUsername")?.toString() ?: System.getenv("OSSRH_USERNAME"))
+            password.set(findProject("ossrhPassword")?.toString() ?: System.getenv("OSSRH_PASSWORD"))
+            stagingProfileId.set("3180ca260b82a7") // prevents querying for the staging profile id, performance optimization
+        }
+    }
+}
+
+object Repos {
+    private object sonatype {
+        const val snapshots = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        const val releases = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+    }
+
+    fun RepositoryHandler.sonatypeOss(projectVersion: String): MavenArtifactRepository {
+        val murl =
+            if (projectVersion == "1.0-SNAPSHOT") sonatype.snapshots
+            else sonatype.releases
+
+        return maven {
+            name = "Sonatype"
+            url = URI.create(murl)
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
         }
     }
 }
