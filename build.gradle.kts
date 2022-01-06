@@ -116,7 +116,7 @@ tasks.withType<Test> {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "tech.figure.asset"
+            groupId = "io.provenance.model"
             artifactId = "metadata-asset-model"
             version = "$projectVersion"
 
