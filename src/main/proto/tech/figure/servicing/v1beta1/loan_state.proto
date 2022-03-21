@@ -23,7 +23,7 @@ Loan state data (servicing data) at a point in time
 message LoanState {
   tech.figure.util.v1beta1.UUID       loan_id                   = 1 [(validate.rules).message.required = true];                                             // Loan identifier for which this state is calculated
   google.protobuf.Timestamp           effective_time            = 2 [(validate.rules).timestamp.required = true, (validate.rules).timestamp.lt_now = true]; // Timestamp when this state was produced
-  tech.figure.util.v1beta1.AssetType  asset_type                = 3 [(validate.rules).message.required = true];                                             // Type of loan (e.g. MORTGAGE, HELOC, PERSONAL_LOAN)
+  string                              loan_type                 = 3 [deprecated = true];                                                                    // ***DEPRECATED: Please use asset_type*** Type of loan (e.g. MORTGAGE, HELOC, PERSONAL_LOAN)
   string                              servicer_name             = 4 [(validate.rules).string.min_len = 1];                                                  // Name of servicer for loan
   tech.figure.util.v1beta1.Money      total_unpaid_prin_bal     = 5 [(validate.rules).message.required = true];                                             // Total unpaid principal balance
   tech.figure.util.v1beta1.Money      accrued_interest          = 6 [(validate.rules).message.required = true];                                             // Total interest accrued to-date
@@ -66,6 +66,7 @@ Loan status, such as
   tech.figure.util.v1beta1.Money                      principal_paid           = 30; // Sum of amount paid to principal
   tech.figure.util.v1beta1.Money                      past_due_amount          = 31; // Amount past due
   repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta                 = 32; // Metadata about documents related to the loan (document files stored separately)
+  tech.figure.util.v1beta1.AssetType                  asset_type               = 33 [(validate.rules).message.required = true];
   /*
   Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.
   For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a>

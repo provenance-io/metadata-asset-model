@@ -27,25 +27,26 @@ import "validate/validate.proto";
  INSERT_EXAMPLE
 */
 message Loan {
-  tech.figure.util.v1beta1.UUID                       id                 = 1 [(validate.rules).message.required = true]; // Loan UUID identifier
-  string                                              originator_name    = 2 [(validate.rules).string.min_len = 1];      // Human-readable name of the originating firm
-  string                                              originator_loan_id = 3 [(validate.rules).string.min_len = 1];      // Originator's internal loan identifier
-  tech.figure.util.v1beta1.Borrowers                  borrowers          = 4 [(validate.rules).message.required = true]; // Borrower(s), co-signers, etc
-Terms                                                 terms              = 5 [(validate.rules).message.required = true]; // Loan terms: amount, duration, rates
-  Funding                                             funding            = 6 [(validate.rules).message.required = true]; // Funding detail
-  ApplicationData                                     app                = 7;                                            // Data collected by LOS loan application process and used for underwriting
-  Underwriting                                        underwriting       = 8;                                            // Underwriting
-  repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta           = 9;                                            // Metadata about documents related to the loan (document files stored separately)
-  repeated tech.figure.util.v1beta1.SignedData        signed_data        = 10;                                           // Digitally-signed-by-source data/documents
+  tech.figure.util.v1beta1.UUID                       id                 = 1 [(validate.rules).message.required = true];  // Loan UUID identifier
+  string                                              originator_name    = 2 [(validate.rules).string.min_len = 1];       // Human-readable name of the originating firm
+  string                                              originator_loan_id = 3 [(validate.rules).string.min_len = 1];       // Originator's internal loan identifier
+  tech.figure.util.v1beta1.Borrowers                  borrowers          = 4 [(validate.rules).message.required = true];  // Borrower(s), co-signers, etc
+  Terms                                               terms              = 5 [(validate.rules).message.required = true];  // Loan terms: amount, duration, rates
+  Funding                                             funding            = 6 [(validate.rules).message.required = true];  // Funding detail
+  ApplicationData                                     app                = 7;                                             // Data collected by LOS loan application process and used for underwriting
+  Underwriting                                        underwriting       = 8;                                             // Underwriting
+  repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta           = 9;                                             // Metadata about documents related to the loan (document files stored separately)
+  repeated tech.figure.util.v1beta1.SignedData        signed_data        = 10;                                            // Digitally-signed-by-source data/documents
+  tech.figure.util.v1beta1.AssetType                  asset_type         = 11 [(validate.rules).message.required = true]; // Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
   /*
   Loan-type specific information resides in one of the following loan types
    */
   oneof type_specific {
     option (validate.required) = true;
-    Mortgage                            mortgage                        = 20;                                             // Mortgage
-    Heloc                               heloc                           = 21;                                             // Home Equity Line of Credit
-    StudentLoan                         student_loan                    = 23;                                             // New or refinanced student loan
-    tech.figure.util.v1beta1.AssetType  asset_type                      = 24 [(validate.rules).message.required = true];  // Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
+    Mortgage                            mortgage                        = 20;                                                           // Mortgage
+    Heloc                               heloc                           = 21;                                                           // Home Equity Line of Credit
+    StudentLoan                         student_loan                    = 23;                                                           // New or refinanced student loan
+    string                              loan_type                       = 24 [deprecated = true];                                       // ***DEPRECATED: Please use asset_type** Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
   }
 
   map<string, google.protobuf.Any> kv = 40; // Key-value map allowing originator to provide additional data

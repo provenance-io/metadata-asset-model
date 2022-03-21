@@ -61,6 +61,6 @@ message Checksum {
 }
 
 message AssetType {
-  string supertype = 1 [(validate.rules).string.min_len = 1]; // The supertype of an asset (e.g. MORTGAGE, HELOC, PERSONAL_LOAN, AUTO_LOAN)
-  string subtype   = 2 [(validate.rules).string.min_len = 1]; // The subtype of an asset (e.g. JUMBO, REFI, PARENT_REFI, DRAW)
+  string supertype = 1 [(validate.rules).string.min_len = 1]; // The supertype of an asset (e.g. MORTGAGE, HELOC, PERSONAL_LOAN, AUTO_LOAN, NFT)
+  string subtype   = 2; // The subtype of an asset (e.g. JUMBO, REFI, PARENT_REFI, DRAW)
 }
