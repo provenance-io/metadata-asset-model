@@ -6,9 +6,7 @@ option java_multiple_files = true;
 
 import "google/protobuf/wrappers.proto";
 import "tech/figure/util/v1beta1/address.proto";
-import "tech/figure/util/v1beta1/options.proto";
 import "tech/figure/util/v1beta1/types.proto";
-import "validate/validate.proto";
 
 message Property {
   tech.figure.util.v1beta1.Address address         = 1;

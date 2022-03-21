@@ -27,25 +27,26 @@ import "validate/validate.proto";
  INSERT_EXAMPLE
 */
 message Loan {
-  tech.figure.util.v1beta1.UUID      id                       = 1 [(validate.rules).message.required = true]; // Loan UUID identifier
-  string                     originator_name          = 2 [(validate.rules).string.min_len = 1];      // Human-readable name of the originating firm
-  string                     originator_loan_id       = 3 [(validate.rules).string.min_len = 1];      // Originator's internal loan identifier
-  tech.figure.util.v1beta1.Borrowers borrowers                = 4 [(validate.rules).message.required = true]; // Borrower(s), co-signers, etc
-  Terms                      terms                    = 5 [(validate.rules).message.required = true]; // Loan terms: amount, duration, rates
-  Funding                    funding                  = 6 [(validate.rules).message.required = true]; // Funding detail
-  ApplicationData            app                      = 7;                                            // Data collected by LOS loan application process and used for underwriting
-  Underwriting               underwriting             = 8;                                            // Underwriting
-  repeated tech.figure.util.v1beta1.DocumentMetadata doc_meta = 9;                                            // Metadata about documents related to the loan (document files stored separately)
-  repeated tech.figure.util.v1beta1.SignedData signed_data    = 10;                                           // Digitally-signed-by-source data/documents
+  tech.figure.util.v1beta1.UUID                       id                 = 1 [(validate.rules).message.required = true];  // Loan UUID identifier
+  string                                              originator_name    = 2 [(validate.rules).string.min_len = 1];       // Human-readable name of the originating firm
+  string                                              originator_loan_id = 3 [(validate.rules).string.min_len = 1];       // Originator's internal loan identifier
+  tech.figure.util.v1beta1.Borrowers                  borrowers          = 4 [(validate.rules).message.required = true];  // Borrower(s), co-signers, etc
+  Terms                                               terms              = 5 [(validate.rules).message.required = true];  // Loan terms: amount, duration, rates
+  Funding                                             funding            = 6 [(validate.rules).message.required = true];  // Funding detail
+  ApplicationData                                     app                = 7;                                             // Data collected by LOS loan application process and used for underwriting
+  Underwriting                                        underwriting       = 8;                                             // Underwriting
+  repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta           = 9;                                             // Metadata about documents related to the loan (document files stored separately)
+  repeated tech.figure.util.v1beta1.SignedData        signed_data        = 10;                                            // Digitally-signed-by-source data/documents
+  tech.figure.util.v1beta1.AssetType                  asset_type         = 11 [(validate.rules).message.required = true]; // Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
   /*
   Loan-type specific information resides in one of the following loan types
    */
   oneof type_specific {
     option (validate.required) = true;
-    Mortgage    mortgage       = 20;                                       // Mortgage
-    Heloc       heloc          = 21;                                       // Home Equity Line of Credit
-    StudentLoan student_loan   = 23;                                       // New or refinanced student loan
-    string      loan_type      = 24 [(validate.rules).string.min_len = 1]; // Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
+    Mortgage                            mortgage                        = 20;                                                           // Mortgage
+    Heloc                               heloc                           = 21;                                                           // Home Equity Line of Credit
+    StudentLoan                         student_loan                    = 23;                                                           // New or refinanced student loan
+    string                              loan_type                       = 24 [deprecated = true];                                       // ***DEPRECATED: Please use asset_type** Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
   }
 
   map<string, google.protobuf.Any> kv = 40; // Key-value map allowing originator to provide additional data
@@ -55,27 +56,27 @@ message Loan {
 The terms and conditions for a loan: interest rates, fees, dates, etc.
  */
 message Terms {
-  tech.figure.util.v1beta1.Money principal_amount         = 1 [(validate.rules).message.required = true]; // Loan amount, not including fees or interest
-  tech.figure.util.v1beta1.Money total_amount             = 2 [(validate.rules).message.required = true]; // Principal loan amount + origination fees
-  int32                  term_in_months           = 4 [(validate.rules).int32.gt = 0];            // Loan term (duration) in months
-  string                 rate_type                = 5;                                            // Interest rate type (e.g. fixed or floating) See InterestRateExpectedType
-  tech.figure.util.v1beta1.Rate  interest_rate            = 6 [(validate.rules).message.required = true]; // Total interest rate for loan (margin_rate + index_rate - any rate discounts at time of origination)
-  tech.figure.util.v1beta1.Rate  index_rate               = 7;                                            // Benchmarked indexed rate value
-  string                 index_rate_type          = 8;                                            // Benchmarked index rate type (e.g. Prime, LIBOR) See IndexRateType
-  repeated tech.figure.util.v1beta1.Fee fees              = 9;                                            // Fees charged to the loan, e.g. origination fee, application fee, annual fee
-  tech.figure.util.v1beta1.Rate         interest_rate_cap = 10;                                           // Maximum allow interest rate on the loan (most relevant to variable-rate loans)
-  repeated RateDiscount         rate_discounts    = 11;                                           // All rate discounts available to this asset.
-  Payment                       payment           = 12;                                           // Details about initial and monthly payments
-  LoanDates                     dates             = 13;                                           // Original milestone dates for the loan
+  tech.figure.util.v1beta1.Money        principal_amount         = 1 [(validate.rules).message.required = true]; // Loan amount, not including fees or interest
+  tech.figure.util.v1beta1.Money        total_amount             = 2 [(validate.rules).message.required = true]; // Principal loan amount + origination fees
+  int32                                 term_in_months           = 4 [(validate.rules).int32.gt = 0];            // Loan term (duration) in months
+  string                                rate_type                = 5;                                            // Interest rate type (e.g. fixed or floating) See InterestRateExpectedType
+  tech.figure.util.v1beta1.Rate         interest_rate            = 6 [(validate.rules).message.required = true]; // Total interest rate for loan (margin_rate + index_rate - any rate discounts at time of origination)
+  tech.figure.util.v1beta1.Rate         index_rate               = 7;                                            // Benchmarked indexed rate value
+  string                                index_rate_type          = 8;                                            // Benchmarked index rate type (e.g. Prime, LIBOR) See IndexRateType
+  repeated tech.figure.util.v1beta1.Fee fees                     = 9;                                            // Fees charged to the loan, e.g. origination fee, application fee, annual fee
+  tech.figure.util.v1beta1.Rate         interest_rate_cap        = 10;                                           // Maximum allow interest rate on the loan (most relevant to variable-rate loans)
+  repeated RateDiscount                 rate_discounts           = 11;                                           // All rate discounts available to this asset.
+  Payment                               payment                  = 12;                                           // Details about initial and monthly payments
+  LoanDates                             dates                    = 13;                                           // Original milestone dates for the loan
 }
 
 /*
 A discount on the interest rate for the loan
  */
 message RateDiscount {
-  string                type               = 1; // Reason for the rate discount, e.g. AUTOPAY, CREDIT_UNION_MEMBERSHIP
+  string                        type               = 1; // Reason for the rate discount, e.g. AUTOPAY, CREDIT_UNION_MEMBERSHIP
   tech.figure.util.v1beta1.Rate rate               = 2; // Amount interest rate is reduced
-  bool                  included_in_margin = 3; // Indicate whether a discount is included in the loan margin or not. E.g. autopay discount only applied if starting on autopay.
+  bool                          included_in_margin = 3; // Indicate whether a discount is included in the loan margin or not. E.g. autopay discount only applied if starting on autopay.
 }
 
 /*
@@ -97,7 +98,7 @@ Details of the payment requirements for the loan
 message Payment {
   tech.figure.util.v1beta1.Money   first_payment_amount   = 1;                                            // The amount of the first scheduled payment to be made by the borrower. Includes principal, interest, taxes, and insurance (if escrows are not waived)
   tech.figure.util.v1beta1.Money   monthly_payment_amount = 2 [(validate.rules).message.required = true]; // Principal and interest only (no escrow/fees)
-  string                   payment_method         = 3;                                            // Borrower-select method of payment (e.g. MANUAL or AUTOPAY)
+  string                           payment_method         = 3;                                            // Borrower-select method of payment (e.g. MANUAL or AUTOPAY)
   tech.figure.util.v1beta1.Account autopay_account        = 5;                                            // Populated if borrower has agreed to automated monthly payments
 }
 
@@ -105,10 +106,10 @@ message Payment {
 Data supplied by borrower during loan application and used by the underwriting process
  */
 message ApplicationData {
-  string   loan_purpose                                 = 1; // Intended use of loan (e.g. Home improvement, Debt consolidation, Major purchase, Other purchase, Cash-out Refinance, Rate Refinance)
-  repeated tech.figure.util.v1beta1.Income income               = 3; // Stated and/or verified income data
-  repeated tech.figure.util.v1beta1.CreditReport credit_reports = 5; // Borrower credit reports
-  map<string, google.protobuf.Any>       kv             = 7; // Additional application data
+  string                                          loan_purpose   = 1; // Intended use of loan (e.g. Home improvement, Debt consolidation, Major purchase, Other purchase, Cash-out Refinance, Rate Refinance)
+  repeated tech.figure.util.v1beta1.Income        income         = 3; // Stated and/or verified income data
+  repeated tech.figure.util.v1beta1.CreditReport  credit_reports = 5; // Borrower credit reports
+  map<string, google.protobuf.Any>                kv             = 7; // Additional application data
 }
 
 /*
@@ -116,9 +117,9 @@ Detail of the loan funding process
  */
 message Funding {
   tech.figure.util.v1beta1.Status   status        = 1;                                              // Status of loan funding process: e.g. UNFUNDED, INITIATED, FUNDED, CANCELLED
-  google.protobuf.Timestamp started       = 3 [(validate.rules).timestamp.required = true]; // Time funding process was initiated
-  google.protobuf.Timestamp completed     = 2 [(validate.rules).timestamp.required = true]; // Time funding process was completed
-  repeated Disbursement     disbursements = 4 [(validate.rules).repeated .min_items = 1];   // Detailed information about one or more monetary disbursements to borrower
+  google.protobuf.Timestamp         started       = 3 [(validate.rules).timestamp.required = true]; // Time funding process was initiated
+  google.protobuf.Timestamp         completed     = 2 [(validate.rules).timestamp.required = true]; // Time funding process was completed
+  repeated Disbursement             disbursements = 4 [(validate.rules).repeated .min_items = 1];   // Detailed information about one or more monetary disbursements to borrower
 }
 
 /*
@@ -130,17 +131,17 @@ message Disbursement {
   tech.figure.util.v1beta1.Money           amount           = 2 [(validate.rules).message.required = true]; // Amount to send
   tech.figure.util.v1beta1.Account         disburse_account = 3 [(validate.rules).message.required = true]; // Destination to send funds
   tech.figure.util.v1beta1.Status          status           = 4;                                            // Status of sending funds for this disbursement: UNFUNDED, INITIATED, COMPLETED, CANCELLED
-  google.protobuf.Timestamp        started          = 5;                                            // Time this disbursement was initiated
-  google.protobuf.Timestamp        completed        = 6;                                            // Time this disbursement was completed
-  map<string, google.protobuf.Any> kv               = 7;                                            // Additional process-specific data related to funding this disbursement
+  google.protobuf.Timestamp                started          = 5;                                            // Time this disbursement was initiated
+  google.protobuf.Timestamp                completed        = 6;                                            // Time this disbursement was completed
+  map<string, google.protobuf.Any>         kv               = 7;                                            // Additional process-specific data related to funding this disbursement
 }
 
 /*
 Information derived during the underwriting process
  */
 message Underwriting {
-  google.protobuf.Timestamp        effective_time    = 1 [(validate.rules).timestamp.required = true]; // Timestamp when underwriting was performed ("as of" date)
-  string                           version           = 2;                                              // Underwriting software or algorithm version
+  google.protobuf.Timestamp                effective_time    = 1 [(validate.rules).timestamp.required = true]; // Timestamp when underwriting was performed ("as of" date)
+  string                                   version           = 2;                                              // Underwriting software or algorithm version
   tech.figure.util.v1beta1.Rate            pre_loan_ltv      = 3;                                              // Loan-to-value ratio - value of loan divided by value of asset (i.e. property value) - prior to this loan
   tech.figure.util.v1beta1.Rate            pre_loan_cltv     = 4;                                              // Combined loan-to-value ration - sum of values of all loans divided by value of asset (i.e. property value) - prior to this loan
   tech.figure.util.v1beta1.Rate            pre_loan_dti      = 5;                                              // Pre-loan debt to income ratio
@@ -148,5 +149,5 @@ message Underwriting {
   tech.figure.util.v1beta1.Rate            post_loan_cltv    = 7;                                              // Combined loan-to-value ratio - sum of values of all loans divided by value of asset (i.e. property value) - after/including this loan
   tech.figure.util.v1beta1.Rate            post_loan_dti     = 8;                                              // Post-loan debt to income ratio
   tech.figure.util.v1beta1.Rate            payment_to_income = 9;                                              // Ratio of monthly loan payment to monthly income
-  map<string, google.protobuf.Any> kv                = 10;                                             // Additional underwriting calculations
+  map<string, google.protobuf.Any>         kv                = 10;                                             // Additional underwriting calculations
 }

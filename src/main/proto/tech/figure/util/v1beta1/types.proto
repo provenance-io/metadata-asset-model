@@ -60,3 +60,7 @@ message Checksum {
   string algorithm = 2 [(validate.rules).string.min_len = 1]; // Checksum algorithm, e.g. MD5, SHA256
 }
 
+message AssetType {
+  string supertype = 1 [(validate.rules).string.min_len = 1]; // The supertype of an asset (e.g. MORTGAGE, HELOC, PERSONAL_LOAN, AUTO_LOAN, NFT)
+  string subtype   = 2; // The subtype of an asset (e.g. JUMBO, REFI, PARENT_REFI, DRAW)
+}
