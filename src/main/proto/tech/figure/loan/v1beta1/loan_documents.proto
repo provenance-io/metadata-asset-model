@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tech.figure.loan.v1beta1;
+
+option java_multiple_files = true;
+
+import "tech/figure/util/v1beta1/document.proto";
+
+/*
+List of loan documents for a single loan
+ */
+message LoanDocuments {
+  repeated tech.figure.util.v1beta1.DocumentMetadata document = 1; // Individual document metadata w/ pointer to actual document
+}

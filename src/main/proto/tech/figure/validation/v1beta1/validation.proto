@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package tech.figure.validation.v1beta1;
+
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "tech/figure/util/v1beta1/document.proto";
+import "tech/figure/util/v1beta1/types.proto";
+import "validate/validate.proto";
+
+message Validation {
+  repeated ValidationIteration      iteration    = 1;
+}
+
+/*
+List of validation request/response objects
+
+Each loan can go through several rounds of validation
+ */
+message ValidationIteration {
+  ValidationRequest                 request      = 1;
+  ValidationResults                 results      = 2;
+  map<string, google.protobuf.Any>  kv           = 99;
+}
+
+/*
+Validation request including a pointer to the snapshot of data requiring validation
+ */
+message ValidationRequest {
+  tech.figure.util.v1beta1.UUID       request_id          = 1 [(validate.rules).message.required = true];   // Unique ID for the request
+  google.protobuf.Timestamp           effective_time      = 2 [(validate.rules).timestamp.required = true]; // Time the validation was requested
+  string                              object_store        = 3 [(validate.rules).string.min_len = 1];        // Name of the Object Store where the snapshot lives
+  string                              snapshot_uri        = 4 [(validate.rules).string.min_len = 1];        // Pointer to the snapshot
+  tech.figure.util.v1beta1.UUID       rule_set_id         = 5;                                              // ID of rule set that needs to be executed
+  string                              description         = 6;                                              // Description of the rule set
+  string                              validator_name      = 7 [(validate.rules).string.min_len = 1];        // Party that will run the validation
+  string                              requester_name      = 8 [(validate.rules).string.min_len = 1];        // Party invoking the request for validation
+  string                              status              = 9;                                              // PENDING, IN_PROCESS, COMPLETED
+  map<string, google.protobuf.Any>    kv                  = 99;                                             // Additional fields from the requester
+}
+
+/*
+Validation results that get posted when validation is complete
+ */
+message ValidationResults {
+  tech.figure.util.v1beta1.UUID                       result_set_uuid             = 1;  // unique ID for the result set
+  google.protobuf.Timestamp                           result_set_effective_time   = 2;  // the date the validation was finalized
+  string                                              result_set_provider         = 3;  // name of the validator
+  int32                                               validation_exception_count  = 10; // Total count of exceptions
+  int32                                               validation_warning_count    = 11; // Total count of warnings
+  repeated ValidationItem                             validation_items            = 20; // Individual rules that were executed
+  repeated tech.figure.util.v1beta1.DocumentMetadata  policy_documents            = 30; // Related Documents like TPR Indemnification Policy, deligence scope
+  tech.figure.util.v1beta1.DocumentMetadata           rating_agency_grading       = 40; // Document containing credit rating agency grades
+  map<string, google.protobuf.Any>                    kv                          = 99; // Additional fields from the validator
+}
+
+/*
+Individual rules that were executed, including the actual expression that was run
+ */
+message ValidationItem {
+  string                                      code                = 1;  // Identifier for the rule
+  string                                      label               = 2;  // Short description of the rule
+  string                                      descr               = 3;  // Long description of the rule
+  string                                      expression          = 4;  // Actual value, comparison operator, and expected value written as a formula or description of a comparison
+  ValidationOutcome                           validation_outcome  = 5;  // Result of applying the rule, see enum
+  map<string, google.protobuf.Any>            kv                  = 99; // Additional information related to the rule
+}
+
+/*
+Possible outcomes when applying a validation rule
+ */
+enum ValidationOutcome {
+  UNKNOWN_TYPE  = 0;
+  EXCEPTION     = 1;
+  WARNING       = 2;
+  VALID         = 3;
+}
