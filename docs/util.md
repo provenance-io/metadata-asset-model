@@ -10,12 +10,10 @@
 
 
 
-<a name="tech.figure.util.DigitalSignature"></a>
+<a name="tech.figure.util.v1beta1.DigitalSignature"></a>
 
 ### DigitalSignature
 A cryptographic digital signature of a document/file
-
-
 
 
 | Field | Type | Label | Description |
@@ -27,95 +25,51 @@ A cryptographic digital signature of a document/file
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| signature | string.min_len: 1  |
-| vendor_name | string.min_len: 1  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.DocumentMetadata"></a>
+<a name="tech.figure.util.v1beta1.DocumentMetadata"></a>
 
 ### DocumentMetadata
 Information about a file or document. `DocumentMetadata` includes only describing information about the file; the
 actual contents of the file are stored elsewhere (described by the `uri`).
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Identifier unique to this document |
+| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Identifier unique to this document |
 | uri | [string](#string) |  | URI Location where document is hosted/located |
 | file_name | [string](#string) |  | Name of the original file, including file extension |
 | content_type | [string](#string) |  | Where possible, use MIME type, such as `application/pdf` or `application/xml` |
 | document_type | [string](#string) |  | Examples: HELOC_AGREEMENT, CREDIT_DISCLOSURE, PROOF_OF_RECORDED_DEED, TRANSFER_OF_SERVICING_RIGHTS, etc. |
-| checksum | [tech.figure.util.Checksum](util#tech.figure.util.Checksum) |  | Hash or checksum of document bytes |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| id | message.required: true  |
-| content_type | string.min_len: 1  |
-| document_type | string.min_len: 1  |
+| checksum | [Checksum](util#tech.figure.util.v1beta1.Checksum) |  | Hash or checksum of document bytes |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.ESigData"></a>
+<a name="tech.figure.util.v1beta1.ESigData"></a>
 
 ### ESigData
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| person_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  |  |
-| notary | [tech.figure.util.Notary](util#tech.figure.util.Notary) |  |  |
+| person_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  |  |
+| notary | [Notary](util#tech.figure.util.v1beta1.Notary) |  |  |
 | email | [string](#string) |  |  |
 | ip | [string](#string) |  |  |
 | user_agent | [string](#string) |  |  |
 | two_factor_signing_token | [string](#string) |  |  |
 | two_factor_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
 | signing_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
-| name | [tech.figure.util.Name](util#tech.figure.util.Name) |  |  |
-| witnesses | [tech.figure.util.Witness](util#tech.figure.util.Witness) | repeated |  |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| person_id | message.required: true  |
-| email | string.email: true  |
+| name | [Name](util#tech.figure.util.v1beta1.Name) |  |  |
+| witnesses | [Witness](util#tech.figure.util.v1beta1.Witness) | repeated |  |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.ESignedDoc"></a>
+<a name="tech.figure.util.v1beta1.ESignedDoc"></a>
 
 ### ESignedDoc
 Represents metadata about document electronically-signed by a person.
@@ -123,27 +77,21 @@ Represents metadata about document electronically-signed by a person.
 _Note: Actual document file/data is stored separately._
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| signed_document | [tech.figure.util.DocumentMetadata](util#tech.figure.util.DocumentMetadata) |  | Fully-completed, electronically-signed document metadata |
-| unsigned_document | [tech.figure.util.DocumentMetadata](util#tech.figure.util.DocumentMetadata) |  | Representation of document without signature. Usually a document template. |
-| electronic_signature | [tech.figure.util.ElectronicSignature](util#tech.figure.util.ElectronicSignature) |  | Customer's electronic signature data |
-| substitution_data | [tech.figure.util.ESignedDoc.SubstitutionDataEntry](util#tech.figure.util.ESignedDoc.SubstitutionDataEntry) | repeated | If `unsigned_document` is a template, this is the data inserted into the template. Key is the field name. |
-| signed_doc_checksum | [tech.figure.util.Checksum](util#tech.figure.util.Checksum) |  | Checksum (hash) of the signed version of the document |
+| signed_document | [DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Fully-completed, electronically-signed document metadata |
+| unsigned_document | [DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Representation of document without signature. Usually a document template. |
+| electronic_signature | [ElectronicSignature](util#tech.figure.util.v1beta1.ElectronicSignature) |  | Customer's electronic signature data |
+| substitution_data | [ESignedDoc.SubstitutionDataEntry](util#tech.figure.util.v1beta1.ESignedDoc.SubstitutionDataEntry) | repeated | If `unsigned_document` is a template, this is the data inserted into the template. Key is the field name. |
+| signed_doc_checksum | [Checksum](util#tech.figure.util.v1beta1.Checksum) |  | Checksum (hash) of the signed version of the document |
 
 
 
 
 
-
-
-<a name="tech.figure.util.ESignedDoc.SubstitutionDataEntry"></a>
+<a name="tech.figure.util.v1beta1.ESignedDoc.SubstitutionDataEntry"></a>
 
 ### ESignedDoc.SubstitutionDataEntry
-
-
 
 
 
@@ -156,9 +104,7 @@ _Note: Actual document file/data is stored separately._
 
 
 
-
-
-<a name="tech.figure.util.ElectronicSignature"></a>
+<a name="tech.figure.util.v1beta1.ElectronicSignature"></a>
 
 ### ElectronicSignature
 An Electronic Signature (e-signature) is a digital replacement for a handwritten signature.
@@ -166,46 +112,28 @@ An Electronic Signature (e-signature) is a digital replacement for a handwritten
 _Note: this distinct from a cryptographic [DigitalSignature](util#digitalsignature)._
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| checksum | [tech.figure.util.Checksum](util#tech.figure.util.Checksum) |  | Checksum (hash) of the e-signature |
-| data | [tech.figure.util.ESigData](util#tech.figure.util.ESigData) | repeated |  |
-| person_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Id of the person who signed the document (e.g. a borrower Id) |
-| asset_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Id of the asset to which this document relates (e.g. a loan Id) |
-| document_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Id of the signed document |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| person_id | message.required: true  |
-| asset_id | message.required: true  |
-| document_id | message.required: true  |
+| checksum | [Checksum](util#tech.figure.util.v1beta1.Checksum) |  | Checksum (hash) of the e-signature |
+| data | [ESigData](util#tech.figure.util.v1beta1.ESigData) | repeated |  |
+| person_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of the person who signed the document (e.g. a borrower Id) |
+| asset_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of the asset to which this document relates (e.g. a loan Id) |
+| document_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of the signed document |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.Notary"></a>
+<a name="tech.figure.util.v1beta1.Notary"></a>
 
 ### Notary
 Detail of the notary (person) who witnessed the signing and their commission information.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| person_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  |  |
-| name | [tech.figure.util.Name](util#tech.figure.util.Name) |  |  |
+| person_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  |  |
+| name | [Name](util#tech.figure.util.v1beta1.Name) |  |  |
 | commission_id | [string](#string) |  |  |
 | commission_expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
 | is_resident | [bool](#bool) |  |  |
@@ -213,72 +141,33 @@ Detail of the notary (person) who witnessed the signing and their commission inf
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| person_id | message.required: true  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.SignedData"></a>
+<a name="tech.figure.util.v1beta1.SignedData"></a>
 
 ### SignedData
 Data or document digitally-signed by the source that created the data/document.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| meta | [tech.figure.util.DocumentMetadata](util#tech.figure.util.DocumentMetadata) |  | Information about the data/document |
-| signature | [tech.figure.util.DigitalSignature](util#tech.figure.util.DigitalSignature) |  | Signature of vendor on this data/document |
+| meta | [DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Information about the data/document |
+| signature | [DigitalSignature](util#tech.figure.util.v1beta1.DigitalSignature) |  | Signature of vendor on this data/document |
 | data | [google.protobuf.BytesValue](#google.protobuf.BytesValue) |  | Byte array of data/docum``ent contents |
 
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| meta | message.required: true  |
-| signature | message.required: true  |
-| data | message.required: true  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Witness"></a>
+<a name="tech.figure.util.v1beta1.Witness"></a>
 
 ### Witness
 A non-notary witness to the document signing
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| person_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  |  |
-| name | [tech.figure.util.Name](util#tech.figure.util.Name) |  |  |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| person_id | message.required: true  |
+| person_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  |  |
+| name | [Name](util#tech.figure.util.v1beta1.Name) |  |  |
 
 
 
@@ -286,13 +175,9 @@ A non-notary witness to the document signing
 
 
 
- 
 
- 
 
- 
 
- 
 
 
 
@@ -303,7 +188,7 @@ A non-notary witness to the document signing
 
 
 
-<a name="tech.figure.util.ACH"></a>
+<a name="tech.figure.util.v1beta1.ACH"></a>
 
 ### ACH
 ACH is the most common method of transferring funds bank-to-bank.
@@ -312,121 +197,71 @@ The Automated Clearing House protocol has been in use since 1974.
 > Watch out ACH, USDF comin' to gitcha!
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| account_type | [tech.figure.util.ACH.AccountType](util#tech.figure.util.ACH.AccountType) |  | CHECKING, SAVINGS, or OTHER |
+| account_type | [ACH.AccountType](util#tech.figure.util.v1beta1.ACH.AccountType) |  | CHECKING, SAVINGS, or OTHER |
 | owner_type | [string](#string) |  | If required for ACH, type of account, e.g. INDIVIDUAL or COMMERCIAL |
 
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| account_type | enum.defined_only: true  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Account"></a>
+<a name="tech.figure.util.v1beta1.Account"></a>
 
 ### Account
 Represents an account where currency is held, either in a traditional financial institution or a Provenance Blockchain account.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| account_owner_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | UUID of the borrower/owner of the account (if loan, should match one of `Loan.borrowers` IDs) |
-| financial | [tech.figure.util.FinancialAccount](util#tech.figure.util.FinancialAccount) |  | Traditional financial account, e.g. bank account |
-| provenance | [tech.figure.util.ProvenanceAccount](util#tech.figure.util.ProvenanceAccount) |  | Provenance Blockchain account |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| account_owner_id | message.required: true  |
+| account_owner_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | UUID of the borrower/owner of the account (if loan, should match one of `Loan.borrowers` IDs) |
+| financial | [FinancialAccount](util#tech.figure.util.v1beta1.FinancialAccount) |  | Traditional financial account, e.g. bank account |
+| provenance | [ProvenanceAccount](util#tech.figure.util.v1beta1.ProvenanceAccount) |  | Provenance Blockchain account |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.FinancialAccount"></a>
+<a name="tech.figure.util.v1beta1.FinancialAccount"></a>
 
 ### FinancialAccount
 Represents the location of an account at a financial institution, located by `account` and `routing` numbers
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Unique UUID identifier for this bank account |
+| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Unique UUID identifier for this bank account |
 | owner_name | [string](#string) |  | Name of the person who owns this account |
 | financial_institution | [string](#string) |  | Name of bank or financial institution |
 | account_number | [string](#string) |  | 4-17 digit Account number |
 | routing_number | [string](#string) |  | 9-digit Routing number |
-| movement | [tech.figure.util.MoneyMovement](util#tech.figure.util.MoneyMovement) | repeated | Instructions for moving money from this account |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| id | message.required: true  |
-| account_number | string.min_len: 4 string.max_len: 17  |
-| routing_number | string.len: 9  |
+| movement | [MoneyMovement](util#tech.figure.util.v1beta1.MoneyMovement) | repeated | Instructions for moving money from this account |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.MoneyMovement"></a>
+<a name="tech.figure.util.v1beta1.MoneyMovement"></a>
 
 ### MoneyMovement
 Specification of how money may be sent to this account: ACH or wire transfer (domestic or international/SWIFT).
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ach | [tech.figure.util.ACH](util#tech.figure.util.ACH) |  | ACH |
-| wire | [tech.figure.util.WIRE](util#tech.figure.util.WIRE) |  | Wire transfer, domestic or international/SWIFT |
+| ach | [ACH](util#tech.figure.util.v1beta1.ACH) |  | ACH |
+| wire | [WIRE](util#tech.figure.util.v1beta1.WIRE) |  | Wire transfer, domestic or international/SWIFT |
 
 
 
 
 
-
-
-<a name="tech.figure.util.ProvenanceAccount"></a>
+<a name="tech.figure.util.v1beta1.ProvenanceAccount"></a>
 
 ### ProvenanceAccount
 An account on the Provenance Blockchain, located at `address`.
 
 See <a href="https://docs.provenance.io/blockchain/basics/accounts">Account Documentation</a> for details.
-
-
 
 
 | Field | Type | Label | Description |
@@ -437,73 +272,34 @@ See <a href="https://docs.provenance.io/blockchain/basics/accounts">Account Docu
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| address | string.min_len: 41 string.pattern: ^(pb|tp)1.+  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.SWIFT"></a>
+<a name="tech.figure.util.v1beta1.SWIFT"></a>
 
 ### SWIFT
 Society for Worldwide Interbank Financial Telecommunications (SWIFT) is member-owned cooperative for sending
 international wire transfers.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | swift_id | [string](#string) |  | SWIFT bank account Id |
-| swift_bank_address | [tech.figure.util.Address](util#tech.figure.util.Address) |  | SWIFT bank mailing address |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| swift_id | string.min_len: 1  |
-| swift_bank_address | message.required: true  |
+| swift_bank_address | [Address](util#tech.figure.util.v1beta1.Address) |  | SWIFT bank mailing address |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.WIRE"></a>
+<a name="tech.figure.util.v1beta1.WIRE"></a>
 
 ### WIRE
 A wire transfer is an electronic transfer of funds via a network that is administered by banks and transfer service agencies worldwide.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| account_address | [tech.figure.util.Address](util#tech.figure.util.Address) |  | Account owner mailing address |
+| account_address | [Address](util#tech.figure.util.v1beta1.Address) |  | Account owner mailing address |
 | wire_instructions | [string](#string) |  | Wire-specific instructions |
-| swift_instructions | [tech.figure.util.SWIFT](util#tech.figure.util.SWIFT) |  | If international wire, include Swift instructions |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| account_address | message.required: true  |
-| wire_instructions | string.min_len: 1  |
+| swift_instructions | [SWIFT](util#tech.figure.util.v1beta1.SWIFT) |  | If international wire, include Swift instructions |
 
 
 
@@ -511,10 +307,7 @@ A wire transfer is an electronic transfer of funds via a network that is adminis
 
 
 
- 
-
-
-<a name="tech.figure.util.ACH.AccountType"></a>
+<a name="tech.figure.util.v1beta1.ACH.AccountType"></a>
 
 ### ACH.AccountType
 
@@ -527,11 +320,9 @@ A wire transfer is an electronic transfer of funds via a network that is adminis
 | OTHER | 3 |  |
 
 
- 
 
- 
 
- 
+
 
 
 
@@ -542,21 +333,19 @@ A wire transfer is an electronic transfer of funds via a network that is adminis
 
 
 
-<a name="tech.figure.util.Education"></a>
+<a name="tech.figure.util.v1beta1.Education"></a>
 
 ### Education
 Describes a educational course of study toward a degree
-
-
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | school_name | [string](#string) |  | Name of educational institution |
 | school_code | [string](#string) |  | School code |
-| degree_level | [tech.figure.util.Education.DegreeLevel](util#tech.figure.util.Education.DegreeLevel) |  | Degree obtained or working toward |
-| start_date | [tech.figure.util.Date](util#tech.figure.util.Date) |  | Date program of study started |
-| end_date | [tech.figure.util.Date](util#tech.figure.util.Date) |  | Date program of study ended or planned to end |
+| degree_level | [Education.DegreeLevel](util#tech.figure.util.v1beta1.Education.DegreeLevel) |  | Degree obtained or working toward |
+| start_date | [Date](util#tech.figure.util.v1beta1.Date) |  | Date program of study started |
+| end_date | [Date](util#tech.figure.util.v1beta1.Date) |  | Date program of study ended or planned to end |
 | is_degree_complete | [bool](#bool) |  | True if course of study was completed and degree awarded |
 | graduation_month | [string](#string) |  | Month of graduation |
 | graduation_year | [string](#string) |  | Year of graduation |
@@ -566,10 +355,8 @@ Describes a educational course of study toward a degree
 
 
 
- 
 
-
-<a name="tech.figure.util.Education.DegreeLevel"></a>
+<a name="tech.figure.util.v1beta1.Education.DegreeLevel"></a>
 
 ### Education.DegreeLevel
 
@@ -594,11 +381,9 @@ Describes a educational course of study toward a degree
 | OD | 15 |  |
 
 
- 
 
- 
 
- 
+
 
 
 
@@ -609,12 +394,25 @@ Describes a educational course of study toward a degree
 
 
 
-<a name="tech.figure.util.Checksum"></a>
+<a name="tech.figure.util.v1beta1.AssetType"></a>
+
+### AssetType
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| supertype | [string](#string) |  | The supertype of an asset (e.g. MORTGAGE, HELOC, PERSONAL_LOAN, AUTO_LOAN, NFT) |
+| subtype | [string](#string) |  | The subtype of an asset (e.g. JUMBO, REFI, PARENT_REFI, DRAW) |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.Checksum"></a>
 
 ### Checksum
 A Checksum (hash) produced by a checksum `algorithm`.
-
-
 
 
 | Field | Type | Label | Description |
@@ -625,28 +423,13 @@ A Checksum (hash) produced by a checksum `algorithm`.
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| checksum | string.min_len: 1  |
-| algorithm | string.min_len: 1  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Date"></a>
+<a name="tech.figure.util.v1beta1.Date"></a>
 
 ### Date
 An ISO8601 Date.
 
 In Java: Use `LocalDate` to represent this value.  (For `OffsetDateTime`, use a protobuf `Timestamp`.)
-
-
 
 
 | Field | Type | Label | Description |
@@ -656,27 +439,13 @@ In Java: Use `LocalDate` to represent this value.  (For `OffsetDateTime`, use a 
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| value | string.pattern: \d{4}-\d{2}-\d{2}  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Money"></a>
+<a name="tech.figure.util.v1beta1.Money"></a>
 
 ### Money
 A monetary `amount` in specified `currency`.
 
 In Java: Use <a href="https://www.joda.org/joda-money/">Joda Money</a>, `BigMoney`, or `BigDecimal` to represent this value.
-
-
 
 
 | Field | Type | Label | Description |
@@ -687,28 +456,13 @@ In Java: Use <a href="https://www.joda.org/joda-money/">Joda Money</a>, `BigMone
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| amount | double.gte: 0  |
-| currency | string.len: 3  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Rate"></a>
+<a name="tech.figure.util.v1beta1.Rate"></a>
 
 ### Rate
 Rate/percentage expressed as a decimal between 0 and 1.0, where 1.0 represents 100%.
 
 In Java: Use `BigDecimal` to represent this value.
-
-
 
 
 | Field | Type | Label | Description |
@@ -718,25 +472,11 @@ In Java: Use `BigDecimal` to represent this value.
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| value | double.lte: 1 double.gte: 0  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Status"></a>
+<a name="tech.figure.util.v1beta1.Status"></a>
 
 ### Status
 A Status indicator along with the timestamp it became effective
-
-
 
 
 | Field | Type | Label | Description |
@@ -747,27 +487,13 @@ A Status indicator along with the timestamp it became effective
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| status | string.min_len: 1  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.UUID"></a>
+<a name="tech.figure.util.v1beta1.UUID"></a>
 
 ### UUID
 Universally Unique Identifier.
 
 As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
-
-
 
 
 | Field | Type | Label | Description |
@@ -777,25 +503,12 @@ As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
 
 
 
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| value | string.uuid: true  |
 
 
 
 
 
 
-
- 
-
- 
-
- 
-
- 
 
 
 
@@ -805,9 +518,9 @@ As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
 ## tech/figure/util/v1beta1/options.proto
 
 
- 
 
- 
+
+
 
 
 <a name="tech/figure/util/v1beta1/options.proto-extensions"></a>
@@ -818,9 +531,8 @@ As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
 | description | string | .google.protobuf.EnumValueOptions | 50003 |  |
 | pii | bool | .google.protobuf.FieldOptions | 65536 | True if this field value contains Personally Identifying Information (PII). |
 
- 
 
- 
+
 
 
 
@@ -831,44 +543,28 @@ As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
 
 
 
-<a name="tech.figure.util.Fee"></a>
+<a name="tech.figure.util.v1beta1.Fee"></a>
 
 ### Fee
 Describes a fee charged, typically as part of a loan origination
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| rate | [tech.figure.util.Rate](util#tech.figure.util.Rate) |  | If a loan, describes the fee amount as a percentage of loan principal amount |
-| amount | [tech.figure.util.Money](util#tech.figure.util.Money) |  | Value amount of origination fee charged |
+| rate | [Rate](util#tech.figure.util.v1beta1.Rate) |  | If a loan, describes the fee amount as a percentage of loan principal amount |
+| amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Value amount of origination fee charged |
 | type | [string](#string) |  | Fee type, e.g. ORIGINATION_FEE |
 | subtype | [string](#string) |  | Subtype allows variation of fee type. For an origination fee, subtype might be: NO_FEE, CAPITALIZED, UNCAPITALIZED_SPREAD, UNCAPITALIZED_UPFRONT |
 
 
 
 
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| amount | message.required: true  |
-| type | string.min_len: 1  |
 
 
 
 
 
 
-
- 
-
- 
-
- 
-
- 
 
 
 
@@ -879,12 +575,10 @@ Describes a fee charged, typically as part of a loan origination
 
 
 
-<a name="tech.figure.util.Address"></a>
+<a name="tech.figure.util.v1beta1.Address"></a>
 
 ### Address
 Physical or mailing address
-
-
 
 
 | Field | Type | Label | Description |
@@ -904,48 +598,29 @@ Physical or mailing address
 
 
 
-
-
-<a name="tech.figure.util.ContactInformation"></a>
+<a name="tech.figure.util.v1beta1.ContactInformation"></a>
 
 ### ContactInformation
 Contact information for a third-party
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  | Name of contract person or company |
-| phone | [tech.figure.util.PhoneNumber](util#tech.figure.util.PhoneNumber) |  | Phone number |
+| phone | [PhoneNumber](util#tech.figure.util.v1beta1.PhoneNumber) |  | Phone number |
 | email | [string](#string) |  | RFC 1034-compliant email address |
-| address | [tech.figure.util.Address](util#tech.figure.util.Address) |  | Mailing address |
+| address | [Address](util#tech.figure.util.v1beta1.Address) |  | Mailing address |
 | fax | [string](#string) |  | Fax number |
 | url | [string](#string) |  | A web url relating to the contact - their homepage, their company's homepage, etc |
 
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| email | string.email: true  |
-| url | string.uri: true  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.PhoneNumber"></a>
+<a name="tech.figure.util.v1beta1.PhoneNumber"></a>
 
 ### PhoneNumber
 Telephone number
-
-
 
 
 | Field | Type | Label | Description |
@@ -958,13 +633,10 @@ Telephone number
 
 
 
- 
 
- 
 
- 
 
- 
+
 
 
 
@@ -975,56 +647,46 @@ Telephone number
 
 
 
-<a name="tech.figure.util.Appraisal"></a>
+<a name="tech.figure.util.v1beta1.Appraisal"></a>
 
 ### Appraisal
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| appraisal_amount | [tech.figure.util.Money](util#tech.figure.util.Money) |  |  |
-| appraisal_date | [tech.figure.util.Date](util#tech.figure.util.Date) |  |  |
+| appraisal_amount | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
+| appraisal_date | [Date](util#tech.figure.util.v1beta1.Date) |  |  |
 
 
 
 
 
-
-
-<a name="tech.figure.util.Property"></a>
+<a name="tech.figure.util.v1beta1.Property"></a>
 
 ### Property
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| address | [tech.figure.util.Address](util#tech.figure.util.Address) |  |  |
-| location | [tech.figure.util.PropertyLocation](util#tech.figure.util.PropertyLocation) |  |  |
-| site | [tech.figure.util.PropertySite](util#tech.figure.util.PropertySite) |  |  |
-| ownership | [tech.figure.util.PropertyOwnership](util#tech.figure.util.PropertyOwnership) |  |  |
+| address | [Address](util#tech.figure.util.v1beta1.Address) |  |  |
+| location | [PropertyLocation](util#tech.figure.util.v1beta1.PropertyLocation) |  |  |
+| site | [PropertySite](util#tech.figure.util.v1beta1.PropertySite) |  |  |
+| ownership | [PropertyOwnership](util#tech.figure.util.v1beta1.PropertyOwnership) |  |  |
 | type | [string](#string) |  |  |
 | usage | [string](#string) |  |  |
 | occupancy_type | [string](#string) |  |  |
-| appraisal | [tech.figure.util.Appraisal](util#tech.figure.util.Appraisal) |  |  |
+| appraisal | [Appraisal](util#tech.figure.util.v1beta1.Appraisal) |  |  |
 | number_of_units | [int32](#int32) |  |  |
 
 
 
 
 
-
-
-<a name="tech.figure.util.PropertyLocation"></a>
+<a name="tech.figure.util.v1beta1.PropertyLocation"></a>
 
 ### PropertyLocation
-
-
 
 
 
@@ -1064,13 +726,9 @@ Telephone number
 
 
 
-
-
-<a name="tech.figure.util.PropertyOwnership"></a>
+<a name="tech.figure.util.v1beta1.PropertyOwnership"></a>
 
 ### PropertyOwnership
-
-
 
 
 
@@ -1078,7 +736,7 @@ Telephone number
 | ----- | ---- | ----- | ----------- |
 | owner_names | [string](#string) | repeated |  |
 | vesting_owners | [string](#string) | repeated |  |
-| address | [tech.figure.util.Address](util#tech.figure.util.Address) |  |  |
+| address | [Address](util#tech.figure.util.v1beta1.Address) |  |  |
 | phone_number | [string](#string) |  |  |
 | vesting_etal | [string](#string) |  |  |
 | vesting_ownership_right | [string](#string) |  |  |
@@ -1091,13 +749,9 @@ Telephone number
 
 
 
-
-
-<a name="tech.figure.util.PropertySite"></a>
+<a name="tech.figure.util.v1beta1.PropertySite"></a>
 
 ### PropertySite
-
-
 
 
 
@@ -1133,13 +787,10 @@ Telephone number
 
 
 
- 
 
- 
 
- 
 
- 
+
 
 
 
@@ -1150,11 +801,9 @@ Telephone number
 
 
 
-<a name="tech.figure.util.AssetAccount"></a>
+<a name="tech.figure.util.v1beta1.AssetAccount"></a>
 
 ### AssetAccount
-
-
 
 
 
@@ -1163,211 +812,118 @@ Telephone number
 | account_name | [string](#string) |  | Account name |
 | account_mask | [string](#string) |  | Masked account number |
 | type | [string](#string) |  | Examples: 401K, IRA, ROTH_401K, ROTH, STOCK_PLAN, CD, CHECKING, SAVINGS, MONEY_MARKET, KEOGH, MUTUAL FUND |
-| historical_balances | [tech.figure.util.Balance](util#tech.figure.util.Balance) | repeated | Account balances over time |
-| current_balance_amount | [tech.figure.util.Money](util#tech.figure.util.Money) |  | Current account balance |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| type | string.min_len: 1  |
+| historical_balances | [Balance](util#tech.figure.util.v1beta1.Balance) | repeated | Account balances over time |
+| current_balance_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Current account balance |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.AssetDepletion"></a>
+<a name="tech.figure.util.v1beta1.AssetDepletion"></a>
 
 ### AssetDepletion
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| retirement | [tech.figure.util.Money](util#tech.figure.util.Money) |  |  |
-| savings | [tech.figure.util.Money](util#tech.figure.util.Money) |  |  |
-| investment | [tech.figure.util.Money](util#tech.figure.util.Money) |  |  |
+| retirement | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
+| savings | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
+| investment | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
 
 
 
 
 
-
-
-<a name="tech.figure.util.AssetIncomeSource"></a>
+<a name="tech.figure.util.v1beta1.AssetIncomeSource"></a>
 
 ### AssetIncomeSource
-
-
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | vendor | [string](#string) |  | Firm holding this asset account(s) |
-| asset_accounts | [tech.figure.util.AssetAccount](util#tech.figure.util.AssetAccount) | repeated | One or more accounts held at this vendor |
+| asset_accounts | [AssetAccount](util#tech.figure.util.v1beta1.AssetAccount) | repeated | One or more accounts held at this vendor |
 | transaction_history_length_days | [int32](#int32) |  | Number of days of transaction history used in verification |
 
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| vendor | string.min_len: 1  |
-| asset_accounts | repeated.min_items: 1  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Balance"></a>
+<a name="tech.figure.util.v1beta1.Balance"></a>
 
 ### Balance
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| current | [tech.figure.util.Money](util#tech.figure.util.Money) |  | Account balance, current as of `date` |
-| date | [tech.figure.util.Date](util#tech.figure.util.Date) |  | Date on which this balance was accurate |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| current | message.required: true  |
-| date | message.required: true  |
+| current | [Money](util#tech.figure.util.v1beta1.Money) |  | Account balance, current as of `date` |
+| date | [Date](util#tech.figure.util.v1beta1.Date) |  | Date on which this balance was accurate |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.Income"></a>
+<a name="tech.figure.util.v1beta1.Income"></a>
 
 ### Income
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| borrower_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Id of borrower for whom these records pertain |
-| stated_yearly_income | [tech.figure.util.Money](util#tech.figure.util.Money) |  | Annual income as stated by the individual |
-| verified_yearly_income | [tech.figure.util.VerifiedIncome](util#tech.figure.util.VerifiedIncome) |  | Annual income as verified through some process |
-| income_sources | [tech.figure.util.IncomeSource](util#tech.figure.util.IncomeSource) | repeated | Borrower's sources of income (other than asset accounts) |
-| asset_income_sources | [tech.figure.util.AssetIncomeSource](util#tech.figure.util.AssetIncomeSource) | repeated | Income from asset accounts (e.g. investments, retirement, etc.) |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| borrower_id | message.required: true  |
+| borrower_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of borrower for whom these records pertain |
+| stated_yearly_income | [Money](util#tech.figure.util.v1beta1.Money) |  | Annual income as stated by the individual |
+| verified_yearly_income | [VerifiedIncome](util#tech.figure.util.v1beta1.VerifiedIncome) |  | Annual income as verified through some process |
+| income_sources | [IncomeSource](util#tech.figure.util.v1beta1.IncomeSource) | repeated | Borrower's sources of income (other than asset accounts) |
+| asset_income_sources | [AssetIncomeSource](util#tech.figure.util.v1beta1.AssetIncomeSource) | repeated | Income from asset accounts (e.g. investments, retirement, etc.) |
 
 
 
 
 
-
-
-
-<a name="tech.figure.util.IncomeSource"></a>
+<a name="tech.figure.util.v1beta1.IncomeSource"></a>
 
 ### IncomeSource
-
-
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | source | [string](#string) |  | Name of employer or source of income (e.g. self-employed, child support, alimony) |
-| yearly_amount | [tech.figure.util.Money](util#tech.figure.util.Money) |  | Yearly income amount form this income source |
-| employment_status | [tech.figure.util.Status](util#tech.figure.util.Status) |  | E.g. FULL_TIME, PART_TIME, STUDENT, UNEMPLOYED |
+| yearly_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Yearly income amount form this income source |
+| employment_status | [Status](util#tech.figure.util.v1beta1.Status) |  | E.g. FULL_TIME, PART_TIME, STUDENT, UNEMPLOYED |
 | verification_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date/time at which employment was verified |
 
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| source | string.min_len: 1  |
-| yearly_amount | message.required: true  |
-| verification_timestamp | timestamp.required: true  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.VerifiedIncome"></a>
+<a name="tech.figure.util.v1beta1.VerifiedIncome"></a>
 
 ### VerifiedIncome
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| yearly_amount | [tech.figure.util.Money](util#tech.figure.util.Money) |  | Total borrower income, which has been verified through records |
-| date_verified | [tech.figure.util.Date](util#tech.figure.util.Date) |  | Date this income amount was verified |
-| verified_asset_depletion | [tech.figure.util.AssetDepletion](util#tech.figure.util.AssetDepletion) |  | Retirement/savings/investment account balances |
+| yearly_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Total borrower income, which has been verified through records |
+| date_verified | [Date](util#tech.figure.util.v1beta1.Date) |  | Date this income amount was verified |
+| verified_asset_depletion | [AssetDepletion](util#tech.figure.util.v1beta1.AssetDepletion) |  | Retirement/savings/investment account balances |
 | months_of_history | [int32](#int32) |  | Months of income that has been verified through records |
 | verification_methods_used | [string](#string) | repeated | Examples: PLAID_TRANSACTIONS, POINTSERV_PAYROLL, POINTSERV_TAX, EMPINFO, POINTSERV_W2, POINTSERV_1099_MISC, MANUAL_PAYSTUB, TRUEWORK_INSTANT, OTHER |
 
 
 
 
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| yearly_amount | message.required: true  |
-| date_verified | message.required: true  |
-| verification_methods_used | repeated.min_items: 1  |
 
 
 
 
 
 
-
- 
-
- 
-
- 
-
- 
 
 
 
@@ -1378,7 +934,7 @@ Telephone number
 
 
 
-<a name="tech.figure.util.Borrowers"></a>
+<a name="tech.figure.util.v1beta1.Borrowers"></a>
 
 ### Borrowers
 The primary borrower of a loan, plus any co-borrowers or co-signers.
@@ -1386,25 +942,19 @@ The primary borrower of a loan, plus any co-borrowers or co-signers.
 See `Person.party_type` to distinguish between borrower roles (e.g. primary vs co-borrower vs co-signer).
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| primary | [tech.figure.util.Person](util#tech.figure.util.Person) |  | The main individual responsible for the loan |
-| additional | [tech.figure.util.Person](util#tech.figure.util.Person) | repeated | Co-borrowers and co-signers, if any |
+| primary | [Person](util#tech.figure.util.v1beta1.Person) |  | The main individual responsible for the loan |
+| additional | [Person](util#tech.figure.util.v1beta1.Person) | repeated | Co-borrowers and co-signers, if any |
 
 
 
 
 
-
-
-<a name="tech.figure.util.Name"></a>
+<a name="tech.figure.util.v1beta1.Name"></a>
 
 ### Name
 Name of a person.
-
-
 
 
 | Field | Type | Label | Description |
@@ -1418,64 +968,35 @@ Name of a person.
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| first_name | string.len: 1  |
-| last_name | string.len: 1  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.Person"></a>
+<a name="tech.figure.util.v1beta1.Person"></a>
 
 ### Person
 Identifying information for a person.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Id for this person; may be referenced elsewhere in the model to link data to this individual |
+| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id for this person; may be referenced elsewhere in the model to link data to this individual |
 | party_type | [string](#string) |  | PRIMARY_BORROWER, COBORROWER, COSIGNER, etc. |
-| name | [tech.figure.util.Name](util#tech.figure.util.Name) |  | Name |
-| formerly_known_as | [tech.figure.util.Name](util#tech.figure.util.Name) | repeated | Populated if person has previous names or aliases (e.g. maiden name) |
-| dob | [tech.figure.util.Date](util#tech.figure.util.Date) |  | Date of birth |
-| phone_numbers | [tech.figure.util.PhoneNumber](util#tech.figure.util.PhoneNumber) | repeated | Contact phone numbers |
-| addresses | [tech.figure.util.Address](util#tech.figure.util.Address) | repeated | E.g. residential address or mailing address |
+| name | [Name](util#tech.figure.util.v1beta1.Name) |  | Name |
+| formerly_known_as | [Name](util#tech.figure.util.v1beta1.Name) | repeated | Populated if person has previous names or aliases (e.g. maiden name) |
+| dob | [Date](util#tech.figure.util.v1beta1.Date) |  | Date of birth |
+| phone_numbers | [PhoneNumber](util#tech.figure.util.v1beta1.PhoneNumber) | repeated | Contact phone numbers |
+| addresses | [Address](util#tech.figure.util.v1beta1.Address) | repeated | E.g. residential address or mailing address |
 | ssn | [string](#string) |  | Social Security Number |
 | email | [string](#string) |  | Email address |
 | citizenship | [string](#string) |  | Country of citizenship |
-| marital_status | [tech.figure.util.MaritalStatus](util#tech.figure.util.MaritalStatus) |  | Marital status |
+| marital_status | [MaritalStatus](util#tech.figure.util.v1beta1.MaritalStatus) |  | Marital status |
 | is_self_employed | [bool](#bool) |  | True if individual is self-employed |
 
 
 
 
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| id | message.required: true  |
-| name | message.required: true  |
-| email | string.email: true  |
 
 
 
-
-
-
-
- 
-
-
-<a name="tech.figure.util.MaritalStatus"></a>
+<a name="tech.figure.util.v1beta1.MaritalStatus"></a>
 
 ### MaritalStatus
 
@@ -1491,11 +1012,9 @@ Identifying information for a person.
 | OTHER | 6 |  |
 
 
- 
 
- 
 
- 
+
 
 
 
@@ -1506,51 +1025,34 @@ Identifying information for a person.
 
 
 
-<a name="tech.figure.util.CreditReport"></a>
+<a name="tech.figure.util.v1beta1.CreditReport"></a>
 
 ### CreditReport
 Detailed breakdown of an individual's credit history prepared by a credit bureau.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Id of this report |
-| borrower_id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Id of the borrower for whom this report was generated |
+| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of this report |
+| borrower_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of the borrower for whom this report was generated |
 | report_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date and time this report was generated |
 | credit_provider | [string](#string) |  | Name of credit report provider: EXPERIAN, TRANS_UNION, EQUIFAX |
-| pull_type | [tech.figure.util.CreditReport.CreditPullType](util#tech.figure.util.CreditReport.CreditPullType) |  | SOFT or HARD credit pull |
+| pull_type | [CreditReport.CreditPullType](util#tech.figure.util.v1beta1.CreditReport.CreditPullType) |  | SOFT or HARD credit pull |
 | credit_score | [uint32](#uint32) |  | Credit Score |
-| attributes | [tech.figure.util.CreditReport.AttributesEntry](util#tech.figure.util.CreditReport.AttributesEntry) | repeated | Attributes |
-| risk_models | [tech.figure.util.RiskModel](util#tech.figure.util.RiskModel) | repeated | Type of risk model used |
+| attributes | [CreditReport.AttributesEntry](util#tech.figure.util.v1beta1.CreditReport.AttributesEntry) | repeated | Attributes |
+| risk_models | [RiskModel](util#tech.figure.util.v1beta1.RiskModel) | repeated | Type of risk model used |
 | expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date credit report is valid until |
 
 
 
 
-*Field Validation Rules:*
 
-| Field | Validations |
-| ----- | ----------- |
-| id | message.required: true  |
-| borrower_id | message.required: true  |
-
-
-
-
-
-
-
-
-<a name="tech.figure.util.CreditReport.AttributesEntry"></a>
+<a name="tech.figure.util.v1beta1.CreditReport.AttributesEntry"></a>
 
 ### CreditReport.AttributesEntry
 
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
@@ -1560,34 +1062,26 @@ Detailed breakdown of an individual's credit history prepared by a credit bureau
 
 
 
-
-
-<a name="tech.figure.util.RiskModel"></a>
+<a name="tech.figure.util.v1beta1.RiskModel"></a>
 
 ### RiskModel
 Detail of the risk model used in a credit report.
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | score | [int32](#int32) |  |  |
-| factors | [tech.figure.util.RiskModel.FactorsEntry](util#tech.figure.util.RiskModel.FactorsEntry) | repeated |  |
-| risk_type | [tech.figure.util.RiskModel.RiskType](util#tech.figure.util.RiskModel.RiskType) |  |  |
-| other_type | [tech.figure.util.RiskModel.OtherRiskType](util#tech.figure.util.RiskModel.OtherRiskType) |  |  |
+| factors | [RiskModel.FactorsEntry](util#tech.figure.util.v1beta1.RiskModel.FactorsEntry) | repeated |  |
+| risk_type | [RiskModel.RiskType](util#tech.figure.util.v1beta1.RiskModel.RiskType) |  |  |
+| other_type | [RiskModel.OtherRiskType](util#tech.figure.util.v1beta1.RiskModel.OtherRiskType) |  |  |
 
 
 
 
 
-
-
-<a name="tech.figure.util.RiskModel.FactorsEntry"></a>
+<a name="tech.figure.util.v1beta1.RiskModel.FactorsEntry"></a>
 
 ### RiskModel.FactorsEntry
-
-
 
 
 
@@ -1600,13 +1094,9 @@ Detail of the risk model used in a credit report.
 
 
 
-
-
-<a name="tech.figure.util.RiskModel.OtherRiskType"></a>
+<a name="tech.figure.util.v1beta1.RiskModel.OtherRiskType"></a>
 
 ### RiskModel.OtherRiskType
-
-
 
 
 
@@ -1620,10 +1110,8 @@ Detail of the risk model used in a credit report.
 
 
 
- 
 
-
-<a name="tech.figure.util.CreditReport.CreditPullType"></a>
+<a name="tech.figure.util.v1beta1.CreditReport.CreditPullType"></a>
 
 ### CreditReport.CreditPullType
 
@@ -1635,8 +1123,7 @@ Detail of the risk model used in a credit report.
 | HARD | 2 |  |
 
 
-
-<a name="tech.figure.util.RiskModel.RiskType"></a>
+<a name="tech.figure.util.v1beta1.RiskModel.RiskType"></a>
 
 ### RiskModel.RiskType
 
@@ -1650,11 +1137,9 @@ Detail of the risk model used in a credit report.
 | VANTAGE4 | 4 |  |
 
 
- 
 
- 
 
- 
+
 
 
 

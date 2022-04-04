@@ -14,7 +14,7 @@
 
 ### Asset
 An Asset is the representation of an NFT on Provenance Blockchain, and can be any type of digital asset
-represented by one or more [Google Protocol Buffer](https://developers.google.com/protocol-buffers)
+represented by one or more [Google Protocol Buffers](https://developers.google.com/protocol-buffers).
 
 For specific asset types, use a domain-specific protobuf, such as a [`Loan`](loan#loan-1), in the `kv` map.
 
@@ -44,27 +44,12 @@ Example:
 ```
 
 
-
-
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.UUID](util#tech.figure.util.UUID) |  | Required UUID identifier for this asset |
+| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Required UUID identifier for this asset |
 | type | [string](#string) |  | Optional user-defined type (e.g. LOAN, ART, PROPERTY TITLE, FUND, SHARE CLASS) |
 | description | [string](#string) |  | Optional user-defined description, title, name, etc. for display |
-| kv | [tech.figure.asset.v1beta1.Asset.KvEntry](#tech.figure.asset.v1beta1.Asset.KvEntry) | repeated | Key-value store of asset data |
-
-
-
-
-*Field Validation Rules:*
-
-| Field | Validations |
-| ----- | ----------- |
-| id | message.required: true  |
-| kv | map.min_pairs: 1  |
-
-
-
+| kv | [Asset.KvEntry](#tech.figure.asset.v1beta1.Asset.KvEntry) | repeated | Key-value store of asset data |
 
 
 
@@ -73,8 +58,6 @@ Example:
 <a name="tech.figure.asset.v1beta1.Asset.KvEntry"></a>
 
 ### Asset.KvEntry
-
-
 
 
 
@@ -88,13 +71,10 @@ Example:
 
 
 
- 
 
- 
 
- 
 
- 
+
 
 
 

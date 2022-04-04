@@ -1,0 +1,12 @@
+{
+  "id": "c6978d46-3c3e-4175-a0d2-8f8ce47e8bb6",
+  "originatorName": "Example Loan Company",
+  "originatorLoanId": "LOAN-1234",
+  "loanType": "PERSONAL_LOAN",
+  "terms": {
+    "principalAmount": {
+      "amount": 10000.00,
+      "currency": "USD"
+    }
+  }
+} 
