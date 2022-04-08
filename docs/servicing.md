@@ -18,15 +18,12 @@ Loan state data (servicing data) at a point in time
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| loan_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Loan identifier for which this state is calculated |
 | effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp when this state was produced |
-| loan_type | [string](#string) |  | **Deprecated.** DEPRECATED: Please use asset_type*** Type of loan (e.g. MORTGAGE, HELOC, PERSONAL_LOAN) |
 | servicer_name | [string](#string) |  | Name of servicer for loan |
 | total_unpaid_prin_bal | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Total unpaid principal balance |
 | accrued_interest | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Total interest accrued to-date |
 | daily_int_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Accrued interest amount per day |
-| loan_status | [tech.figure.util.v1beta1.Status](util#tech.figure.util.v1beta1.Status) |  | Loan status, such as IN REPAY 1-9 DAYS DELQ 10-29 DAYS DELQ 30-59 DAYS DELQ 60-89 DAYS DELQ 90+ DAYS DELQ PAID_CLOSED PAID_OPEN FORBEARANCE TRANSFERRED |
-| current_borrower_info | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
+| loan_status | [tech.figure.util.v1beta1.Status](util#tech.figure.util.v1beta1.Status) |  | Loan status, such as: IN REPAY 1-9 DAYS DELQ 10-29 DAYS DELQ 30-59 DAYS DELQ 60-89 DAYS DELQ 90+ DAYS DELQ PAID_CLOSED PAID_OPEN FORBEARANCE TRANSFERRED |
 | current_p_and_i | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Currently monthly loan payment amount including principal and interest |
 | current_interest_rate | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | The current interest rate used to calculate the principal and interest payment |
 | int_accrual_start_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | The date on which interest accrual began |
@@ -49,8 +46,6 @@ Loan state data (servicing data) at a point in time
 | monthly_payment_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | The minimum monthly payment amount that borrower needs to repay on the loan |
 | principal_paid | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Sum of amount paid to principal |
 | past_due_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Amount past due |
-| doc_meta | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Metadata about documents related to the loan (document files stored separately) |
-| asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  |  |
 | kv | [LoanState.KvEntry](#tech.figure.servicing.v1beta1.LoanState.KvEntry) | repeated | Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message. For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a> |
 
 
@@ -72,6 +67,25 @@ Loan state data (servicing data) at a point in time
 
 
 
+<a name="tech.figure.servicing.v1beta1.LoanStates"></a>
+
+### LoanStates
+List of loan states for a single loan
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| loan_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Static Fields - repeated so that owner can
+
+Loan Identifier |
+| asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Asset type (See docs/util.md) |
+| current_borrower_info | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
+| loan_state | [LoanState](#tech.figure.servicing.v1beta1.LoanState) | repeated | Individual loan states appended throughout life of loan |
+
+
+
+
+
 <a name="tech.figure.servicing.v1beta1.LoanStructureState"></a>
 
 ### LoanStructureState
@@ -82,6 +96,54 @@ Aggregation of loan state across a structure (group) of loans
 | ----- | ---- | ----- | ----------- |
 | marker_address | [string](#string) |  | Provenance Blockchain Address for the Marker representing this loan structure |
 | loan_states | [LoanState](#tech.figure.servicing.v1beta1.LoanState) | repeated | Loan state data for loans included in the structure |
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="tech/figure/servicing/v1beta1/servicing_rights.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## tech/figure/servicing/v1beta1/servicing_rights.proto
+
+
+
+<a name="tech.figure.servicing.v1beta1.ServicingRights"></a>
+
+### ServicingRights
+Identity of the loan servicer and sub-servicer, if using
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| servicer_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Primary servicer ID |
+| servicer_name | [string](#string) |  | Primary servicer name |
+| sub_servicer_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Sub-servicer ID |
+| sub_servicer_name | [string](#string) |  | Sub-servicer name |
+| kv | [ServicingRights.KvEntry](#tech.figure.servicing.v1beta1.ServicingRights.KvEntry) | repeated | Any additional data related to servicing rights |
+
+
+
+
+
+<a name="tech.figure.servicing.v1beta1.ServicingRights.KvEntry"></a>
+
+### ServicingRights.KvEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
 
 
 

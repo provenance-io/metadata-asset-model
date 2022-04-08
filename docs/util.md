@@ -440,6 +440,22 @@ In Java: Use `LocalDate` to represent this value.  (For `OffsetDateTime`, use a 
 
 
 
+<a name="tech.figure.util.v1beta1.Decimal"></a>
+
+### Decimal
+Decimal value
+
+In Java: Use `BigDecimal` to represent this value.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  |  |
+
+
+
+
+
 <a name="tech.figure.util.v1beta1.Money"></a>
 
 ### Money
