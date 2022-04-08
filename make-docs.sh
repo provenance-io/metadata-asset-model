@@ -31,6 +31,7 @@ cp -r build/extracted-include-protos/main/validate ${TMP_DIR}
 
 gen_doc "tech/figure/asset/v1beta1/asset.proto" "asset.md" "Asset (NFT)"
 gen_doc "tech/figure/loan/v1beta1/loan.proto" "loan.md" "Loan"
+gen_doc "tech/figure/loan/v1beta1/mismo_loan.proto" "mismo.md" "MISMO Loan"
 gen_doc "tech/figure/servicing/v1beta1/loan_state.proto" "servicing.md" "Loan Servicing"
 
 pushd ${TMP_DIR}
