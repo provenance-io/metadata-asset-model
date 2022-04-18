@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package tech.figure.loan.v1beta1;
+
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/wrappers.proto";
+import "validate/validate.proto";
+
+/*
+Loan originators may choose to simply upload a MISMO standardized loan package to store static loan data collected through
+their Loan Origination System. The current standard is MISMO 3.4.
+
+This data is generally not expected to change over time. The evolving state of the loan (commonly called "servicing data")
+is represented by the [`LoanState`](loan_state) proto.
+*/
+message MISMOLoan {
+  /*
+  Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan
+  originator's Legal Entity Identifier (LEI).
+  An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
+   */
+  string                            uli   = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
+  // Byte array of the MISMO XML file
+  google.protobuf.BytesValue        data  = 2 [(validate.rules).message.required = true];
+  // Key-value map allowing originator to provide additional data
+  map<string, google.protobuf.Any>  kv    = 99;
+}
