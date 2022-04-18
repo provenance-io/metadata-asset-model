@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package tech.figure.servicing.v1beta1;
+
+import "google/protobuf/any.proto";
+import "tech/figure/util/v1beta1/types.proto";
+import "validate/validate.proto";
+
+/**
+Identity of the loan servicer and sub-servicer, if using
+ */
+message ServicingRights {
+  tech.figure.util.v1beta1.UUID     servicer_id       = 1 [(validate.rules).message.required = true]; // Primary servicer ID
+  string                            servicer_name     = 2 [(validate.rules).string.min_len = 1]; // Primary servicer name
+  tech.figure.util.v1beta1.UUID     sub_servicer_id   = 3; // Sub-servicer ID
+  string                            sub_servicer_name = 4; // Sub-servicer name
+  map<string, google.protobuf.Any>  kv                = 99; // Any additional data related to servicing rights
+}

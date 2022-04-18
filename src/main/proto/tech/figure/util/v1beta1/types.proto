@@ -45,6 +45,15 @@ message Money {
 }
 
 /*
+Decimal value
+
+In Java: Use `BigDecimal` to represent this value.
+ */
+message Decimal {
+    string value = 1;
+}
+
+/*
 A Status indicator along with the timestamp it became effective
  */
 message Status {
