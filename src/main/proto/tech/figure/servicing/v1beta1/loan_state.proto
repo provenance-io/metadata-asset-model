@@ -72,6 +72,7 @@ message LoanState {
   tech.figure.util.v1beta1.Money   monthly_payment_amount   = 26; // The minimum monthly payment amount that borrower needs to repay on the loan
   tech.figure.util.v1beta1.Money   principal_paid           = 27; // Sum of amount paid to principal
   tech.figure.util.v1beta1.Money   past_due_amount          = 28; // Amount past due
+  tech.figure.util.v1beta1.Money   deferred_principal       = 29; // Deferred Principal balance
 
   /*
     Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.
