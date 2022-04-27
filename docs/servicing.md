@@ -113,6 +113,7 @@ Note: static data is possibly repeated elsewhere, but required here to make life
 | loan_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Loan Identifier |
 | asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Asset type (See docs/util.md) |
 | current_borrower_info | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
+| original_note_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Total unpaid principal balance when the note is signed |
 | uri | [string](#string) |  | Pointer to the object containing LoanStates message |
 | latest_checksum | [string](#string) |  | Checksum of the object containing LoanStates |
 | last_updated | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Last time the object checksum was updated |

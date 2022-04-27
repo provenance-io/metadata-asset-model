@@ -19,6 +19,22 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | iteration | [ValidationIteration](#tech.figure.validation.v1beta1.ValidationIteration) | repeated |  |
+| kv | [LoanValidation.KvEntry](#tech.figure.validation.v1beta1.LoanValidation.KvEntry) | repeated |  |
+
+
+
+
+
+<a name="tech.figure.validation.v1beta1.LoanValidation.KvEntry"></a>
+
+### LoanValidation.KvEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
 
 
 
