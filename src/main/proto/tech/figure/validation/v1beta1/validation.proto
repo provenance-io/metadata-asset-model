@@ -12,6 +12,7 @@ import "validate/validate.proto";
 
 message LoanValidation {
   repeated ValidationIteration      iteration    = 1;
+  map<string, google.protobuf.Any>  kv           = 99;
 }
 
 /*
