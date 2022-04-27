@@ -10,7 +10,7 @@ import "tech/figure/util/v1beta1/document.proto";
 import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
 
-message Validation {
+message LoanValidation {
   repeated ValidationIteration      iteration    = 1;
 }
 
@@ -31,18 +31,24 @@ Validation request including a pointer to the snapshot of data requiring validat
 message ValidationRequest {
   tech.figure.util.v1beta1.UUID       request_id          = 1 [(validate.rules).message.required = true];   // Unique ID for the request
   google.protobuf.Timestamp           effective_time      = 2 [(validate.rules).timestamp.required = true]; // Time the validation was requested
-  string                              object_store        = 3 [(validate.rules).string.min_len = 1];        // Name of the Object Store where the snapshot lives
-  string                              snapshot_uri        = 4 [(validate.rules).string.min_len = 1];        // Pointer to the snapshot
-  tech.figure.util.v1beta1.UUID       rule_set_id         = 5;                                              // ID of rule set that needs to be executed
-  string                              description         = 6;                                              // Description of the rule set
-  string                              validator_name      = 7 [(validate.rules).string.min_len = 1];        // Party that will run the validation
-  string                              requester_name      = 8 [(validate.rules).string.min_len = 1];        // Party invoking the request for validation
-  string                              status              = 9;                                              // PENDING, IN_PROCESS, COMPLETED
+  string                              snapshot_uri        = 3 [(validate.rules).string.min_len = 1];        // Pointer to the snapshot
+  tech.figure.util.v1beta1.UUID       rule_set_id         = 4;                                              // ID of rule set that needs to be executed
+  string                              description         = 5;                                              // Description of the rule set
+  string                              validator_name      = 6 [(validate.rules).string.min_len = 1];        // Party that will run the validation
+  string                              requester_name      = 7 [(validate.rules).string.min_len = 1];        // Party invoking the request for validation
   map<string, google.protobuf.Any>    kv                  = 99;                                             // Additional fields from the requester
 }
 
 /*
-Validation results that get posted when validation is complete
+Input to the validation results p8e contract
+ */
+message ValidationResponse {
+		tech.figure.util.v1beta1.UUID     request_id          = 1; // Unique ID for the request - should match existing request
+		ValidationResults                 results             = 2; // Validation results associated with the request
+}
+
+/*
+Validation results that get stored alongside the validation request when validation is complete
  */
 message ValidationResults {
   tech.figure.util.v1beta1.UUID                       result_set_uuid             = 1;  // unique ID for the result set
@@ -62,7 +68,7 @@ Individual rules that were executed, including the actual expression that was ru
 message ValidationItem {
   string                                      code                = 1;  // Identifier for the rule
   string                                      label               = 2;  // Short description of the rule
-  string                                      descr               = 3;  // Long description of the rule
+  string                                      description         = 3;  // Long description of the rule
   string                                      expression          = 4;  // Actual value, comparison operator, and expected value written as a formula or description of a comparison
   ValidationOutcome                           validation_outcome  = 5;  // Result of applying the rule, see enum
   map<string, google.protobuf.Any>            kv                  = 99; // Additional information related to the rule
