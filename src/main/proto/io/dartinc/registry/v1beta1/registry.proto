@@ -12,15 +12,15 @@ import "validate/validate.proto";
 Digital Asset Registry Technology (DART) ENote metadata
  */
 message ENote {
-  Controller                                controller      = 1 [(validate.rules).message.required = true]; // Identity of the ENote controller
-  tech.figure.util.v1beta1.DocumentMetadata e_note          = 2 [(validate.rules).message.required = true]; // Metadata of the authoritative copy of the ENote
-  tech.figure.util.v1beta1.Date             signed_date     = 3 [(validate.rules).message.required = true]; // Date the ENote was signed by the borrower
-  string                                    vault_name      = 4 [(validate.rules).string.min_len = 1];      // Name of the eVault storing the Authoritative copy of the ENote
-//  bool                                      modification    = 10;                                           // Modifications to the ENote
-//  bool                                      assumption      = 20;                                           // Assumption about the ENote
+  Controller                                            controller      = 1 [(validate.rules).message.required = true]; // Identity of the ENote controller
+  tech.figure.util.v1beta1.DocumentMetadata             e_note          = 2 [(validate.rules).message.required = true]; // Metadata of the authoritative copy of the ENote
+  tech.figure.util.v1beta1.Date                         signed_date     = 3 [(validate.rules).message.required = true]; // Date the ENote was signed by the borrower
+  string                                                vault_name      = 4 [(validate.rules).string.min_len = 1];      // Name of the eVault storing the Authoritative copy of the ENote
+  repeated tech.figure.util.v1beta1.DocumentMetadata    modification    = 10;                                           // Documents containing modifications to the ENote
+  repeated tech.figure.util.v1beta1.DocumentMetadata    assumption      = 20;                                           // Documents containing additional assumptions about the ENote
 }
 
 message Controller {
-  tech.figure.util.v1beta1.UUID             controller_uuid = 1 [(validate.rules).message.required = true]; // ENote controller ID
-  string                                    controller_name = 2 [(validate.rules).string.min_len = 1];      // ENote controller name
+  tech.figure.util.v1beta1.UUID                         controller_uuid = 1 [(validate.rules).message.required = true]; // ENote controller ID
+  string                                                controller_name = 2 [(validate.rules).string.min_len = 1];      // ENote controller name
 }

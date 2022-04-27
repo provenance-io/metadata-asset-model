@@ -45,6 +45,37 @@ is represented by the [`LoanState`](loan_state) proto.
 
 
 
+<a name="tech.figure.loan.v1beta1.MISMOLoanMetadata"></a>
+
+### MISMOLoanMetadata
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| uli | [string](#string) |  | Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan originator's Legal Entity Identifier (LEI). An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/). |
+| document | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Pointer to MISMO loan file in Object Store |
+| kv | [MISMOLoanMetadata.KvEntry](#tech.figure.loan.v1beta1.MISMOLoanMetadata.KvEntry) | repeated | Key-value map allowing originator to provide additional data |
+
+
+
+
+
+<a name="tech.figure.loan.v1beta1.MISMOLoanMetadata.KvEntry"></a>
+
+### MISMOLoanMetadata.KvEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
+
+
+
+
+
 
 
 

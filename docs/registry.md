@@ -37,6 +37,8 @@ Digital Asset Registry Technology (DART) ENote metadata
 | e_note | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Metadata of the authoritative copy of the ENote |
 | signed_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date the ENote was signed by the borrower |
 | vault_name | [string](#string) |  | Name of the eVault storing the Authoritative copy of the ENote |
+| modification | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing modifications to the ENote |
+| assumption | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing additional assumptions about the ENote |
 
 
 
