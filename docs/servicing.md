@@ -46,6 +46,7 @@ Loan state data (servicing data) at a point in time
 | monthly_payment_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | The minimum monthly payment amount that borrower needs to repay on the loan |
 | principal_paid | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Sum of amount paid to principal |
 | past_due_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Amount past due |
+| deferred_principal | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Deferred Principal balance |
 | kv | [LoanState.KvEntry](#tech.figure.servicing.v1beta1.LoanState.KvEntry) | repeated | Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message. For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a> |
 
 
@@ -75,11 +76,6 @@ List of loan states for a single loan
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| loan_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Static Fields - repeated so that owner can
-
-Loan Identifier |
-| asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Asset type (See docs/util.md) |
-| current_borrower_info | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
 | loan_state | [LoanState](#tech.figure.servicing.v1beta1.LoanState) | repeated | Individual loan states appended throughout life of loan |
 
 
@@ -96,6 +92,30 @@ Aggregation of loan state across a structure (group) of loans
 | ----- | ---- | ----- | ----------- |
 | marker_address | [string](#string) |  | Provenance Blockchain Address for the Marker representing this loan structure |
 | loan_states | [LoanState](#tech.figure.servicing.v1beta1.LoanState) | repeated | Loan state data for loans included in the structure |
+
+
+
+
+
+<a name="tech.figure.servicing.v1beta1.ServicingData"></a>
+
+### ServicingData
+Aggregation of loan state for a single loan
+
+A combination of static loan data that does not change throughout the life of the loan and a pointer to an object
+in the object store that contains a list of loan states
+
+Note: static data is possibly repeated elsewhere, but required here to make life easier for applications that require servicing data
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| loan_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Loan Identifier |
+| asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Asset type (See docs/util.md) |
+| current_borrower_info | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
+| uri | [string](#string) |  | Pointer to the object containing LoanStates message |
+| latest_checksum | [string](#string) |  | Checksum of the object containing LoanStates |
+| last_updated | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Last time the object checksum was updated |
 
 
 

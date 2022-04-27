@@ -17,13 +17,26 @@ message LoanStructureState {
 }
 
 /*
-List of loan states for a single loan
+Aggregation of loan state for a single loan
+
+A combination of static loan data that does not change throughout the life of the loan and a pointer to an object
+in the object store that contains a list of loan states
+
+Note: static data is possibly repeated elsewhere, but required here to make life easier for applications that require servicing data
  */
-message LoanStates {
-  // Static Fields - repeated so that owner can
+message ServicingData {
   tech.figure.util.v1beta1.UUID      loan_id                = 1 [(validate.rules).message.required = true]; // Loan Identifier
   tech.figure.util.v1beta1.AssetType asset_type             = 2 [(validate.rules).message.required = true]; // Asset type (See docs/util.md)
   tech.figure.util.v1beta1.Borrowers current_borrower_info  = 3;                                            // Borrower(s), co-signers, etc
+	string                             uri                    = 10;                                           // Pointer to the object containing LoanStates message
+  string                             latest_checksum        = 11;                                           // Checksum of the object containing LoanStates
+  google.protobuf.Timestamp          last_updated           = 12;                                           // Last time the object checksum was updated
+}
+
+/*
+List of loan states for a single loan
+ */
+message LoanStates {
   repeated LoanState                 loan_state             = 10;                                           // Individual loan states appended throughout life of loan
 }
 
