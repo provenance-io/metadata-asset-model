@@ -68,6 +68,23 @@ Loan state data (servicing data) at a point in time
 
 
 
+<a name="tech.figure.servicing.v1beta1.LoanStateMetadata"></a>
+
+### LoanStateMetadata
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Identifier unique to this document |
+| effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| uri | [string](#string) |  | URI Location where document is hosted/located |
+| checksum | [tech.figure.util.v1beta1.Checksum](util#tech.figure.util.v1beta1.Checksum) |  | Hash or checksum of document bytes |
+
+
+
+
+
 <a name="tech.figure.servicing.v1beta1.LoanStates"></a>
 
 ### LoanStates
@@ -114,9 +131,7 @@ Note: static data is possibly repeated elsewhere, but required here to make life
 | asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Asset type (See docs/util.md) |
 | current_borrower_info | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
 | original_note_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Total unpaid principal balance when the note is signed |
-| uri | [string](#string) |  | Pointer to the object containing LoanStates message |
-| latest_checksum | [string](#string) |  | Checksum of the object containing LoanStates |
-| last_updated | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Last time the object checksum was updated |
+| loan_state | [LoanStateMetadata](#tech.figure.servicing.v1beta1.LoanStateMetadata) | repeated | List of pointers to the objects containing LoanState messages |
 
 
 

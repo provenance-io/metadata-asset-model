@@ -44,8 +44,8 @@ message ValidationRequest {
 Input to the validation results p8e contract
  */
 message ValidationResponse {
-		tech.figure.util.v1beta1.UUID     request_id          = 1; // Unique ID for the request - should match existing request
-		ValidationResults                 results             = 2; // Validation results associated with the request
+  tech.figure.util.v1beta1.UUID     request_id          = 1; // Unique ID for the request - should match existing request
+  ValidationResults                 results             = 2; // Validation results associated with the request
 }
 
 /*

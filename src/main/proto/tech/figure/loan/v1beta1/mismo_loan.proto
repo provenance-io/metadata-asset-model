@@ -6,6 +6,7 @@ option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/wrappers.proto";
+import "tech/figure/util/v1beta1/document.proto";
 import "validate/validate.proto";
 
 /*
@@ -17,13 +18,22 @@ is represented by the [`LoanState`](loan_state) proto.
 */
 message MISMOLoan {
   /*
-  Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan
-  originator's Legal Entity Identifier (LEI).
-  An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
-   */
+    Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan
+    originator's Legal Entity Identifier (LEI).
+    An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
+  */
   string                            uli   = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
-  // Byte array of the MISMO XML file
-  google.protobuf.BytesValue        data  = 2 [(validate.rules).message.required = true];
-  // Key-value map allowing originator to provide additional data
-  map<string, google.protobuf.Any>  kv    = 99;
+  google.protobuf.BytesValue        data  = 2 [(validate.rules).message.required = true]; // Byte array of the MISMO XML file
+  map<string, google.protobuf.Any>  kv    = 99;// Key-value map allowing originator to provide additional data
+}
+
+message MISMOLoanMetadata {
+  /*
+    Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan
+    originator's Legal Entity Identifier (LEI).
+    An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
+  */
+  string                                    uli       = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
+  tech.figure.util.v1beta1.DocumentMetadata document  = 2; // Pointer to MISMO loan file in Object Store
+  map<string, google.protobuf.Any>          kv        = 99; // Key-value map allowing originator to provide additional data
 }
