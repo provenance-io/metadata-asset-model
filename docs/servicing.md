@@ -18,6 +18,7 @@ Loan state data (servicing data) at a point in time
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Loan State Identifier |
 | effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp when this state was produced |
 | servicer_name | [string](#string) |  | Name of servicer for loan |
 | total_unpaid_prin_bal | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Total unpaid principal balance |
@@ -80,20 +81,6 @@ Loan state data (servicing data) at a point in time
 | effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
 | uri | [string](#string) |  | URI Location where document is hosted/located |
 | checksum | [tech.figure.util.v1beta1.Checksum](util#tech.figure.util.v1beta1.Checksum) |  | Hash or checksum of document bytes |
-
-
-
-
-
-<a name="tech.figure.servicing.v1beta1.LoanStates"></a>
-
-### LoanStates
-List of loan states for a single loan
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| loan_state | [LoanState](#tech.figure.servicing.v1beta1.LoanState) | repeated | Individual loan states appended throughout life of loan |
 
 
 
