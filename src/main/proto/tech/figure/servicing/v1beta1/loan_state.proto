@@ -4,6 +4,7 @@ package tech.figure.servicing.v1beta1;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
+import "tech/figure/util/v1beta1/document.proto";
 import "tech/figure/util/v1beta1/person.proto";
 import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
@@ -25,11 +26,12 @@ in the object store that contains a list of loan states
 Note: static data is possibly repeated elsewhere, but required here to make life easier for applications that require servicing data
  */
 message ServicingData {
-  tech.figure.util.v1beta1.UUID       loan_id                = 1 [(validate.rules).message.required = true]; // Loan Identifier
-  tech.figure.util.v1beta1.AssetType  asset_type             = 2 [(validate.rules).message.required = true]; // Asset type (See docs/util.md)
-  tech.figure.util.v1beta1.Borrowers  current_borrower_info  = 3;                                            // Borrower(s), co-signers, etc
-  tech.figure.util.v1beta1.Money      original_note_amount   = 4 [(validate.rules).message.required = true]; // Total unpaid principal balance when the note is signed
-	repeated LoanStateMetadata          loan_state             = 10;                                           // List of pointers to the objects containing LoanState messages
+  tech.figure.util.v1beta1.UUID                       loan_id                = 1 [(validate.rules).message.required = true]; // Loan Identifier
+  tech.figure.util.v1beta1.AssetType                  asset_type             = 2 [(validate.rules).message.required = true]; // Asset type (See docs/util.md)
+  tech.figure.util.v1beta1.Borrowers                  current_borrower_info  = 3;                                            // Borrower(s), co-signers, etc
+  tech.figure.util.v1beta1.Money                      original_note_amount   = 4 [(validate.rules).message.required = true]; // Total unpaid principal balance when the note is signed
+  repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta               = 5;                                            // Metadata about documents related to the loan (document files stored separately)
+	repeated LoanStateMetadata                          loan_state             = 10;                                           // List of pointers to the objects containing LoanState messages
 }
 
 /*
