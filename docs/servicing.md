@@ -72,13 +72,13 @@ Loan state data (servicing data) at a point in time
 <a name="tech.figure.servicing.v1beta1.LoanStateMetadata"></a>
 
 ### LoanStateMetadata
-
+Metadata associated with a single loan state object stored in the object store
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Identifier unique to this document |
-| effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Identifier unique to this loan state object |
+| effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp when this state was produced |
 | uri | [string](#string) |  | URI Location where document is hosted/located |
 | checksum | [tech.figure.util.v1beta1.Checksum](util#tech.figure.util.v1beta1.Checksum) |  | Hash or checksum of document bytes |
 
