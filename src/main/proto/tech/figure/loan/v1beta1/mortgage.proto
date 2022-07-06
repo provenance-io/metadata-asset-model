@@ -125,5 +125,5 @@ message Recording {
   string                            state_recorded                = 12;
   string                            recordation_number            = 13;
   string                            mortgagee_of_record           = 14 [(validate.rules).string.min_len = 1]; // Mortgagee of record (DART, MERS, or lender)
-  string                            original_mortgagee_of_record  = 14 [(validate.rules).string.min_len = 1]; // Original mortgagee of record (DART, MERS, or lender)
+  string                            original_mortgagee_of_record  = 15 [(validate.rules).string.min_len = 1]; // Original mortgagee of record (DART, MERS, or lender)
 }
