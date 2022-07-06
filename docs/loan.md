@@ -115,9 +115,26 @@ Example:
     "principalAmount": {
       "amount": 10000.00,
       "currency": "USD"
+    },
+    "totalAmount": {
+      "amount": 10200.00,
+      "currency": "USD"
+    },
+    "termInMonths": 12,
+    "interestRate": {
+      "value": 0.065
     }
-  }
-}  
+  },
+  "funding": {
+    "started": false,
+    "completed": false
+  },
+  "assetType": {
+    "supertype": "PERSONAL_LOAN"
+  },
+  "uli": "LEI456123456123456123456123",
+  "originatorUuid": "00000000-0000-0000-0000-000000000000"
+} 
 ```
 
 
@@ -134,6 +151,8 @@ Example:
 | doc_meta | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Metadata about documents related to the loan (document files stored separately) |
 | signed_data | [tech.figure.util.v1beta1.SignedData](util#tech.figure.util.v1beta1.SignedData) | repeated | Digitally-signed-by-source data/documents |
 | asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN |
+| uli | [string](#string) |  | Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan originator's Legal Entity Identifier (LEI). An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/). |
+| originator_uuid | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Originator UUID identifier |
 | mortgage | [Mortgage](#tech.figure.loan.v1beta1.Mortgage) |  | Mortgage |
 | heloc | [Heloc](#tech.figure.loan.v1beta1.Heloc) |  | Home Equity Line of Credit |
 | student_loan | [StudentLoan](#tech.figure.loan.v1beta1.StudentLoan) |  | New or refinanced student loan |

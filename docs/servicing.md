@@ -132,6 +132,7 @@ Note: static data is possibly repeated elsewhere, but required here to make life
 | asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Asset type (See docs/util.md) |
 | current_borrower_info | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
 | original_note_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Total unpaid principal balance when the note is signed |
+| doc_meta | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Metadata about documents related to the loan (document files stored separately) |
 | loan_state | [LoanStateMetadata](#tech.figure.servicing.v1beta1.LoanStateMetadata) | repeated | List of pointers to the objects containing LoanState messages |
 
 

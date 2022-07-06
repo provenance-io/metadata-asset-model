@@ -18,12 +18,51 @@ represented by one or more [Google Protocol Buffers](https://developers.google.c
 
 For specific asset types, use a domain-specific protobuf, such as a [`Loan`](loan#loan-1), in the `kv` map.
 
-INSERT_EXAMPLE
+
+Example:
+```json
+{
+  "id": "c6978d46-3c3e-4175-a0d2-8f8ce47e8bb6",
+  "type": "LOAN",
+  "description": "PERSONAL_LOAN LOAN-1234",
+  "kv": {
+    "loan": {
+      "id": "c6978d46-3c3e-4175-a0d2-8f8ce47e8bb6",
+      "originatorName": "Example Loan Company",
+      "originatorLoanId": "LOAN-1234",
+      "loanType": "PERSONAL_LOAN",
+      "terms": {
+        "principalAmount": {
+          "amount": 10000.00,
+          "currency": "USD"
+        },
+        "totalAmount": {
+          "amount": 10200.00,
+          "currency": "USD"
+        },
+        "termInMonths": 12,
+        "interestRate": {
+          "value": 0.065
+        }
+      },
+      "funding": {
+        "started": false,
+        "completed": false
+      },
+      "assetType": {
+        "supertype": "PERSONAL_LOAN"
+      },
+      "uli": "LEI456123456123456123456123",
+      "originatorUuid": "00000000-0000-0000-0000-000000000000"
+    }
+  }
+} 
+```
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.v1beta1.UUID](#tech.figure.util.v1beta1.UUID) |  | Required UUID identifier for this asset |
+| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Required UUID identifier for this asset |
 | type | [string](#string) |  | Optional user-defined type (e.g. LOAN, ART, PROPERTY TITLE, FUND, SHARE CLASS) |
 | description | [string](#string) |  | Optional user-defined description, title, name, etc. for display |
 | kv | [Asset.KvEntry](#tech.figure.asset.v1beta1.Asset.KvEntry) | repeated | Key-value store of asset data |

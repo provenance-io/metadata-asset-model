@@ -13,7 +13,7 @@
 <a name="io.dartinc.registry.v1beta1.Controller"></a>
 
 ### Controller
-
+ENote controller
 
 
 | Field | Type | Label | Description |
