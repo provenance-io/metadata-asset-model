@@ -397,7 +397,7 @@ Describes a educational course of study toward a degree
 <a name="tech.figure.util.v1beta1.AssetType"></a>
 
 ### AssetType
-
+Asset types.
 
 
 | Field | Type | Label | Description |
@@ -492,7 +492,7 @@ In Java: Use `BigDecimal` to represent this value.
 <a name="tech.figure.util.v1beta1.Status"></a>
 
 ### Status
-A Status indicator along with the timestamp it became effective
+A Status indicator along with the timestamp it became effective.
 
 
 | Field | Type | Label | Description |

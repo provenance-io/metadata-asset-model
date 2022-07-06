@@ -117,7 +117,7 @@ Validation request including a pointer to the snapshot of data requiring validat
 | ----- | ---- | ----- | ----------- |
 | request_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Unique ID for the request |
 | effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Time the validation was requested |
-| snapshot_uri | [string](#string) |  | Pointer to the snapshot |
+| block_height | [int64](#int64) |  | Block height to perform validation against |
 | rule_set_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | ID of rule set that needs to be executed |
 | description | [string](#string) |  | Description of the rule set |
 | validator_name | [string](#string) |  | Party that will run the validation |

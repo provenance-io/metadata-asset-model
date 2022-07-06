@@ -41,9 +41,12 @@ message ServicingData {
 	repeated LoanStateMetadata                          loan_state             = 10;                                           // List of pointers to the objects containing LoanState messages
 }
 
+/*
+Metadata associated with a single loan state object stored in the object store
+ */
 message LoanStateMetadata {
-  tech.figure.util.v1beta1.UUID       id              = 1 [(validate.rules).message.required = true]; // Identifier unique to this document
-  google.protobuf.Timestamp           effective_time  = 2;
+  tech.figure.util.v1beta1.UUID       id              = 1 [(validate.rules).message.required = true]; // Identifier unique to this loan state object
+  google.protobuf.Timestamp           effective_time  = 2;                                            // Timestamp when this state was produced
   string                              uri             = 3;                                            // URI Location where document is hosted/located
   tech.figure.util.v1beta1.Checksum   checksum        = 4;                                            // Hash or checksum of document bytes
 }

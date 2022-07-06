@@ -20,6 +20,9 @@ message ENote {
   repeated tech.figure.util.v1beta1.DocumentMetadata    assumption      = 20;                                           // Documents containing additional assumptions about the ENote
 }
 
+/**
+ENote controller
+ */
 message Controller {
   tech.figure.util.v1beta1.UUID                         controller_uuid = 1 [(validate.rules).message.required = true]; // ENote controller ID
   string                                                controller_name = 2 [(validate.rules).string.min_len = 1];      // ENote controller name

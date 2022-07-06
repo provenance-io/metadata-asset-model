@@ -39,6 +39,13 @@ message Loan {
   repeated tech.figure.util.v1beta1.SignedData        signed_data        = 10;                                            // Digitally-signed-by-source data/documents
   tech.figure.util.v1beta1.AssetType                  asset_type         = 11 [(validate.rules).message.required = true]; // Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
   /*
+    Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan
+    originator's Legal Entity Identifier (LEI).
+    An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
+  */
+  string                                              uli                = 12 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
+  tech.figure.util.v1beta1.UUID                       originator_uuid    = 13 [(validate.rules).message.required = true];  // Originator UUID identifier
+  /*
   Loan-type specific information resides in one of the following loan types
    */
   oneof type_specific {
