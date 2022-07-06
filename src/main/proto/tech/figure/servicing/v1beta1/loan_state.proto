@@ -17,6 +17,13 @@ message LoanStructureState {
   repeated LoanState loan_states    = 2; // Loan state data for loans included in the structure
 }
 
+/**
+A submission of loan state metadata for a single loan
+ */
+message LoanStateSubmission {
+  repeated LoanStateMetadata loan_state = 1; // Loan state metadata for the loan
+}
+
 /*
 Aggregation of loan state for a single loan
 

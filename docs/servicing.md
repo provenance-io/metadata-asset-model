@@ -86,6 +86,20 @@ Metadata associated with a single loan state object stored in the object store
 
 
 
+<a name="tech.figure.servicing.v1beta1.LoanStateSubmission"></a>
+
+### LoanStateSubmission
+A submission of loan state metadata for a single loan
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| loan_state | [LoanStateMetadata](#tech.figure.servicing.v1beta1.LoanStateMetadata) | repeated | Loan state metadata for the loan |
+
+
+
+
+
 <a name="tech.figure.servicing.v1beta1.LoanStructureState"></a>
 
 ### LoanStructureState

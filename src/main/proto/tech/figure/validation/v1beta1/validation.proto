@@ -32,7 +32,7 @@ Validation request including a pointer to the snapshot of data requiring validat
 message ValidationRequest {
   tech.figure.util.v1beta1.UUID       request_id          = 1 [(validate.rules).message.required = true];   // Unique ID for the request
   google.protobuf.Timestamp           effective_time      = 2 [(validate.rules).timestamp.required = true]; // Time the validation was requested
-  string                              snapshot_uri        = 3 [(validate.rules).string.min_len = 1];        // Pointer to the snapshot
+  int64                               block_height        = 3;                                              // Block height to perform validation against
   tech.figure.util.v1beta1.UUID       rule_set_id         = 4;                                              // ID of rule set that needs to be executed
   string                              description         = 5;                                              // Description of the rule set
   string                              validator_name      = 6 [(validate.rules).string.min_len = 1];        // Party that will run the validation
