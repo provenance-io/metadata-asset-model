@@ -111,17 +111,19 @@ message EscrowWithdrawPolicy {
 The registration of the mortgage in a public record by a government agency
  */
 message Recording {
-  tech.figure.util.v1beta1.UUID     recorded_document_id     = 1 [(validate.rules).message.required = true];
-  tech.figure.util.v1beta1.Status   recording_status         = 2;
-  google.protobuf.Timestamp recorded_timestamp       = 3;
-  string                    instrument_number        = 4;
-  tech.figure.util.v1beta1.Date     security_instrument_date = 5;
-  tech.figure.util.v1beta1.Date     county_recorded_date     = 6;
-  string                    document_number          = 7;
-  string                    book                     = 8;
-  string                    page                     = 9;
-  string                    county_recorded          = 10;
-  string                    town_recorded            = 11;
-  string                    state_recorded           = 12;
-  string                    recordation_number       = 13;
+  tech.figure.util.v1beta1.UUID     recorded_document_id          = 1 [(validate.rules).message.required = true];
+  tech.figure.util.v1beta1.Status   recording_status              = 2;
+  google.protobuf.Timestamp         recorded_timestamp            = 3;
+  string                            instrument_number             = 4;
+  tech.figure.util.v1beta1.Date     security_instrument_date      = 5;
+  tech.figure.util.v1beta1.Date     county_recorded_date          = 6;
+  string                            document_number               = 7;
+  string                            book                          = 8;
+  string                            page                          = 9;
+  string                            county_recorded               = 10;
+  string                            town_recorded                 = 11;
+  string                            state_recorded                = 12;
+  string                            recordation_number            = 13;
+  string                            mortgagee_of_record           = 14 [(validate.rules).string.min_len = 1]; // Mortgagee of record (DART, MERS, or lender)
+  string                            original_mortgagee_of_record  = 14 [(validate.rules).string.min_len = 1]; // Original mortgagee of record (DART, MERS, or lender)
 }

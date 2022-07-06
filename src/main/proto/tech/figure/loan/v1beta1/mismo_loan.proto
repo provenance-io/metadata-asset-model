@@ -22,7 +22,7 @@ message MISMOLoan {
     originator's Legal Entity Identifier (LEI).
     An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
   */
-  string                            uli   = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
+  string                            uli   = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45]; // Universal Loan Identifier
   google.protobuf.BytesValue        data  = 2 [(validate.rules).message.required = true]; // Byte array of the MISMO XML file
   map<string, google.protobuf.Any>  kv    = 99;// Key-value map allowing originator to provide additional data
 }
@@ -33,7 +33,7 @@ message MISMOLoanMetadata {
     originator's Legal Entity Identifier (LEI).
     An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
   */
-  string                                    uli       = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
+  string                                    uli       = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45]; // Universal Loan Identifier
   tech.figure.util.v1beta1.DocumentMetadata document  = 2; // Pointer to MISMO loan file in Object Store
   map<string, google.protobuf.Any>          kv        = 99; // Key-value map allowing originator to provide additional data
 }

@@ -38,6 +38,8 @@ message Loan {
   repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta           = 9;                                             // Metadata about documents related to the loan (document files stored separately)
   repeated tech.figure.util.v1beta1.SignedData        signed_data        = 10;                                            // Digitally-signed-by-source data/documents
   tech.figure.util.v1beta1.AssetType                  asset_type         = 11 [(validate.rules).message.required = true]; // Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
+  string                                              uli                = 12 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45]; // Universal Loan Identifier
+  tech.figure.util.v1beta1.UUID                       originator_uuid    = 13 [(validate.rules).message.required = true];  // Loan UUID identifier
   /*
   Loan-type specific information resides in one of the following loan types
    */

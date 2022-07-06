@@ -54,7 +54,7 @@ message Decimal {
 }
 
 /*
-A Status indicator along with the timestamp it became effective
+A Status indicator along with the timestamp it became effective.
  */
 message Status {
   string                    status         = 1 [(validate.rules).string.min_len = 1]; // Status string is context-dependant
@@ -69,6 +69,9 @@ message Checksum {
   string algorithm = 2 [(validate.rules).string.min_len = 1]; // Checksum algorithm, e.g. MD5, SHA256
 }
 
+/**
+Asset types.
+ */
 message AssetType {
   string supertype = 1 [(validate.rules).string.min_len = 1]; // The supertype of an asset (e.g. MORTGAGE, HELOC, PERSONAL_LOAN, AUTO_LOAN, NFT)
   string subtype   = 2; // The subtype of an asset (e.g. JUMBO, REFI, PARENT_REFI, DRAW)
