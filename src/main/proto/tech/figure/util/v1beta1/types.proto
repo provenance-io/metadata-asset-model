@@ -31,7 +31,7 @@ Rate/percentage expressed as a decimal between 0 and 1.0, where 1.0 represents 1
 In Java: Use `BigDecimal` to represent this value.
  */
 message Rate {
-  string rate  = 2 [(validate.rules).string.pattern = "^[+]?([0-9]+(?:[\\.][0-9]+)?|\\.[0-9]+)$"]; // Positive amounts only, expects digits after a `.`
+  string rate  = 2 [(validate.rules).string.pattern = "^([0-9]+(?:[\\.][0-9]+)?|\\.[0-9]+)$"]; // Positive amounts only, expects digits after a `.`, no +/- signs
 
   // deprecated
   double value = 1 [(validate.rules).double = {gte: 0; lte: 1 }, deprecated = true]; // Value in the range [0,1], inclusive
@@ -44,7 +44,7 @@ In Java: Use <a href="https://www.joda.org/joda-money/">Joda Money</a>, `BigMone
  */
 message Money {
   string currency = 2 [(validate.rules).string.len = 3]; // ISO 4217 3-digit currency code
-  string value    = 3 [(validate.rules).string.pattern = "^[+]?([0-9]+(?:[\\.][0-9]+)?|\\.[0-9]+)$"]; // Positive amounts only, expects digits after a `.`
+  string value    = 3 [(validate.rules).string.pattern = "^([0-9]+(?:[\\.][0-9]+)?|\\.[0-9]+)$"]; // Positive amounts only, expects digits after a `.`, no +/- signs
 
   // deprecated
   double amount   = 1 [(validate.rules).double.gte = 0, deprecated = true]; // Positive amounts only
