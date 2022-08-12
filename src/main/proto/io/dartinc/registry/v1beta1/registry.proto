@@ -27,3 +27,9 @@ message Controller {
   tech.figure.util.v1beta1.UUID                         controller_uuid = 1 [(validate.rules).message.required = true]; // ENote controller ID
   string                                                controller_name = 2 [(validate.rules).string.min_len = 1];      // ENote controller name
 }
+
+message Recordings { // TODO: Figure out better name
+  reserved 1, 2;
+  tech.figure.util.v1beta1.UUID original_mortgagee_of_record = 3;
+  tech.figure.util.v1beta1.UUID current_mortgagee_of_record  = 4;
+}
