@@ -99,9 +99,74 @@ message LoanState {
   tech.figure.util.v1beta1.Money      past_due_amount          = 29; // Amount past due
   tech.figure.util.v1beta1.Money      deferred_principal       = 30; // Deferred Principal balance
 
+  LedgerEntry                         ledger_entry             = 70; // Ledger Entry effective on this date
+
   /*
     Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.
     For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a>
   */
   map<string, google.protobuf.Any>    kv                       = 99;
+}
+
+message LedgerEntry {
+  tech.figure.util.v1beta1.UUID   entry_uuid = 1;
+  string                          ledger_entry_type = 2;
+  tech.figure.util.v1beta1.Money  amount = 3;
+  LedgerEntryBreakdown            breakdown = 4;
+  LedgerEntryBreakdown            effective_breakdown = 5;
+  google.protobuf.Timestamp       effective_time = 6;
+  google.protobuf.Timestamp       posted_time = 7;
+  google.protobuf.Timestamp       reversed_time = 8;
+  string                          reversed_reason = 9;
+}
+
+message LedgerEntryBreakdown {
+  repeated Allocation before = 1;
+  repeated Allocation applied = 2;
+  repeated Allocation after = 3;
+}
+
+message Allocation {
+  tech.figure.util.v1beta1.UUID   allocation_uuid = 1;
+  string                          allocation_type = 2;  // AllocationType or String of another type
+  tech.figure.util.v1beta1.Money  amount_owed = 3;      // Balance owed - if LedgerEntry adjustment, alters owed amounts without appearing as if a payment were made (no change to applied)
+  tech.figure.util.v1beta1.Money  amount_applied = 4;   // Amount paid so far - if LedgerEntry, shows portion of entry applied to a type (or requested to be applied to a type)
+
+  enum AllocationType {
+    UNKNOWN = 0;
+    FEE = 1;
+    FLOOD = 2;
+    HAZARD = 3;
+    INTEREST = 4;
+    CAP_ORIGINATION_FEE = 5;
+    NON_CAP_ORIGINATION_FEE = 6;
+    PRINCIPAL = 7;
+    PRINCIPAL_OVERPAY = 8;
+    CREDIT = 9;
+    RECORDING_FEE = 10;
+    MORTGAGE_INSURANCE = 11;
+    HOMEOWNER_TAXES = 12;
+    HOA_FEE = 13;
+    LATE_FEE = 14;
+    INTEREST_PREPAYMENT = 15;
+    ESCROW = 16;
+    NSF_FEE = 17;
+    DEFERRED_INTEREST = 18;
+    INVESTOR_RECOVERABLE_FEES = 19;
+    DEFERRED_PRINCIPAL = 20;
+    BORROWER_RECOVERABLE_FEES = 21;
+    RESTRICTED_ESCROW = 22;
+    SUSPENSE = 23;
+    LENDER_PLACED_FLOOD_INSURANCE = 24;
+    LENDER_PLACED_HAZARD_INSURANCE = 25;
+    REPORTED_MORT_DSI = 26;
+    DEFERRED_INTEREST_V2 = 27;
+    SUBORDINATION_FEE = 28;
+    SERVICER_ADVANCE_PROPERTY_TAX_REPAYMENT = 29;
+    SERVICER_ADVANCE_HOA_REPAYMENT = 30;
+    SERVICER_ADVANCE_PROPERTY_PRESERVATION = 31;
+    SERVICER_ADVANCE_DELINQUENCY_EXPENSE = 32;
+    SERVICER_ADVANCE_LEGAL_EXPENSE = 33;
+    ESCROW_INTEREST = 34;
+  }
 }
