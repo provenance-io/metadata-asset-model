@@ -25,6 +25,35 @@ ENote controller
 
 
 
+<a name="io.dartinc.registry.v1beta1.DocumentRecordingGuidance"></a>
+
+### DocumentRecordingGuidance
+Metadata concerning how a collection of documents should be recorded on chain
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| designated_documents | [DocumentRecordingGuidance.DesignatedDocumentsEntry](#io.dartinc.registry.v1beta1.DocumentRecordingGuidance.DesignatedDocumentsEntry) | repeated | Markers for data |
+
+
+
+
+
+<a name="io.dartinc.registry.v1beta1.DocumentRecordingGuidance.DesignatedDocumentsEntry"></a>
+
+### DocumentRecordingGuidance.DesignatedDocumentsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [bool](#bool) |  |  |
+
+
+
+
+
 <a name="io.dartinc.registry.v1beta1.ENote"></a>
 
 ### ENote
