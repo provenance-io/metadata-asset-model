@@ -1058,6 +1058,7 @@ Detailed breakdown of an individual's credit history prepared by a credit bureau
 | attributes | [CreditReport.AttributesEntry](util#tech.figure.util.v1beta1.CreditReport.AttributesEntry) | repeated | Attributes |
 | risk_models | [RiskModel](util#tech.figure.util.v1beta1.RiskModel) | repeated | Type of risk model used |
 | expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date credit report is valid until |
+| kv | [CreditReport.KvEntry](util#tech.figure.util.v1beta1.CreditReport.KvEntry) | repeated | Key-value store of credit report data |
 
 
 
@@ -1073,6 +1074,21 @@ Detailed breakdown of an individual's credit history prepared by a credit bureau
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [string](#string) |  |  |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.CreditReport.KvEntry"></a>
+
+### CreditReport.KvEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
 
 
 
