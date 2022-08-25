@@ -27,3 +27,11 @@ message Controller {
   tech.figure.util.v1beta1.UUID                         controller_uuid = 1 [(validate.rules).message.required = true]; // ENote controller ID
   string                                                controller_name = 2 [(validate.rules).string.min_len = 1];      // ENote controller name
 }
+
+/**
+Metadata concerning how a collection of documents should be recorded on chain
+ */
+message DocumentRecordingGuidance {
+  reserved 1, 2;                               // Available for future use
+  map <string, bool> designated_documents = 3; // Markers for data
+}
