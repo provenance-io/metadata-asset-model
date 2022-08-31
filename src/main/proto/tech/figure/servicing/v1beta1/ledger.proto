@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package tech.figure.servicing.v1beta1;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "tech/figure/util/v1beta1/document.proto";
+import "tech/figure/util/v1beta1/person.proto";
+import "tech/figure/util/v1beta1/types.proto";
+import "validate/validate.proto";
+
+message LedgerEntry {
+  tech.figure.util.v1beta1.UUID   entry_uuid = 1; // Ledger entry UUID
+  string                          ledger_entry_type = 2; // See LedgerEntryType
+  tech.figure.util.v1beta1.Money  amount = 3; // derived amount based upon the AllocationType amount provider
+  LedgerEntryBreakdown            breakdown = 4; // Per-asset allocations of ledger entry (entry need not apply to every asset)
+  LedgerEntryBreakdown            effective_breakdown = 5; // "Final" breakdown as applied to the asset. Contains any adjustments caused by linked entries (ex: BACKDATED_ENTRY_ADJUSTMENT, REVERSAL_ADJUSTMENT)
+  google.protobuf.Timestamp       effective_time = 6; // Time ledger entry applied to loan
+  google.protobuf.Timestamp       posted_time = 7; // Time ledger entry created
+  google.protobuf.Timestamp       reversed_time = 8; // Time ledger entry reversed (if applicable)
+  string                          reversed_reason = 9; // Reversal reason (if applicable)
+}
+
+message LedgerEntryBreakdown {
+  repeated Allocation before = 1; // asset totals before the entry was applied (ex: $50000 principal, $50 interest)
+  repeated Allocation applied = 2; // asset totals after the entry was applied (ex: $49900 principal, $0 interest)
+  repeated Allocation after = 3; // breakdown of how the entry affected loan (ex: $100 to principal and $50 to interest)
+}
+
+message Allocation {
+  string                          allocation_type = 1;  // AllocationType or String of another type
+  tech.figure.util.v1beta1.Money  amount_owed = 2;      // Balance owed - if LedgerEntry adjustment, alters owed amounts without appearing as if a payment were made (no change to applied)
+  tech.figure.util.v1beta1.Money  amount_applied = 3;   // Amount paid so far - if LedgerEntry, shows portion of entry applied to a type (or requested to be applied to a type)
+
+  enum AllocationType {
+    UNKNOWN = 0;
+    FEE = 1; // Generic fee
+    FLOOD = 2; // Unused - for future use
+    HAZARD = 3; // Unused - for future use
+    INTEREST = 4; // Interest
+    CAP_ORIGINATION_FEE = 5; // Unused - for future use
+    NON_CAP_ORIGINATION_FEE = 6; // Unused - for future use
+    PRINCIPAL = 7; // Principal
+    PRINCIPAL_OVERPAY = 8; // Principal paid in excess of monthly required amount (reporting type, does not impact loan balance)
+    CREDIT = 9; // Credit owed to the borrower
+    RECORDING_FEE = 10; // Unused - for future use
+    MORTGAGE_INSURANCE = 11; // Unused - for future use
+    HOMEOWNER_TAXES = 12; // Unused - for future use
+    HOA_FEE = 13; // Unused - for future use
+    LATE_FEE = 14; // Late fees
+    INTEREST_PREPAYMENT = 15; // Unused - for future use
+    ESCROW = 16; // Escrow
+    NSF_FEE = 17; // Non-sufficient funds fee
+    DEFERRED_INTEREST = 18; // Use Deferred interest
+    INVESTOR_RECOVERABLE_FEES = 19; // Unused - for future use
+    DEFERRED_PRINCIPAL = 20; // Unused - for future use
+    BORROWER_RECOVERABLE_FEES = 21; // Unused - for future use
+    RESTRICTED_ESCROW = 22; // Unused - for future use
+    SUSPENSE = 23; // Partial payments that cannot be applied to the balance of the loan are held in suspense
+    LENDER_PLACED_FLOOD_INSURANCE = 24; // Force-placed flood insurance
+    LENDER_PLACED_HAZARD_INSURANCE = 25; // Force-placed hazard insurance
+    REPORTED_MORT_DSI = 26 [deprecated = true]; // Mortgage daily simple interest accrued from the start of the cur unsatisfied line item to the calc date.  Zero if payment has been made for the open line item or the loan is delinquent.
+    SUBORDINATION_FEE = 27; // Subordination fee
+    SERVICER_ADVANCE_PROPERTY_TAX_REPAYMENT = 28;
+    SERVICER_ADVANCE_HOA_REPAYMENT = 29;
+    SERVICER_ADVANCE_PROPERTY_PRESERVATION = 30;
+    SERVICER_ADVANCE_DELINQUENCY_EXPENSE = 31;
+    SERVICER_ADVANCE_LEGAL_EXPENSE = 32;
+  }
+}
+
+enum LedgerEntryType {
+  UNKNOWN = 0;
+  MONTHLY_PAYMENT = 1; // Payment, typically automatic ACH withdraw
+  PRINCIPAL_REPAYMENT = 2; // Unused - for future use
+  PRINCIPAL_PREPAYMENT = 3; // Unused - for future use
+  DRAW_DOWN = 4; // HELOC / MERLOC only - additional disbursement (child loans only)
+  REAMORTIZATION = 5 [deprecated = true]; // Deprecated - see amortization schedules
+  INTEREST_RATE_ADJUSTMENT = 6 [deprecated = true]; // Deprecated - see LoanProfile.InterestRateAdjustment
+  WRITE_OFF = 7;  // Unused - for future use
+  DISBURSEMENT = 8; // Initial disbursement of funds
+  REVERSAL = 9; // Reversal of another LedgerEntry
+  FEE = 10; // Generic fee
+  CREDIT = 11; // Non-payment funds applied to loan
+  ORIGINATION_FEE = 12; // Capitalized origination fee (other origination fee types currently unsupported)
+  MANUAL_PAYMENT = 13; // Payment, typically borrower-requested or CSP entered
+  LATE_FEE = 14; // Late fee
+  BOUNCED_PAYMENT_FEE = 15 [deprecated = true]; // Deprecated - use NSF_FEE instead
+  NON_CAPITALIZED_ORIGINATION_FEE = 16 [deprecated = true]; // Deprecated - use ORIGINATION_FEE with origination_fee_type
+  ADJUSTMENT = 17; // Basic adjustment type
+  REFUND = 18; // Refund (ex: Payoff's unapplied amount after covering loan balance and release fee)
+  TRANSFER = 19; // Unused - for future use
+  SCHEDULED_PAYMENT = 20 [deprecated = true]; // Deprecated - no replacement
+  PRINCIPAL_PAYMENT = 21 [deprecated = true]; // Deprecated - no replacement
+  PAY_AHEAD_PAYMENT = 22; // Unused - for future use
+  HOMEOWNERS_INSURANCE_PREMIUM = 23; // Unused - for future use
+  COUNTY_TAXES = 24; // Unused - for future use
+  FLOOD_INSURANCE_PREMIUM = 25; // Unused - for future use
+  MORTGAGE_INSURANCE = 26; // Unused - for future use. This is an additional premium charged when mortgage loans are taken out by the borrower.
+  ESCROW_PAYMENT = 27; // Unused - for future use
+  INTEREST_PREPAYMENT = 28; // Unused - for future use
+  NSF_FEE = 29; // Non-sufficient funds fee, charged after payment reversal
+  ADJUSTMENT_FOR_RATE_CHANGE = 30; // Back-dated rate changes may result in an adjustment to other LedgerEntries
+  DEFERRED_INTEREST = 31; // Deferred interest (ex: forbearance)
+  INVESTOR_RECOVERABLE_FEES_DISBURSEMENT = 32; // Unused - for future use
+  INVESTOR_RECOVERABLE_FEES_PAYMENT = 33; // Unused - for future use
+  INSURANCE_DISBURSEMENT = 34; // Escrow disbursement for insurance premium
+  ESCROW_DISBURSEMENT = 35; // Unused - for future use
+  ESCROW_REFUND = 36; // Unused - for future use
+  FORECLOSURE = 37; // Unused - for future use
+  INSURANCE_REFUND = 38; // Unused - for future use
+  INTEREST_ONLY_PAYMENT = 39; // Unused - for future use
+  DEFERRED_PRINCIPAL = 40; // Unused - for future use
+  LATE_FEE_PAYMENT = 41; // Unused - for future use
+  LATE_FEE_WAIVE = 42; // Unused - for future use
+  BORROWER_RECOVERABLE_FEE_PAYMENT = 43; // Unused - for future use
+  BORROWER_RECOVERABLE_FEES_DISBURSEMENT = 44; // Unused - for future use
+  BORROWER_NONRECOVERABLE_FEE_PAYMENT = 45; // Unused - for future use
+  NSF_FEE_PAYMENT = 46; // Unused - for future use
+  NSF_FEE_WAIVE = 47; // Unused - for future use
+  PAYOFF = 48; // Manually entered CSP payment to cover loan balance
+  UNAPPLIED_PAYMENT = 49; // Unused - for future use
+  TAX_DISBURSEMENT = 50; // Escrow disbursement for taxes
+  TAX_REFUND = 51; // Unused - for future use
+  UNAPPLIED_DISBURSEMENT = 52; // Unused - for future use
+  LOSS_DRAFT_DISBURSEMENT = 53; // Unused - for future use
+  LOSS_DRAFT_PAYMENT = 54; // Unused - for future use
+  RELEASE_FEE = 55; // completion fee / redemption administration fee / discharge fee
+  LENDER_PLACED_FLOOD_INSURANCE = 56; // force-placed flood insurance premium
+  LENDER_PLACED_HAZARD_INSURANCE = 57; // force-placed hazard insurance premium
+  FEE_ADJUSTMENT = 58; // Unused - for future use
+  INTEREST_ON_ESCROW = 59; // Unused - for future use
+  REVERSAL_ADJUSTMENT = 60; // Indicates values adjusted to level out the head state of a loan after bucket changes are required for a reversal
+  PAYMENT_ADJUSTMENT = 61 [deprecated = true]; // Deprecated - use BACKDATED_ENTRY_ADJUSTMENT instead
+  BACKDATED_ENTRY_ADJUSTMENT = 62; // Indicates values adjusted to level out the head state of a loan after an entry is inserted to be effective before other entries
+  ESCROW_PREPAYMENT = 63; // Starting escrow balance during loan onboarding (not the same as prepaid escrow that is paid to tax/insurance entities during closing, this value is the starting escrow balance for servicing)
+  VOIDED = 64; // Indicates LedgerEntry is void should be ignored (replaces previous type)
+  SUSPENDED_PAYMENT = 65; // Mortgage only - Payment created from partial payments held in suspense
+  SUBORDINATION_FEE = 66; // Refinance of a mortgage will pay a fee to keep HELOC in second lien position
+  SLS_TRANSACTION = 67; // A ledger entry that was created by SLS, a third party servicer. Ignored by calculator and is for reporting only.
+  RECALCULATION_ADJUSTMENT = 68; // Indicates that the loan totals been recalculated based on a specific change to the loan state, the details of which should be within the audit message
+  ESCROW_CLOSEOUT = 69; // Close out escrow for transferred mortgage
+  SERVICER_ADVANCE = 70; // Advances to borrower, see https://app.clubhouse.io/figure/story/59327/ability-to-add-servicer-advance-amount-and-payment-period
+  REQUESTED_ALLOCATION_MANUAL_PAYMENT = 71; // These entries won't be subject to owed allocations and will take precedence to allow borrowers to make targeted manual payments
+  DEFERMENT = 72; // defer allocations (can include prin/int or whatever else)
+  DEFERMENT_ADJUSTMENT = 73; // adjustment that indicates a change in loan totals resulting from a deferment
+  EXTERNAL_PAYMENT = 74; // Payments received outside of Figure (ie FFAM) SC-117561
+  MONTHLY_PAYMENT_IN_KIND = 75; // autopay using collateral currency
+  MANUAL_PAYMENT_IN_KIND = 76; // manual payment using collateral currency
+  COLLATERAL_LIQUIDATION = 77; // payment initiated by servicer to cover a margin call using existing collateral
+  COLLATERAL_SLIPPAGE = 78; // when we liquidate collateral, shifting BTC/ETH price may result in liquidating more collateral than requested - which needs to be applied to loan
+}

@@ -8,13 +8,14 @@ import "tech/figure/util/v1beta1/document.proto";
 import "tech/figure/util/v1beta1/person.proto";
 import "tech/figure/util/v1beta1/types.proto";
 import "validate/validate.proto";
+import "tech/figure/servicing/v1beta1/ledger.proto";
 
 /**
 Aggregation of loan state across a structure (group) of loans
  */
 message LoanStructureState {
   string             marker_address = 1; // Provenance Blockchain Address for the Marker representing this loan structure
-  repeated LoanState loan_states    = 2; // Loan state data for loans included in the structure
+  repeated LoanState loan_states = 2; // Loan state data for loans included in the structure
 }
 
 /**
@@ -33,34 +34,34 @@ in the object store that contains a list of loan states
 Note: static data is possibly repeated elsewhere, but required here to make life easier for applications that require servicing data
  */
 message ServicingData {
-  tech.figure.util.v1beta1.UUID                       loan_id                = 1 [(validate.rules).message.required = true]; // Loan Identifier
-  tech.figure.util.v1beta1.AssetType                  asset_type             = 2 [(validate.rules).message.required = true]; // Asset type (See docs/util.md)
-  tech.figure.util.v1beta1.Borrowers                  current_borrower_info  = 3;                                            // Borrower(s), co-signers, etc
-  tech.figure.util.v1beta1.Money                      original_note_amount   = 4 [(validate.rules).message.required = true]; // Total unpaid principal balance when the note is signed
-  repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta               = 5;                                            // Metadata about documents related to the loan (document files stored separately)
-	repeated LoanStateMetadata                          loan_state             = 10;                                           // List of pointers to the objects containing LoanState messages
+  tech.figure.util.v1beta1.UUID                       loan_id = 1 [(validate.rules).message.required = true]; // Loan Identifier
+  tech.figure.util.v1beta1.AssetType                  asset_type = 2 [(validate.rules).message.required = true]; // Asset type (See docs/util.md)
+  tech.figure.util.v1beta1.Borrowers                  current_borrower_info = 3;                                            // Borrower(s), co-signers, etc
+  tech.figure.util.v1beta1.Money                      original_note_amount = 4 [(validate.rules).message.required = true]; // Total unpaid principal balance when the note is signed
+  repeated tech.figure.util.v1beta1.DocumentMetadata  doc_meta = 5;                                            // Metadata about documents related to the loan (document files stored separately)
+  repeated LoanStateMetadata                          loan_state = 10;                                           // List of pointers to the objects containing LoanState messages
 }
 
 /*
 Metadata associated with a single loan state object stored in the object store
  */
 message LoanStateMetadata {
-  tech.figure.util.v1beta1.UUID       id              = 1 [(validate.rules).message.required = true]; // Identifier unique to this loan state object
-  google.protobuf.Timestamp           effective_time  = 2;                                            // Timestamp when this state was produced
-  string                              uri             = 3;                                            // URI Location where document is hosted/located
-  tech.figure.util.v1beta1.Checksum   checksum        = 4;                                            // Hash or checksum of document bytes
+  tech.figure.util.v1beta1.UUID       id = 1 [(validate.rules).message.required = true]; // Identifier unique to this loan state object
+  google.protobuf.Timestamp           effective_time = 2;                                            // Timestamp when this state was produced
+  string                              uri = 3;                                            // URI Location where document is hosted/located
+  tech.figure.util.v1beta1.Checksum   checksum = 4;                                            // Hash or checksum of document bytes
 }
 
 /*
 Loan state data (servicing data) at a point in time
  */
 message LoanState {
-  tech.figure.util.v1beta1.UUID       id                       = 1 [(validate.rules).message.required = true]; // Loan State Identifier
-  google.protobuf.Timestamp           effective_time           = 2 [(validate.rules).timestamp.required = true, (validate.rules).timestamp.lt_now = true]; // Timestamp when this state was produced
-  string                              servicer_name            = 3 [(validate.rules).string.min_len = 1];                                                  // Name of servicer for loan
-  tech.figure.util.v1beta1.Money      total_unpaid_prin_bal    = 4 [(validate.rules).message.required = true];                                             // Total unpaid principal balance
-  tech.figure.util.v1beta1.Money      accrued_interest         = 5 [(validate.rules).message.required = true];                                             // Total interest accrued to-date
-  tech.figure.util.v1beta1.Money      daily_int_amount         = 6 [(validate.rules).message.required = true];                                             // Accrued interest amount per day
+  tech.figure.util.v1beta1.UUID       id = 1 [(validate.rules).message.required = true]; // Loan State Identifier
+  google.protobuf.Timestamp           effective_time = 2 [(validate.rules).timestamp.required = true, (validate.rules).timestamp.lt_now = true]; // Timestamp when this state was produced
+  string                              servicer_name = 3 [(validate.rules).string.min_len = 1];                                                  // Name of servicer for loan
+  tech.figure.util.v1beta1.Money      total_unpaid_prin_bal = 4 [(validate.rules).message.required = true];                                             // Total unpaid principal balance
+  tech.figure.util.v1beta1.Money      accrued_interest = 5 [(validate.rules).message.required = true];                                             // Total interest accrued to-date
+  tech.figure.util.v1beta1.Money      daily_int_amount = 6 [(validate.rules).message.required = true];                                             // Accrued interest amount per day
   /*
     Loan status, such as:
     IN REPAY
@@ -74,34 +75,35 @@ message LoanState {
     FORBEARANCE
     TRANSFERRED
   */
-  tech.figure.util.v1beta1.Status     loan_status              = 7;
-  tech.figure.util.v1beta1.Money      current_p_and_i          = 8; // Currently monthly loan payment amount including principal and interest
-  tech.figure.util.v1beta1.Rate       current_interest_rate    = 9; // The current interest rate used to calculate the principal and interest payment
-  tech.figure.util.v1beta1.Date       int_accrual_start_date   = 10; // The date on which interest accrual began
-  tech.figure.util.v1beta1.Date       int_paid_through_date    = 11; // The date through which interest is paid with the current payment. The effective date from which interest will be calculated for the application of the next payment.
-  tech.figure.util.v1beta1.Date       maturity_date            = 12; // The date when a loan reaches maturity
-  tech.figure.util.v1beta1.Date       next_due_date            = 13; // Date of next due payment for loan
-  int32                               days_delinquent          = 14; // Number of days delinquent
-  int32                               remaining_term_months    = 15; // Remaining loan term in months
-  tech.figure.util.v1beta1.Rate       servicing_fee_rate       = 16; // The fee paid to the servicer, stated as a percentage of the outstanding loan balance
-  tech.figure.util.v1beta1.Rate       apr                      = 17; // Annualized Percentage Rate of the loan
-  bool                                autopay_flag             = 18; // If true, payments are automatically deducted from borrower's financial account
-  tech.figure.util.v1beta1.Money      deferred_int_balance     = 19; // Accumulated Interest balance since forbearance_begin_date
-  tech.figure.util.v1beta1.Date       delinquent_date          = 20; // If delinquent, date first payment was missed that made the loan currently delinquent
-  uint32                              days_forbearance         = 21; // Days elapsed since entering Forbearance
-  tech.figure.util.v1beta1.Date       forbearance_begin_date   = 22; // Date forbearance period begins
-  tech.figure.util.v1beta1.Date       forbearance_end_date     = 23; // Date forbearance period ends
-  tech.figure.util.v1beta1.Money      interest_paid            = 24; // Total interest paid to-date
-  tech.figure.util.v1beta1.Rate       interest_rate_cap        = 25; // Interest rate cap
-  tech.figure.util.v1beta1.Date       last_payment_date        = 26; // Last payment received date
-  tech.figure.util.v1beta1.Money      monthly_payment_amount   = 27; // The minimum monthly payment amount that borrower needs to repay on the loan
-  tech.figure.util.v1beta1.Money      principal_paid           = 28; // Sum of amount paid to principal
-  tech.figure.util.v1beta1.Money      past_due_amount          = 29; // Amount past due
-  tech.figure.util.v1beta1.Money      deferred_principal       = 30; // Deferred Principal balance
+  tech.figure.util.v1beta1.Status     loan_status = 7;
+  tech.figure.util.v1beta1.Money      current_p_and_i = 8; // Currently monthly loan payment amount including principal and interest
+  tech.figure.util.v1beta1.Rate       current_interest_rate = 9; // The current interest rate used to calculate the principal and interest payment
+  tech.figure.util.v1beta1.Date       int_accrual_start_date = 10; // The date on which interest accrual began
+  tech.figure.util.v1beta1.Date       int_paid_through_date = 11; // The date through which interest is paid with the current payment. The effective date from which interest will be calculated for the application of the next payment.
+  tech.figure.util.v1beta1.Date       maturity_date = 12; // The date when a loan reaches maturity
+  tech.figure.util.v1beta1.Date       next_due_date = 13; // Date of next due payment for loan
+  int32                               days_delinquent = 14; // Number of days delinquent
+  int32                               remaining_term_months = 15; // Remaining loan term in months
+  tech.figure.util.v1beta1.Rate       servicing_fee_rate = 16; // The fee paid to the servicer, stated as a percentage of the outstanding loan balance
+  tech.figure.util.v1beta1.Rate       apr = 17; // Annualized Percentage Rate of the loan
+  bool                                autopay_flag = 18; // If true, payments are automatically deducted from borrower's financial account
+  tech.figure.util.v1beta1.Money      deferred_int_balance = 19; // Accumulated Interest balance since forbearance_begin_date
+  tech.figure.util.v1beta1.Date       delinquent_date = 20; // If delinquent, date first payment was missed that made the loan currently delinquent
+  uint32                              days_forbearance = 21; // Days elapsed since entering Forbearance
+  tech.figure.util.v1beta1.Date       forbearance_begin_date = 22; // Date forbearance period begins
+  tech.figure.util.v1beta1.Date       forbearance_end_date = 23; // Date forbearance period ends
+  tech.figure.util.v1beta1.Money      interest_paid = 24; // Total interest paid to-date
+  tech.figure.util.v1beta1.Rate       interest_rate_cap = 25; // Interest rate cap
+  tech.figure.util.v1beta1.Date       last_payment_date = 26; // Last payment received date
+  tech.figure.util.v1beta1.Money      monthly_payment_amount = 27; // The minimum monthly payment amount that borrower needs to repay on the loan
+  tech.figure.util.v1beta1.Money      principal_paid = 28; // Sum of amount paid to principal
+  tech.figure.util.v1beta1.Money      past_due_amount = 29; // Amount past due
+  tech.figure.util.v1beta1.Money      deferred_principal = 30; // Deferred Principal balance
+  repeated tech.figure.servicing.v1beta1.ledger                ledger_entry = 70; // Ledger Entries effective on this date
 
   /*
     Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.
     For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a>
   */
-  map<string, google.protobuf.Any>    kv                       = 99;
+  map<string, google.protobuf.Any>    kv = 99;
 }
