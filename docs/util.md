@@ -466,8 +466,9 @@ In Java: Use <a href="https://www.joda.org/joda-money/">Joda Money</a>, `BigMone
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| amount | [double](#double) |  | Positive amounts only |
 | currency | [string](#string) |  | ISO 4217 3-digit currency code |
+| value | [string](#string) |  | Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01. |
+| amount | [double](#double) |  | **Deprecated.** Superseded by `value`. |
 
 
 
@@ -483,7 +484,8 @@ In Java: Use `BigDecimal` to represent this value.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| value | [double](#double) |  | Value in the range [0,1], inclusive |
+| rate | [string](#string) |  | Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01. |
+| value | [double](#double) |  | **Deprecated.** Superseded by `rate`. |
 
 
 
