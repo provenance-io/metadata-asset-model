@@ -99,7 +99,7 @@ message LoanState {
   tech.figure.util.v1beta1.Money      principal_paid           = 28; // Sum of amount paid to principal
   tech.figure.util.v1beta1.Money      past_due_amount          = 29; // Amount past due
   tech.figure.util.v1beta1.Money      deferred_principal       = 30; // Deferred Principal balance
-  repeated tech.figure.servicing.v1beta1.ledger                ledger_entry = 70; // Ledger Entries effective on this date
+  repeated LedgerEntry                ledger_entry             = 70; // Ledger Entries effective on this date
 
   /*
     Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.

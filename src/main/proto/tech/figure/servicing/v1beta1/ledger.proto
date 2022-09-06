@@ -2,12 +2,8 @@ syntax = "proto3";
 
 package tech.figure.servicing.v1beta1;
 
-import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
-import "tech/figure/util/v1beta1/document.proto";
-import "tech/figure/util/v1beta1/person.proto";
 import "tech/figure/util/v1beta1/types.proto";
-import "validate/validate.proto";
 
 message LedgerEntry {
   tech.figure.util.v1beta1.UUID   entry_uuid = 1; // Ledger entry UUID
