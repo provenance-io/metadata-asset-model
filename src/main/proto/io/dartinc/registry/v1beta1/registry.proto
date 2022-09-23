@@ -12,12 +12,13 @@ import "validate/validate.proto";
 Digital Asset Registry Technology (DART) ENote metadata
  */
 message ENote {
-  Controller                                            controller      = 1 [(validate.rules).message.required = true]; // Identity of the ENote controller
-  tech.figure.util.v1beta1.DocumentMetadata             e_note          = 2 [(validate.rules).message.required = true]; // Metadata of the authoritative copy of the ENote
-  tech.figure.util.v1beta1.Date                         signed_date     = 3 [(validate.rules).message.required = true]; // Date the ENote was signed by the borrower
-  string                                                vault_name      = 4 [(validate.rules).string.min_len = 1];      // Name of the eVault storing the Authoritative copy of the ENote
-  repeated tech.figure.util.v1beta1.DocumentMetadata    modification    = 10;                                           // Documents containing modifications to the ENote
-  repeated tech.figure.util.v1beta1.DocumentMetadata    assumption      = 20;                                           // Documents containing additional assumptions about the ENote
+  Controller                                            controller               = 1 [(validate.rules).message.required = true]; // Identity of the ENote controller
+  tech.figure.util.v1beta1.DocumentMetadata             e_note                   = 2 [(validate.rules).message.required = true]; // Metadata of the authoritative copy of the ENote
+  tech.figure.util.v1beta1.Date                         signed_date              = 3 [(validate.rules).message.required = true]; // Date the ENote was signed by the borrower
+  string                                                vault_name               = 4 [(validate.rules).string.min_len = 1];      // Name of the eVault storing the Authoritative copy of the ENote
+  repeated tech.figure.util.v1beta1.DocumentMetadata    modification             = 10;                                           // Documents containing modifications to the ENote
+  repeated tech.figure.util.v1beta1.DocumentMetadata    assumption               = 20;                                           // Documents containing additional assumptions about the ENote
+  repeated tech.figure.util.v1beta1.DocumentMetadata    borrower_signature_image = 30;                                           // Documents containing image signatures of all signers of the ENote
 }
 
 /**
