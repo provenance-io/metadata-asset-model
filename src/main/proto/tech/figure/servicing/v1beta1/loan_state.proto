@@ -98,6 +98,9 @@ message LoanState {
   tech.figure.util.v1beta1.Money      principal_paid           = 28; // Sum of amount paid to principal
   tech.figure.util.v1beta1.Money      past_due_amount          = 29; // Amount past due
   tech.figure.util.v1beta1.Money      deferred_principal       = 30; // Deferred Principal balance
+  tech.figure.util.v1beta1.Decimal    credit_utilization_percentage = 31; // Current credit utilization % for HELOC's, for use by investors. (principal balance / credit limit)
+  tech.figure.util.v1beta1.Rate       net_margin_rate          = 32; // Net margin rate with discounts INCLUDED, for use by investors. (total rate - index rate)
+
 
   /*
     Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.
