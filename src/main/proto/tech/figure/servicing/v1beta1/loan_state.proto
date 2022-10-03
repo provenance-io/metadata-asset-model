@@ -101,7 +101,6 @@ message LoanState {
   tech.figure.util.v1beta1.Decimal    credit_utilization_percentage = 31; // Current credit utilization % for HELOC's, for use by investors. (principal balance / credit limit)
   tech.figure.util.v1beta1.Rate       net_margin_rate          = 32; // Net margin rate with discounts INCLUDED, for use by investors. (total rate - index rate)
 
-
   /*
     Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message.
     For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a>
