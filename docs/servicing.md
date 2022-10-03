@@ -50,7 +50,7 @@ Loan state data (servicing data) at a point in time
 | deferred_principal | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Deferred Principal balance |
 | kv | [LoanState.KvEntry](#tech.figure.servicing.v1beta1.LoanState.KvEntry) | repeated | Additional loan state data for a user or tool-defined extension of state. Key is field name. Value is any proto Message. For scalar values, use <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf">Protobuf Well-Known Types</a> |
 | credit_utilization_percentage | [tech.figure.util.v1beta1.Decimal](util#tech.figure.util.v1beta1.Decimal) |  | Current credit utilization % for HELOC's, for use by investors. (principal balance / credit limit) |
-| net_margin_rate               | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate)       |  | Net margin rate with discounts INCLUDED, for use by investors. (total rate - index rate) |
+| net_margin_rate | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Net margin rate with discounts INCLUDED, for use by investors. (total rate - index rate) |
 
 
 
