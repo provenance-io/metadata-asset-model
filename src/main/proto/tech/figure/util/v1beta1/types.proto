@@ -33,8 +33,9 @@ In Java: Use `BigDecimal` to represent this value.
 message Rate {
   string rate  = 2 [(validate.rules).string.pattern = "^[-]?([0-9]+(?:[\\.][0-9]+)?|\\.[0-9]+)$"]; // Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01.
 
-  // deprecated
-  double value = 1 [(validate.rules).double = {gte: 0; lte: 1 }, deprecated = true]; // Value in the range [0,1], inclusive
+  /* @exclude Deprecated fields */
+
+  double value = 1 [(validate.rules).double = {gte: 0; lte: 1 }, deprecated = true]; // Superseded by `rate`.
 }
 
 /*
@@ -46,8 +47,9 @@ message Money {
   string currency = 2 [(validate.rules).string.len = 3]; // ISO 4217 3-digit currency code
   string value    = 3 [(validate.rules).string.pattern = "^[-]?([0-9]+(?:[\\.][0-9]+)?|\\.[0-9]+)$"]; // Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01.
 
-  // deprecated
-  double amount   = 1 [(validate.rules).double.gte = 0, deprecated = true]; // Positive amounts only
+  /* @exclude Deprecated fields */
+
+  double amount   = 1 [(validate.rules).double.gte = 0, deprecated = true]; // Superseded by `value`.
 }
 
 /*
