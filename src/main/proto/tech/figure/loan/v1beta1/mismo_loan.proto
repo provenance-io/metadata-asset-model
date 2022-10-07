@@ -6,12 +6,13 @@ option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/wrappers.proto";
+import "tech/figure/loan/v1beta1/mortgage.proto";
 import "tech/figure/util/v1beta1/document.proto";
 import "validate/validate.proto";
 
 /*
-Loan originators may choose to simply upload a MISMO standardized loan package to store static loan data collected through
-their Loan Origination System. The current standard is MISMO 3.4.
+Loan originators may choose to simply upload a MISMO standardized Loan Package to store static loan data collected through
+their Loan Origination System. The current standard is MISMO v3.4.
 
 This data is generally not expected to change over time. The evolving state of the loan (commonly called "servicing data")
 is represented by the [`LoanState`](loan_state) proto.
@@ -22,18 +23,27 @@ message MISMOLoan {
     originator's Legal Entity Identifier (LEI).
     An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
   */
-  string                            uli   = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
-  google.protobuf.BytesValue        data  = 2 [(validate.rules).message.required = true]; // Byte array of the MISMO XML file
-  map<string, google.protobuf.Any>  kv    = 99;// Key-value map allowing originator to provide additional data
+  string                            uli             = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
+  google.protobuf.BytesValue        data            = 2 [(validate.rules).message.required = true]; // Byte array of the MISMO XML file
+  Recording                         recording_info  = 3;                                            // The registration of the mortgage in a public record by a government agency
+  map<string, google.protobuf.Any>  kv              = 99;                                           // Key-value map allowing originator to provide additional data
 }
 
+/*
+Like any other loan document, the MISMO Loan Package can be stored separately in an Object Store and referenced here.
+
+This is the most common scenario for loans in the Provenance/DART ecosystem.
+
+INSERT_EXAMPLE
+ */
 message MISMOLoanMetadata {
   /*
     Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan
     originator's Legal Entity Identifier (LEI).
     An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/).
   */
-  string                                    uli       = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
-  tech.figure.util.v1beta1.DocumentMetadata document  = 2; // Pointer to MISMO loan file in Object Store
-  map<string, google.protobuf.Any>          kv        = 99; // Key-value map allowing originator to provide additional data
+  string                                    uli             = 1 [(validate.rules).string.min_len = 23, (validate.rules).string.max_len = 45];
+  tech.figure.util.v1beta1.DocumentMetadata document        = 2;  // Pointer to MISMO loan file in Object Store
+  Recording                                 recording_info  = 3;  // The registration of the mortgage in a public record by a government agency
+  map<string, google.protobuf.Any>          kv              = 99; // Key-value map allowing originator to provide additional data
 }

@@ -1,74 +1,32 @@
-# Digital Asset Registry Technology
+# HELOC
 <a name="top"></a>
 
 
 
-<a name="io/dartinc/registry/v1beta1/registry.proto"></a>
+<a name="tech/figure/loan/v1beta1/heloc.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## io/dartinc/registry/v1beta1/registry.proto
+## tech/figure/loan/v1beta1/heloc.proto
 
 
 
-<a name="io.dartinc.registry.v1beta1.Controller"></a>
+<a name="tech.figure.loan.v1beta1.Heloc"></a>
 
-### Controller
-ENote controller
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| controller_uuid | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | ENote controller ID |
-| controller_name | [string](#string) |  | ENote controller name |
-
-
-
-
-
-<a name="io.dartinc.registry.v1beta1.DocumentRecordingGuidance"></a>
-
-### DocumentRecordingGuidance
-Metadata concerning how a collection of documents should be recorded on chain
+### Heloc
+A Home Equity Line of Credit (HELOC) Loan
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| designated_documents | [DocumentRecordingGuidance.DesignatedDocumentsEntry](#io.dartinc.registry.v1beta1.DocumentRecordingGuidance.DesignatedDocumentsEntry) | repeated | Markers for data |
-
-
-
-
-
-<a name="io.dartinc.registry.v1beta1.DocumentRecordingGuidance.DesignatedDocumentsEntry"></a>
-
-### DocumentRecordingGuidance.DesignatedDocumentsEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [bool](#bool) |  |  |
-
-
-
-
-
-<a name="io.dartinc.registry.v1beta1.ENote"></a>
-
-### ENote
-Digital Asset Registry Technology (DART) ENote metadata
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| controller | [Controller](#io.dartinc.registry.v1beta1.Controller) |  | Identity of the ENote controller |
-| e_note | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Metadata of the authoritative copy of the ENote |
-| signed_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date the ENote was signed by the borrower |
-| vault_name | [string](#string) |  | Name of the eVault storing the Authoritative copy of the ENote |
-| modification | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing modifications to the ENote |
-| assumption | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing additional assumptions about the ENote |
-| borrower_signature_image | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing image signatures of all signers of the ENote |
+| lien_property | [tech.figure.util.v1beta1.Property](util#tech.figure.util.v1beta1.Property) |  | Subject property |
+| lien_position | [uint32](#uint32) |  | Lien position: 1 = first lien position, 2 or higher = junior lien position |
+| draw_term_in_months | [google.protobuf.UInt32Value](#google.protobuf.UInt32Value) |  | Total number of months the borrower can draw on the line |
+| draw_percentage | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | The maximum amount a borrower can redraw as a percent of the paid balance of the original draw (borrower cannot draw more than the original balance) |
+| recording_status | [tech.figure.util.v1beta1.Status](util#tech.figure.util.v1beta1.Status) |  | Loan recording status (e.g. PENDING, RECORDED) |
+| credit_limit_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | HELOC credit limit |
+| paid_draw_bonus_months | [int32](#int32) |  | Number of months draw period is extended by if paid off in original draw period |
+| static_draw_rate_flag | [bool](#bool) |  | If true, use interest_rate for any future draws. If false, use current prime rate |
+| recording_info | [Recording](#tech.figure.loan.v1beta1.Recording) |  | The registration of the lien in a public record by a government agency |
 
 
 

@@ -13,8 +13,8 @@
 <a name="tech.figure.loan.v1beta1.MISMOLoan"></a>
 
 ### MISMOLoan
-Loan originators may choose to simply upload a MISMO standardized loan package to store static loan data collected through
-their Loan Origination System. The current standard is MISMO 3.4.
+Loan originators may choose to simply upload a MISMO standardized Loan Package to store static loan data collected through
+their Loan Origination System. The current standard is MISMO v3.4.
 
 This data is generally not expected to change over time. The evolving state of the loan (commonly called "servicing data")
 is represented by the [`LoanState`](loan_state) proto.
@@ -24,6 +24,7 @@ is represented by the [`LoanState`](loan_state) proto.
 | ----- | ---- | ----- | ----------- |
 | uli | [string](#string) |  | Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan originator's Legal Entity Identifier (LEI). An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/). |
 | data | [google.protobuf.BytesValue](#google.protobuf.BytesValue) |  | Byte array of the MISMO XML file |
+| recording_info | [Recording](#tech.figure.loan.v1beta1.Recording) |  | The registration of the mortgage in a public record by a government agency |
 | kv | [MISMOLoan.KvEntry](#tech.figure.loan.v1beta1.MISMOLoan.KvEntry) | repeated | Key-value map allowing originator to provide additional data |
 
 
@@ -48,13 +49,33 @@ is represented by the [`LoanState`](loan_state) proto.
 <a name="tech.figure.loan.v1beta1.MISMOLoanMetadata"></a>
 
 ### MISMOLoanMetadata
+Like any other loan document, the MISMO Loan Package can be stored separately in an Object Store and referenced here.
 
+This is the most common scenario for loans in the Provenance/DART ecosystem.
+
+
+Example:
+```json
+{
+  "typeUrl": "/tech.figure.asset.loan.MISMOLoanMetadata",
+  "uli": "LEI456123456123456123456123",
+  "document": {
+    "id": "",
+    "uri": "",
+    "fileName": "",
+    "contentType": "application/xml",
+    "documentType": "",
+    "checksum": ""
+  }
+} 
+```
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | uli | [string](#string) |  | Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan originator's Legal Entity Identifier (LEI). An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/). |
 | document | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Pointer to MISMO loan file in Object Store |
+| recording_info | [Recording](#tech.figure.loan.v1beta1.Recording) |  | The registration of the mortgage in a public record by a government agency |
 | kv | [MISMOLoanMetadata.KvEntry](#tech.figure.loan.v1beta1.MISMOLoanMetadata.KvEntry) | repeated | Key-value map allowing originator to provide additional data |
 
 

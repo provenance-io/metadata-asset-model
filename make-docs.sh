@@ -31,6 +31,8 @@ cp -r build/extracted-include-protos/main/validate ${TMP_DIR}
 
 gen_doc "tech/figure/asset/v1beta1/asset.proto" "asset.md" "Asset (NFT)"
 gen_doc "tech/figure/loan/v1beta1/loan.proto" "loan.md" "Loan"
+gen_doc "tech/figure/loan/v1beta1/mortgage.proto" "mortgage.md" "Mortgage"
+gen_doc "tech/figure/loan/v1beta1/heloc.proto" "heloc.md" "HELOC"
 gen_doc "tech/figure/loan/v1beta1/mismo_loan.proto" "mismo.md" "MISMO Loan"
 gen_doc "tech/figure/validation/v1beta1/validation.proto" "validation.md" "Loan Validation"
 gen_doc "io/dartinc/registry/v1beta1/registry.proto" "registry.md" "Digital Asset Registry Technology"
@@ -49,5 +51,4 @@ sed -i '' -e 's/#tech.figure.util/util#tech.figure.util/g' docs/*.md
 
 gen_example docs/docgen/examples/asset.json docs/asset.md
 gen_example docs/docgen/examples/loan.json docs/loan.md
-
-
+gen_example docs/docgen/examples/mismo.json docs/mismo.md
