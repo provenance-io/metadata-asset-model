@@ -1169,6 +1169,7 @@ Detail of the risk model used in a credit report.
 | VANTAGE3 | 2 |  |
 | FICO9 | 3 |  |
 | VANTAGE4 | 4 |  |
+| FICO2 | 5 |  |
 
 
 

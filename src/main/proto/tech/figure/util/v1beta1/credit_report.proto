@@ -47,7 +47,7 @@ message RiskModel {
     VANTAGE3 = 2;
     FICO9    = 3;
     VANTAGE4 = 4;
-    FICO2 = 5;
+    FICO2    = 5;
   }
   message OtherRiskType {
     string name        = 1;

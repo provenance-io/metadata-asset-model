@@ -187,7 +187,7 @@ Types of ledger entries
 | REQUESTED_ALLOCATION_MANUAL_PAYMENT | 64 | These entries won't be subject to owed allocations and will take precedence to allow borrowers to make targeted manual payments |
 | DEFERMENT | 65 | Defer allocations (can include prin/int or whatever else) |
 | DEFERMENT_ADJUSTMENT | 66 | Adjustment that indicates a change in loan totals resulting from a deferment |
-| EXTERNAL_PAYMENT | 67 | Payments received outside of Figure (ie FFAM) SC-117561 |
+| EXTERNAL_PAYMENT | 67 | Payments received from third party |
 | MONTHLY_PAYMENT_IN_KIND | 68 | Autopay using collateral currency |
 | MANUAL_PAYMENT_IN_KIND | 69 | Manual payment using collateral currency |
 | COLLATERAL_LIQUIDATION | 70 | Payment initiated by servicer to cover a margin call using existing collateral |
