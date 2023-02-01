@@ -11,17 +11,22 @@ set -e
 
 TMP_DIR=../build/tmp-docs-protos
 
+SEDOPTION='-i'
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  SEDOPTION=(-i '')
+fi
+
 function gen_doc() {
   docker run --rm -v "$(pwd)/docs":/out -v "$(pwd)"/${TMP_DIR}:/protos pseudomuto/protoc-gen-doc ${1} --doc_opt=/out/docgen/markdown.tmpl,${2}:validate/*
-  sed -i '' -e "s|Protocol Documentation|${3}|" docs/${2}
+  sed "${SEDOPTION[@]}" -e "s|Protocol Documentation|${3}|" docs/${2}
   # Get rid of extraneous lines in TOC list that make format wonky
-  sed -i '' -e '/^  $/d' docs/${2}
+  sed "${SEDOPTION[@]}" -e '/^  $/d' docs/${2}
 }
 
 function gen_example() {
   (echo "Example:" && echo "\`\`\`json" && cat $1 && echo " " && echo "\`\`\`") > ${TMP_DIR}/example.md
-  sed -i '' "/INSERT_EXAMPLE/r ${TMP_DIR}/example.md" $2
-  sed -i '' 's/INSERT_EXAMPLE//' $2
+  sed "${SEDOPTION[@]}" "/INSERT_EXAMPLE/r ${TMP_DIR}/example.md" $2
+  sed "${SEDOPTION[@]}" 's/INSERT_EXAMPLE//' $2
 }
 
 
@@ -37,17 +42,17 @@ gen_doc "tech/figure/loan/v1beta1/mismo_loan.proto" "mismo.md" "MISMO Loan"
 gen_doc "tech/figure/validation/v1beta1/validation.proto" "validation.md" "Loan Validation"
 gen_doc "io/dartinc/registry/v1beta1/registry.proto" "registry.md" "Digital Asset Registry Technology"
 
-pushd ${TMP_DIR}
-FILE_LIST=$( find tech/figure/servicing -name "*.proto")
-popd
+pushd ${TMP_DIR} > /dev/null
+FILE_LIST=$( find tech/figure/servicing -name "*.proto" | sort -n)
+popd > /dev/null
 gen_doc "${FILE_LIST}" "servicing.md" "Loan Servicing"
 
-pushd ${TMP_DIR}
-FILE_LIST=$( find tech/figure/util -name "*.proto")
-popd
+pushd ${TMP_DIR} > /dev/null
+FILE_LIST=$( find tech/figure/util -name "*.proto" | sort -n)
+popd > /dev/null
 gen_doc "${FILE_LIST}" "util.md" "Util"
 
-sed -i '' -e 's/#tech.figure.util/util#tech.figure.util/g' docs/*.md
+sed "${SEDOPTION[@]}" -e 's/#tech.figure.util/util#tech.figure.util/g' docs/*.md
 
 gen_example docs/docgen/examples/asset.json docs/asset.md
 gen_example docs/docgen/examples/loan.json docs/loan.md

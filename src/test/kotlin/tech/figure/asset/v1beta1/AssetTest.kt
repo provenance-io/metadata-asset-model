@@ -1,30 +1,29 @@
-package tech.figure.proto
+package tech.figure.asset.v1beta1
 
 import com.google.protobuf.*
 import com.google.protobuf.Any
 import org.junit.jupiter.api.Test
-import tech.figure.asset.v1beta1.Asset
-import tech.figure.asset.v1beta1.AssetOuterClassBuilders
 import tech.figure.proto.util.FileNFT
 import java.io.File
-import java.util.*
+import java.util.UUID as JavaUUID
+import tech.figure.util.v1beta1.UUID as FigureTechUUID
 
 class AssetTest {
 
     @Test
     fun roundTrip() {
 
-        val file = File("src/test/data/logo.png")
+        val file = File("src/test/resources/logo.png")
         val fileBytes = file.readBytes()
 
-        val asset1 = AssetOuterClassBuilders.Asset {
-            id = UUID.randomUUID().toProtoUUID()
+        val asset1 = asset {
+            id = JavaUUID.randomUUID().toProtoUUID()
             type = FileNFT.ASSET_TYPE
             description = file.name
-            putKv(FileNFT.KEY_FILENAME, file.name.toProtoAny())
-            putKv(FileNFT.KEY_SIZE, fileBytes.size.toLong().toProtoAny())
-            putKv(FileNFT.KEY_BYTES, fileBytes.toProtoAny())
-            putKv(FileNFT.KEY_CONTENT_TYPE, "image/png".toProtoAny())
+            kv.put(FileNFT.KEY_FILENAME, file.name.toProtoAny())
+            kv.put(FileNFT.KEY_SIZE, fileBytes.size.toLong().toProtoAny())
+            kv.put(FileNFT.KEY_BYTES, fileBytes.toProtoAny())
+            kv.put(FileNFT.KEY_CONTENT_TYPE, "image/png".toProtoAny())
         }
 
         println(asset1)
@@ -35,7 +34,7 @@ class AssetTest {
     }
 }
 
-private fun UUID.toProtoUUID(): tech.figure.util.v1beta1.UUID = tech.figure.util.v1beta1.UUID.newBuilder().setValue(this.toString()).build()
+private fun JavaUUID.toProtoUUID(): FigureTechUUID = FigureTechUUID.newBuilder().setValue(this.toString()).build()
 
 fun ByteArray.toProtoAny(): Any = Any.pack(
     BytesValue.newBuilder().setValue(ByteString.copyFrom(this)).build()

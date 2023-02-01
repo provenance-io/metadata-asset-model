@@ -1,0 +1,62 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [ synchronize, opened, reopened, ready_for_review, converted_to_draft ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        run: ./gradlew clean build --refresh-dependencies
+
+      - name: Verify documentation script was run
+        run: |
+          GIT_DIFF_BEFORE="$(git diff --name-only | sort)"
+          ./make-docs.sh
+          GIT_DIFF_AFTER="$(git diff --name-only | sort)"
+          if [ "$GIT_DIFF_BEFORE" == "$GIT_DIFF_AFTER" ]; then
+            echo "All automatically generated documentation updates have been committed."
+          else
+            echo "::error::Not all automatically generated documentation updates have been committed."
+            echo "List of modified files before running documentation script:"
+            echo "$GIT_DIFF_BEFORE"
+            echo "List of modified files after running documentation script:"
+            echo "$GIT_DIFF_AFTER"
+            exit 1
+          fi
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test Results
+          path: |
+            **/build/test-results/**/*.xml
+
+  event_file:
+    name: "Upload Event File"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: Event File
+          path: ${{ github.event_path }}
