@@ -26,7 +26,7 @@ class AssetTest {
             kv.put(FileNFT.KEY_CONTENT_TYPE, "image/png".toProtoAny())
         }
 
-        println(asset1)
+        //println(asset1)
 
         val asset2 = Asset.parseFrom(asset1.toByteArray())
         val data = asset2.getKvOrThrow(FileNFT.KEY_BYTES)
