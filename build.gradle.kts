@@ -1,30 +1,25 @@
 import com.google.protobuf.gradle.*
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
-
 buildscript {
-
     repositories {
         gradlePluginPortal()
         mavenCentral()
     }
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0")
-        classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.18")
-    }
 }
 
-
+@Suppress("DSL_SCOPE_VIOLATION") /** https://github.com/gradle/gradle/issues/22797 */
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.72"
-    id("com.google.protobuf") version "0.8.18"
-    id("com.github.marcoferrer.kroto-plus") version "0.6.1"
+    kotlin("jvm") version "1.8.10"
+    alias(libs.plugins.protobuf.gradle)
+    alias(libs.plugins.protocGen.krotoPlus)
     `java-library`
     `maven-publish`
     signing
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    alias(libs.plugins.nexusPublishing)
 }
 
 repositories {
@@ -32,72 +27,85 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
     withSourcesJar()
-    withJavadocJar()
+    withJavadocJar() /** Needed to pass Nexus validation rules */
+}
+
+tasks.withType<Javadoc>().all {
+    options {
+        /**
+         * Necessary to suppress errors of invalid Javadocs generated from protobufs.
+         * Via https://stackoverflow.com/a/73930431
+         */
+        (this as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
+    }
+}
+
+tasks.withType<KotlinCompile>().all {
+    kotlinOptions {
+        freeCompilerArgs += listOf(
+            "-Xjsr305=strict",
+        )
+        jvmTarget = "11"
+        apiVersion = "1.8"
+        languageVersion = "1.8"
+        /** Necessary to allow deprecation warnings from the Java & Kotlin generated for deprecated protobuf fields */
+        allWarningsAsErrors = false
+    }
 }
 
 val projectVersion = project.property("version")?.takeIf { it != "unspecified" } ?: "1.0-SNAPSHOT"
 
-object Versions {
-    const val Protobuf = "3.19.1"
-
-    // Test dependencies
-    const val JunitJupiter = "5.8.2"
-
-    // Plugins
-    const val Kotlin = "1.5.0"
-    const val ProtobufPlugin = "0.8.18"
-}
 dependencies {
-    implementation("io.envoyproxy.protoc-gen-validate:pgv-java-stub:0.6.2")
-    implementation("io.envoyproxy.protoc-gen-validate:protoc-gen-validate:0.6.2")
-    implementation("com.github.marcoferrer.krotoplus:protoc-gen-kroto-plus:0.6.1")
-    implementation("com.google.protobuf:protobuf-java:${Versions.Protobuf}")
-    implementation("com.google.protobuf:protobuf-java-util:${Versions.Protobuf}")
-    implementation("javax.annotation:javax.annotation-api:1.3.1")
+    listOf(
+        libs.kotlin.stdLib,
+        libs.protocGen.validate.base,
+        libs.protocGen.validate.javaStub,
+        libs.bundles.protobuf,
+    ).forEach(::implementation)
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.JunitJupiter}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.JunitJupiter}")
+    listOf(
+        libs.junit.jupiter.api,
+    ).forEach(::testImplementation)
+
+    listOf(
+        libs.junit.jupiter.engine,
+    ).forEach(::testRuntimeOnly)
 }
+
+fun Provider<MinimalExternalModuleDependency>.toModule(): ModuleIdentifier = map { it.module }.get()
+
+fun ProviderConvertible<String>.toVersionString(): String = asProvider().get()
 
 protobuf {
 
     // protoc plugin names
-    val kroto = "kroto"
     val validation = "javapgv"
 
     protoc {
-        artifact = "com.google.protobuf:protoc:${Versions.Protobuf}"
+        artifact = "${libs.protoc.toModule()}:${libs.versions.protobuf.toVersionString()}"
     }
     plugins {
-        id(kroto) {
-            artifact = "com.github.marcoferrer.krotoplus:protoc-gen-kroto-plus:0.6.1"
-        }
         id(validation) {
-            artifact = "io.envoyproxy.protoc-gen-validate:protoc-gen-validate:0.6.2"
+            artifact = "${libs.protocGen.validate.base.toModule()}:${libs.versions.protocGenValidate.get()}"
         }
     }
     generateProtoTasks {
-        val krotoConfig = file("kroto-config.yaml")
-
         all().forEach {
-            it.inputs.files(krotoConfig)
             it.plugins {
                 ofSourceSet("main")
-                id(kroto) {
-                    outputSubDir = "java"
-                    option("ConfigPath=$krotoConfig")
-                }
                 id(validation) {
                     option("lang=java")
                 }
             }
+            it.builtins {
+                id("kotlin")
+            }
         }
     }
 }
-
 
 configurations.forEach { it.exclude("org.slf4j", "slf4j-api") }
 
@@ -108,10 +116,8 @@ tasks.withType<Test> {
     testLogging {
         events("passed", "skipped", "failed")
     }
-    reports.html.isEnabled = true
+    reports.html.required.set(true)
 }
-
-
 
 publishing {
     publications {
@@ -155,7 +161,6 @@ publishing {
     }
 }
 
-
 nexusPublishing {
     repositories {
         sonatype {
@@ -169,19 +174,19 @@ nexusPublishing {
 }
 
 object Repos {
-    private object sonatype {
+    private object SonaTypeRepositoryURLs {
         const val snapshots = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
         const val releases = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
     }
 
     fun RepositoryHandler.sonatypeOss(projectVersion: String): MavenArtifactRepository {
-        val murl =
-            if (projectVersion == "1.0-SNAPSHOT") sonatype.snapshots
-            else sonatype.releases
+        val mavenUrl =
+            if (projectVersion == "1.0-SNAPSHOT") SonaTypeRepositoryURLs.snapshots
+            else SonaTypeRepositoryURLs.releases
 
         return maven {
             name = "Sonatype"
-            url = URI.create(murl)
+            url = URI.create(mavenUrl)
             credentials {
                 username = System.getenv("OSSRH_USERNAME")
                 password = System.getenv("OSSRH_PASSWORD")

@@ -1,0 +1,59 @@
+[versions]
+## Kotlin
+kotlin = "1.8.10"
+## Protocol Buffers
+krotoPlus = "0.6.1"
+protobuf = "3.21.12"
+protobuf_gradle_plugin = "0.9.2"
+protocGenValidate = "0.6.2"
+## Publishing
+nexusPublishing = "1.1.0"
+## Code Quality
+ktlint = "0.48.2"
+## Testing
+junit_jupiter = "5.8.2"
+## Other
+javax_annotation = "1.3.1"
+
+[plugins]
+## Development
+idea = { id = "idea" }
+java = { id = "java" }
+kotlin = { id = "kotlin", version.ref = "kotlin" }
+## Protobuf
+protobuf_gradle = { id = "com.google.protobuf", version.ref = "protobuf_gradle_plugin" }
+protocGen_krotoPlus = { id = "com.github.marcoferrer.kroto-plus", version.ref = "krotoPlus" }
+## Publishing
+nexusPublishing = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexusPublishing" }
+
+[libraries]
+## Kotlin
+kotlin_stdLib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+## Protobuf
+protobuf_java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protobuf_java_util = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
+protobuf_kotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+## ProtocGen
+protocGen_validate_base = { module = "io.envoyproxy.protoc-gen-validate:protoc-gen-validate", version.ref = "protocGenValidate" }
+protocGen_validate_javaStub = { module = "io.envoyproxy.protoc-gen-validate:pgv-java-stub", version.ref = "protocGenValidate" }
+protocGen_krotoPlus = { module = "com.github.marcoferrer.krotoplus:protoc-gen-kroto-plus", version.ref = "krotoPlus" }
+## Code Quality
+ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
+## Testing
+junit_jupiter_api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit_jupiter" }
+junit_jupiter_engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit_jupiter" }
+## Other
+javax_annotation = { module = "javax.annotation:javax.annotation-api", version.ref = "javax_annotation" }
+
+[bundles]
+protobuf = [
+    "protobuf_java",
+    "protobuf_java_util",
+    "protobuf_kotlin",
+]
+protocGen = [
+    "protocGen_validate_base",
+    "protocGen_validate_javaStub",
+    "protocGen_krotoPlus",
+]

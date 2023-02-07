@@ -3,6 +3,365 @@
 
 
 
+<a name="tech/figure/util/v1beta1/account.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## tech/figure/util/v1beta1/account.proto
+
+
+
+<a name="tech.figure.util.v1beta1.ACH"></a>
+
+### ACH
+ACH is the most common method of transferring funds bank-to-bank.
+
+The Automated Clearing House protocol has been in use since 1974.
+> Watch out ACH, USDF comin' to gitcha!
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account_type | [ACH.AccountType](util#tech.figure.util.v1beta1.ACH.AccountType) |  | CHECKING, SAVINGS, or OTHER |
+| owner_type | [string](#string) |  | If required for ACH, type of account, e.g. INDIVIDUAL or COMMERCIAL |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.Account"></a>
+
+### Account
+Represents an account where currency is held, either in a traditional financial institution or a Provenance Blockchain account.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account_owner_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | UUID of the borrower/owner of the account (if loan, should match one of `Loan.borrowers` IDs) |
+| financial | [FinancialAccount](util#tech.figure.util.v1beta1.FinancialAccount) |  | Traditional financial account, e.g. bank account |
+| provenance | [ProvenanceAccount](util#tech.figure.util.v1beta1.ProvenanceAccount) |  | Provenance Blockchain account |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.FinancialAccount"></a>
+
+### FinancialAccount
+Represents the location of an account at a financial institution, located by `account` and `routing` numbers
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Unique UUID identifier for this bank account |
+| owner_name | [string](#string) |  | Name of the person who owns this account |
+| financial_institution | [string](#string) |  | Name of bank or financial institution |
+| account_number | [string](#string) |  | 4-17 digit Account number |
+| routing_number | [string](#string) |  | 9-digit Routing number |
+| movement | [MoneyMovement](util#tech.figure.util.v1beta1.MoneyMovement) | repeated | Instructions for moving money from this account |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.MoneyMovement"></a>
+
+### MoneyMovement
+Specification of how money may be sent to this account: ACH or wire transfer (domestic or international/SWIFT).
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ach | [ACH](util#tech.figure.util.v1beta1.ACH) |  | ACH |
+| wire | [WIRE](util#tech.figure.util.v1beta1.WIRE) |  | Wire transfer, domestic or international/SWIFT |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.ProvenanceAccount"></a>
+
+### ProvenanceAccount
+An account on the Provenance Blockchain, located at `address`.
+
+See <a href="https://docs.provenance.io/blockchain/basics/accounts">Account Documentation</a> for details.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| address | [string](#string) |  | Provenance Blockchain address for this account. <a href="https://docs.provenance.io/blockchain/basics/accounts">See Documentation</a> |
+| description | [string](#string) |  | Optional field to denote account use, name, or type (e.g. FUNDING, MARKER, or USER_ACCOUNT) |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.SWIFT"></a>
+
+### SWIFT
+Society for Worldwide Interbank Financial Telecommunications (SWIFT) is member-owned cooperative for sending
+international wire transfers.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| swift_id | [string](#string) |  | SWIFT bank account Id |
+| swift_bank_address | [Address](util#tech.figure.util.v1beta1.Address) |  | SWIFT bank mailing address |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.WIRE"></a>
+
+### WIRE
+A wire transfer is an electronic transfer of funds via a network that is administered by banks and transfer service agencies worldwide.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account_address | [Address](util#tech.figure.util.v1beta1.Address) |  | Account owner mailing address |
+| wire_instructions | [string](#string) |  | Wire-specific instructions |
+| swift_instructions | [SWIFT](util#tech.figure.util.v1beta1.SWIFT) |  | If international wire, include Swift instructions |
+
+
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.ACH.AccountType"></a>
+
+### ACH.AccountType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ACCOUNT_TYPE_UNKNOWN | 0 |  |
+| CHECKING | 1 |  |
+| SAVINGS | 2 |  |
+| OTHER | 3 |  |
+
+
+
+
+
+
+
+
+<a name="tech/figure/util/v1beta1/address.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## tech/figure/util/v1beta1/address.proto
+
+
+
+<a name="tech.figure.util.v1beta1.Address"></a>
+
+### Address
+Physical or mailing address
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| street | [string](#string) |  | Street address including number, e.g. "123 Main St." |
+| street2 | [string](#string) |  | Used for multi-line street addresses |
+| street3 | [string](#string) |  | Used for multi-line street addresses |
+| city | [string](#string) |  | City |
+| state | [string](#string) |  | State or Province |
+| country | [string](#string) |  | Country/nation |
+| zip | [string](#string) |  | Zip Code |
+| unit_number | [string](#string) |  | Unit number, e.g. apartment number ("Apt #3B") |
+| address_type | [string](#string) |  | e.g. HOME, MAILING, SECONDARY, INVESTMENT |
+| ownership_type | [string](#string) |  | Property ownership type: e.g. SOLE, JOINT, TRUST, LLC, etc |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.ContactInformation"></a>
+
+### ContactInformation
+Contact information for a third-party
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of contract person or company |
+| phone | [PhoneNumber](util#tech.figure.util.v1beta1.PhoneNumber) |  | Phone number |
+| email | [string](#string) |  | RFC 1034-compliant email address |
+| address | [Address](util#tech.figure.util.v1beta1.Address) |  | Mailing address |
+| fax | [string](#string) |  | Fax number |
+| url | [string](#string) |  | A web url relating to the contact - their homepage, their company's homepage, etc |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.PhoneNumber"></a>
+
+### PhoneNumber
+Telephone number
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| number | [string](#string) |  | Phone number |
+| number_type | [string](#string) |  | e.g. HOME, MOBILE, WORK |
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="tech/figure/util/v1beta1/credit_report.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## tech/figure/util/v1beta1/credit_report.proto
+
+
+
+<a name="tech.figure.util.v1beta1.CreditReport"></a>
+
+### CreditReport
+Detailed breakdown of an individual's credit history prepared by a credit bureau.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of this report |
+| borrower_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of the borrower for whom this report was generated |
+| report_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date and time this report was generated |
+| credit_provider | [string](#string) |  | Name of credit report provider: EXPERIAN, TRANS_UNION, EQUIFAX |
+| pull_type | [CreditReport.CreditPullType](util#tech.figure.util.v1beta1.CreditReport.CreditPullType) |  | SOFT or HARD credit pull |
+| credit_score | [uint32](#uint32) |  | Credit Score |
+| attributes | [CreditReport.AttributesEntry](util#tech.figure.util.v1beta1.CreditReport.AttributesEntry) | repeated | Attributes |
+| risk_models | [RiskModel](util#tech.figure.util.v1beta1.RiskModel) | repeated | Type of risk model used |
+| expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date credit report is valid until |
+| kv | [CreditReport.KvEntry](util#tech.figure.util.v1beta1.CreditReport.KvEntry) | repeated | Key-value store of credit report data |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.CreditReport.AttributesEntry"></a>
+
+### CreditReport.AttributesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.CreditReport.KvEntry"></a>
+
+### CreditReport.KvEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.RiskModel"></a>
+
+### RiskModel
+Detail of the risk model used in a credit report.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| score | [int32](#int32) |  |  |
+| factors | [RiskModel.FactorsEntry](util#tech.figure.util.v1beta1.RiskModel.FactorsEntry) | repeated |  |
+| risk_type | [RiskModel.RiskType](util#tech.figure.util.v1beta1.RiskModel.RiskType) |  |  |
+| other_type | [RiskModel.OtherRiskType](util#tech.figure.util.v1beta1.RiskModel.OtherRiskType) |  |  |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.RiskModel.FactorsEntry"></a>
+
+### RiskModel.FactorsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.RiskModel.OtherRiskType"></a>
+
+### RiskModel.OtherRiskType
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+
+
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.CreditReport.CreditPullType"></a>
+
+### CreditReport.CreditPullType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN_CREDIT_PULL_TYPE | 0 |  |
+| SOFT | 1 |  |
+| HARD | 2 |  |
+
+
+<a name="tech.figure.util.v1beta1.RiskModel.RiskType"></a>
+
+### RiskModel.RiskType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN | 0 |  |
+| OTHER | 1 |  |
+| VANTAGE3 | 2 |  |
+| FICO9 | 3 |  |
+| VANTAGE4 | 4 |  |
+| FICO2 | 5 |  |
+
+
+
+
+
+
+
+
 <a name="tech/figure/util/v1beta1/document.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -181,151 +540,6 @@ A non-notary witness to the document signing
 
 
 
-<a name="tech/figure/util/v1beta1/account.proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## tech/figure/util/v1beta1/account.proto
-
-
-
-<a name="tech.figure.util.v1beta1.ACH"></a>
-
-### ACH
-ACH is the most common method of transferring funds bank-to-bank.
-
-The Automated Clearing House protocol has been in use since 1974.
-> Watch out ACH, USDF comin' to gitcha!
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| account_type | [ACH.AccountType](util#tech.figure.util.v1beta1.ACH.AccountType) |  | CHECKING, SAVINGS, or OTHER |
-| owner_type | [string](#string) |  | If required for ACH, type of account, e.g. INDIVIDUAL or COMMERCIAL |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.Account"></a>
-
-### Account
-Represents an account where currency is held, either in a traditional financial institution or a Provenance Blockchain account.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| account_owner_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | UUID of the borrower/owner of the account (if loan, should match one of `Loan.borrowers` IDs) |
-| financial | [FinancialAccount](util#tech.figure.util.v1beta1.FinancialAccount) |  | Traditional financial account, e.g. bank account |
-| provenance | [ProvenanceAccount](util#tech.figure.util.v1beta1.ProvenanceAccount) |  | Provenance Blockchain account |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.FinancialAccount"></a>
-
-### FinancialAccount
-Represents the location of an account at a financial institution, located by `account` and `routing` numbers
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Unique UUID identifier for this bank account |
-| owner_name | [string](#string) |  | Name of the person who owns this account |
-| financial_institution | [string](#string) |  | Name of bank or financial institution |
-| account_number | [string](#string) |  | 4-17 digit Account number |
-| routing_number | [string](#string) |  | 9-digit Routing number |
-| movement | [MoneyMovement](util#tech.figure.util.v1beta1.MoneyMovement) | repeated | Instructions for moving money from this account |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.MoneyMovement"></a>
-
-### MoneyMovement
-Specification of how money may be sent to this account: ACH or wire transfer (domestic or international/SWIFT).
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ach | [ACH](util#tech.figure.util.v1beta1.ACH) |  | ACH |
-| wire | [WIRE](util#tech.figure.util.v1beta1.WIRE) |  | Wire transfer, domestic or international/SWIFT |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.ProvenanceAccount"></a>
-
-### ProvenanceAccount
-An account on the Provenance Blockchain, located at `address`.
-
-See <a href="https://docs.provenance.io/blockchain/basics/accounts">Account Documentation</a> for details.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| address | [string](#string) |  | Provenance Blockchain address for this account. <a href="https://docs.provenance.io/blockchain/basics/accounts">See Documentation</a> |
-| description | [string](#string) |  | Optional field to denote account use, name, or type (e.g. FUNDING, MARKER, or USER_ACCOUNT) |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.SWIFT"></a>
-
-### SWIFT
-Society for Worldwide Interbank Financial Telecommunications (SWIFT) is member-owned cooperative for sending
-international wire transfers.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| swift_id | [string](#string) |  | SWIFT bank account Id |
-| swift_bank_address | [Address](util#tech.figure.util.v1beta1.Address) |  | SWIFT bank mailing address |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.WIRE"></a>
-
-### WIRE
-A wire transfer is an electronic transfer of funds via a network that is administered by banks and transfer service agencies worldwide.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| account_address | [Address](util#tech.figure.util.v1beta1.Address) |  | Account owner mailing address |
-| wire_instructions | [string](#string) |  | Wire-specific instructions |
-| swift_instructions | [SWIFT](util#tech.figure.util.v1beta1.SWIFT) |  | If international wire, include Swift instructions |
-
-
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.ACH.AccountType"></a>
-
-### ACH.AccountType
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ACCOUNT_TYPE_UNKNOWN | 0 |  |
-| CHECKING | 1 |  |
-| SAVINGS | 2 |  |
-| OTHER | 3 |  |
-
-
-
-
-
-
-
-
 <a name="tech/figure/util/v1beta1/education.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -387,136 +601,158 @@ Describes a educational course of study toward a degree
 
 
 
-<a name="tech/figure/util/v1beta1/types.proto"></a>
+<a name="tech/figure/util/v1beta1/fee.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## tech/figure/util/v1beta1/types.proto
+## tech/figure/util/v1beta1/fee.proto
 
 
 
-<a name="tech.figure.util.v1beta1.AssetType"></a>
+<a name="tech.figure.util.v1beta1.Fee"></a>
 
-### AssetType
-Asset types.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| supertype | [string](#string) |  | The supertype of an asset (e.g. MORTGAGE, HELOC, PERSONAL_LOAN, AUTO_LOAN, NFT) |
-| subtype | [string](#string) |  | The subtype of an asset (e.g. JUMBO, REFI, PARENT_REFI, DRAW) |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.Checksum"></a>
-
-### Checksum
-A Checksum (hash) produced by a checksum `algorithm`.
+### Fee
+Describes a fee charged, typically as part of a loan origination
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| checksum | [string](#string) |  | The hash of the data |
-| algorithm | [string](#string) |  | Checksum algorithm, e.g. MD5, SHA256 |
+| rate | [Rate](util#tech.figure.util.v1beta1.Rate) |  | If a loan, describes the fee amount as a percentage of loan principal amount |
+| amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Value amount of origination fee charged |
+| type | [string](#string) |  | Fee type, e.g. ORIGINATION_FEE |
+| subtype | [string](#string) |  | Subtype allows variation of fee type. For an origination fee, subtype might be: NO_FEE, CAPITALIZED, UNCAPITALIZED_SPREAD, UNCAPITALIZED_UPFRONT |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.Date"></a>
 
-### Date
-An ISO8601 Date.
 
-In Java: Use `LocalDate` to represent this value.  (For `OffsetDateTime`, use a protobuf `Timestamp`.)
+
+
+
+
+
+
+<a name="tech/figure/util/v1beta1/income.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## tech/figure/util/v1beta1/income.proto
+
+
+
+<a name="tech.figure.util.v1beta1.AssetAccount"></a>
+
+### AssetAccount
+
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| value | [string](#string) |  | Date stored as ISO8601 string in the form "yyyy-MM-dd". EX: "2020-05-22" |
+| account_name | [string](#string) |  | Account name |
+| account_mask | [string](#string) |  | Masked account number |
+| type | [string](#string) |  | Examples: 401K, IRA, ROTH_401K, ROTH, STOCK_PLAN, CD, CHECKING, SAVINGS, MONEY_MARKET, KEOGH, MUTUAL FUND |
+| historical_balances | [Balance](util#tech.figure.util.v1beta1.Balance) | repeated | Account balances over time |
+| current_balance_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Current account balance |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.Decimal"></a>
+<a name="tech.figure.util.v1beta1.AssetDepletion"></a>
 
-### Decimal
-Decimal value
+### AssetDepletion
 
-In Java: Use `BigDecimal` to represent this value.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| value | [string](#string) |  |  |
+| retirement | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
+| savings | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
+| investment | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.Money"></a>
+<a name="tech.figure.util.v1beta1.AssetIncomeSource"></a>
 
-### Money
-A monetary `amount` in specified `currency`.
+### AssetIncomeSource
 
-In Java: Use <a href="https://www.joda.org/joda-money/">Joda Money</a>, `BigMoney`, or `BigDecimal` to represent this value.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| currency | [string](#string) |  | ISO 4217 3-digit currency code |
-| value | [string](#string) |  | Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01. |
-| amount | [double](#double) |  | **Deprecated.** Superseded by `value`. |
+| vendor | [string](#string) |  | Firm holding this asset account(s) |
+| asset_accounts | [AssetAccount](util#tech.figure.util.v1beta1.AssetAccount) | repeated | One or more accounts held at this vendor |
+| transaction_history_length_days | [int32](#int32) |  | Number of days of transaction history used in verification |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.Rate"></a>
+<a name="tech.figure.util.v1beta1.Balance"></a>
 
-### Rate
-Rate/percentage expressed as a decimal between 0 and 1.0, where 1.0 represents 100%.
+### Balance
 
-In Java: Use `BigDecimal` to represent this value.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| rate | [string](#string) |  | Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01. |
-| value | [double](#double) |  | **Deprecated.** Superseded by `rate`. |
+| current | [Money](util#tech.figure.util.v1beta1.Money) |  | Account balance, current as of `date` |
+| date | [Date](util#tech.figure.util.v1beta1.Date) |  | Date on which this balance was accurate |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.Status"></a>
+<a name="tech.figure.util.v1beta1.Income"></a>
 
-### Status
-A Status indicator along with the timestamp it became effective.
+### Income
+
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [string](#string) |  | Status string is context-dependant |
-| effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date/time this status was establish |
+| borrower_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of borrower for whom these records pertain |
+| stated_yearly_income | [Money](util#tech.figure.util.v1beta1.Money) |  | Annual income as stated by the individual |
+| verified_yearly_income | [VerifiedIncome](util#tech.figure.util.v1beta1.VerifiedIncome) |  | Annual income as verified through some process |
+| income_sources | [IncomeSource](util#tech.figure.util.v1beta1.IncomeSource) | repeated | Borrower's sources of income (other than asset accounts) |
+| asset_income_sources | [AssetIncomeSource](util#tech.figure.util.v1beta1.AssetIncomeSource) | repeated | Income from asset accounts (e.g. investments, retirement, etc.) |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.UUID"></a>
+<a name="tech.figure.util.v1beta1.IncomeSource"></a>
 
-### UUID
-Universally Unique Identifier.
+### IncomeSource
 
-As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| value | [string](#string) |  |  |
+| source | [string](#string) |  | Name of employer or source of income (e.g. self-employed, child support, alimony) |
+| yearly_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Yearly income amount form this income source |
+| employment_status | [Status](util#tech.figure.util.v1beta1.Status) |  | E.g. FULL_TIME, PART_TIME, STUDENT, UNEMPLOYED |
+| verification_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date/time at which employment was verified |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.VerifiedIncome"></a>
+
+### VerifiedIncome
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| yearly_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Total borrower income, which has been verified through records |
+| date_verified | [Date](util#tech.figure.util.v1beta1.Date) |  | Date this income amount was verified |
+| verified_asset_depletion | [AssetDepletion](util#tech.figure.util.v1beta1.AssetDepletion) |  | Retirement/savings/investment account balances |
+| months_of_history | [int32](#int32) |  | Months of income that has been verified through records |
+| verification_methods_used | [string](#string) | repeated | Examples: PLAID_TRANSACTIONS, POINTSERV_PAYROLL, POINTSERV_TAX, EMPINFO, POINTSERV_W2, POINTSERV_1099_MISC, MANUAL_PAYSTUB, TRUEWORK_INSTANT, OTHER |
 
 
 
@@ -554,102 +790,89 @@ As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
 
 
 
-<a name="tech/figure/util/v1beta1/fee.proto"></a>
+<a name="tech/figure/util/v1beta1/person.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## tech/figure/util/v1beta1/fee.proto
+## tech/figure/util/v1beta1/person.proto
 
 
 
-<a name="tech.figure.util.v1beta1.Fee"></a>
+<a name="tech.figure.util.v1beta1.Borrowers"></a>
 
-### Fee
-Describes a fee charged, typically as part of a loan origination
+### Borrowers
+The primary borrower of a loan, plus any co-borrowers or co-signers.
 
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| rate | [Rate](util#tech.figure.util.v1beta1.Rate) |  | If a loan, describes the fee amount as a percentage of loan principal amount |
-| amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Value amount of origination fee charged |
-| type | [string](#string) |  | Fee type, e.g. ORIGINATION_FEE |
-| subtype | [string](#string) |  | Subtype allows variation of fee type. For an origination fee, subtype might be: NO_FEE, CAPITALIZED, UNCAPITALIZED_SPREAD, UNCAPITALIZED_UPFRONT |
-
-
-
-
-
-
-
-
-
-
-
-
-
-<a name="tech/figure/util/v1beta1/address.proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## tech/figure/util/v1beta1/address.proto
-
-
-
-<a name="tech.figure.util.v1beta1.Address"></a>
-
-### Address
-Physical or mailing address
+See `Person.party_type` to distinguish between borrower roles (e.g. primary vs co-borrower vs co-signer).
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| street | [string](#string) |  | Street address including number, e.g. "123 Main St." |
-| street2 | [string](#string) |  | Used for multi-line street addresses |
-| street3 | [string](#string) |  | Used for multi-line street addresses |
-| city | [string](#string) |  | City |
-| state | [string](#string) |  | State or Province |
-| country | [string](#string) |  | Country/nation |
-| zip | [string](#string) |  | Zip Code |
-| unit_number | [string](#string) |  | Unit number, e.g. apartment number ("Apt #3B") |
-| address_type | [string](#string) |  | e.g. HOME, MAILING, SECONDARY, INVESTMENT |
-| ownership_type | [string](#string) |  | Property ownership type: e.g. SOLE, JOINT, TRUST, LLC, etc |
+| primary | [Person](util#tech.figure.util.v1beta1.Person) |  | The main individual responsible for the loan |
+| additional | [Person](util#tech.figure.util.v1beta1.Person) | repeated | Co-borrowers and co-signers, if any |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.ContactInformation"></a>
+<a name="tech.figure.util.v1beta1.Name"></a>
 
-### ContactInformation
-Contact information for a third-party
+### Name
+Name of a person.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | Name of contract person or company |
-| phone | [PhoneNumber](util#tech.figure.util.v1beta1.PhoneNumber) |  | Phone number |
-| email | [string](#string) |  | RFC 1034-compliant email address |
-| address | [Address](util#tech.figure.util.v1beta1.Address) |  | Mailing address |
-| fax | [string](#string) |  | Fax number |
-| url | [string](#string) |  | A web url relating to the contact - their homepage, their company's homepage, etc |
+| first_name | [string](#string) |  | Given name |
+| last_name | [string](#string) |  | Family name |
+| middle_name | [string](#string) |  |  |
+| prefix | [string](#string) |  |  |
+| suffix | [string](#string) |  |  |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.PhoneNumber"></a>
+<a name="tech.figure.util.v1beta1.Person"></a>
 
-### PhoneNumber
-Telephone number
+### Person
+Identifying information for a person.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| number | [string](#string) |  | Phone number |
-| number_type | [string](#string) |  | e.g. HOME, MOBILE, WORK |
+| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id for this person; may be referenced elsewhere in the model to link data to this individual |
+| party_type | [string](#string) |  | PRIMARY_BORROWER, COBORROWER, COSIGNER, etc. |
+| name | [Name](util#tech.figure.util.v1beta1.Name) |  | Name |
+| formerly_known_as | [Name](util#tech.figure.util.v1beta1.Name) | repeated | Populated if person has previous names or aliases (e.g. maiden name) |
+| dob | [Date](util#tech.figure.util.v1beta1.Date) |  | Date of birth |
+| phone_numbers | [PhoneNumber](util#tech.figure.util.v1beta1.PhoneNumber) | repeated | Contact phone numbers |
+| addresses | [Address](util#tech.figure.util.v1beta1.Address) | repeated | E.g. residential address or mailing address |
+| ssn | [string](#string) |  | Social Security Number |
+| email | [string](#string) |  | Email address |
+| citizenship | [string](#string) |  | Country of citizenship |
+| marital_status | [MaritalStatus](util#tech.figure.util.v1beta1.MaritalStatus) |  | Marital status |
+| is_self_employed | [bool](#bool) |  | True if individual is self-employed |
 
 
 
 
 
+
+
+<a name="tech.figure.util.v1beta1.MaritalStatus"></a>
+
+### MaritalStatus
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| MARITAL_STATUS_UNKNOWN | 0 |  |
+| SINGLE | 1 |  |
+| MARRIED | 2 |  |
+| SEPARATED | 3 |  |
+| CIVIL_UNION | 4 |  |
+| DOMESTIC_PARTNERSHIP | 5 |  |
+| OTHER | 6 |  |
 
 
 
@@ -812,364 +1035,141 @@ Telephone number
 
 
 
-<a name="tech/figure/util/v1beta1/income.proto"></a>
+<a name="tech/figure/util/v1beta1/types.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## tech/figure/util/v1beta1/income.proto
+## tech/figure/util/v1beta1/types.proto
 
 
 
-<a name="tech.figure.util.v1beta1.AssetAccount"></a>
+<a name="tech.figure.util.v1beta1.AssetType"></a>
 
-### AssetAccount
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| account_name | [string](#string) |  | Account name |
-| account_mask | [string](#string) |  | Masked account number |
-| type | [string](#string) |  | Examples: 401K, IRA, ROTH_401K, ROTH, STOCK_PLAN, CD, CHECKING, SAVINGS, MONEY_MARKET, KEOGH, MUTUAL FUND |
-| historical_balances | [Balance](util#tech.figure.util.v1beta1.Balance) | repeated | Account balances over time |
-| current_balance_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Current account balance |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.AssetDepletion"></a>
-
-### AssetDepletion
-
+### AssetType
+Asset types.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| retirement | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
-| savings | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
-| investment | [Money](util#tech.figure.util.v1beta1.Money) |  |  |
+| supertype | [string](#string) |  | The supertype of an asset (e.g. MORTGAGE, HELOC, PERSONAL_LOAN, AUTO_LOAN, NFT) |
+| subtype | [string](#string) |  | The subtype of an asset (e.g. JUMBO, REFI, PARENT_REFI, DRAW) |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.AssetIncomeSource"></a>
+<a name="tech.figure.util.v1beta1.Checksum"></a>
 
-### AssetIncomeSource
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| vendor | [string](#string) |  | Firm holding this asset account(s) |
-| asset_accounts | [AssetAccount](util#tech.figure.util.v1beta1.AssetAccount) | repeated | One or more accounts held at this vendor |
-| transaction_history_length_days | [int32](#int32) |  | Number of days of transaction history used in verification |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.Balance"></a>
-
-### Balance
-
+### Checksum
+A Checksum (hash) produced by a checksum `algorithm`.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| current | [Money](util#tech.figure.util.v1beta1.Money) |  | Account balance, current as of `date` |
-| date | [Date](util#tech.figure.util.v1beta1.Date) |  | Date on which this balance was accurate |
+| checksum | [string](#string) |  | The hash of the data |
+| algorithm | [string](#string) |  | Checksum algorithm, e.g. MD5, SHA256 |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.Income"></a>
+<a name="tech.figure.util.v1beta1.Date"></a>
 
-### Income
+### Date
+An ISO8601 Date.
 
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| borrower_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of borrower for whom these records pertain |
-| stated_yearly_income | [Money](util#tech.figure.util.v1beta1.Money) |  | Annual income as stated by the individual |
-| verified_yearly_income | [VerifiedIncome](util#tech.figure.util.v1beta1.VerifiedIncome) |  | Annual income as verified through some process |
-| income_sources | [IncomeSource](util#tech.figure.util.v1beta1.IncomeSource) | repeated | Borrower's sources of income (other than asset accounts) |
-| asset_income_sources | [AssetIncomeSource](util#tech.figure.util.v1beta1.AssetIncomeSource) | repeated | Income from asset accounts (e.g. investments, retirement, etc.) |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.IncomeSource"></a>
-
-### IncomeSource
-
+In Java: Use `LocalDate` to represent this value.  (For `OffsetDateTime`, use a protobuf `Timestamp`.)
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| source | [string](#string) |  | Name of employer or source of income (e.g. self-employed, child support, alimony) |
-| yearly_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Yearly income amount form this income source |
-| employment_status | [Status](util#tech.figure.util.v1beta1.Status) |  | E.g. FULL_TIME, PART_TIME, STUDENT, UNEMPLOYED |
-| verification_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date/time at which employment was verified |
+| value | [string](#string) |  | Date stored as ISO8601 string in the form "yyyy-MM-dd". EX: "2020-05-22" |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.VerifiedIncome"></a>
+<a name="tech.figure.util.v1beta1.Decimal"></a>
 
-### VerifiedIncome
+### Decimal
+Decimal value
 
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| yearly_amount | [Money](util#tech.figure.util.v1beta1.Money) |  | Total borrower income, which has been verified through records |
-| date_verified | [Date](util#tech.figure.util.v1beta1.Date) |  | Date this income amount was verified |
-| verified_asset_depletion | [AssetDepletion](util#tech.figure.util.v1beta1.AssetDepletion) |  | Retirement/savings/investment account balances |
-| months_of_history | [int32](#int32) |  | Months of income that has been verified through records |
-| verification_methods_used | [string](#string) | repeated | Examples: PLAID_TRANSACTIONS, POINTSERV_PAYROLL, POINTSERV_TAX, EMPINFO, POINTSERV_W2, POINTSERV_1099_MISC, MANUAL_PAYSTUB, TRUEWORK_INSTANT, OTHER |
-
-
-
-
-
-
-
-
-
-
-
-
-
-<a name="tech/figure/util/v1beta1/person.proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## tech/figure/util/v1beta1/person.proto
-
-
-
-<a name="tech.figure.util.v1beta1.Borrowers"></a>
-
-### Borrowers
-The primary borrower of a loan, plus any co-borrowers or co-signers.
-
-See `Person.party_type` to distinguish between borrower roles (e.g. primary vs co-borrower vs co-signer).
+In Java: Use `BigDecimal` to represent this value.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| primary | [Person](util#tech.figure.util.v1beta1.Person) |  | The main individual responsible for the loan |
-| additional | [Person](util#tech.figure.util.v1beta1.Person) | repeated | Co-borrowers and co-signers, if any |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.Name"></a>
-
-### Name
-Name of a person.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| first_name | [string](#string) |  | Given name |
-| last_name | [string](#string) |  | Family name |
-| middle_name | [string](#string) |  |  |
-| prefix | [string](#string) |  |  |
-| suffix | [string](#string) |  |  |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.Person"></a>
-
-### Person
-Identifying information for a person.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id for this person; may be referenced elsewhere in the model to link data to this individual |
-| party_type | [string](#string) |  | PRIMARY_BORROWER, COBORROWER, COSIGNER, etc. |
-| name | [Name](util#tech.figure.util.v1beta1.Name) |  | Name |
-| formerly_known_as | [Name](util#tech.figure.util.v1beta1.Name) | repeated | Populated if person has previous names or aliases (e.g. maiden name) |
-| dob | [Date](util#tech.figure.util.v1beta1.Date) |  | Date of birth |
-| phone_numbers | [PhoneNumber](util#tech.figure.util.v1beta1.PhoneNumber) | repeated | Contact phone numbers |
-| addresses | [Address](util#tech.figure.util.v1beta1.Address) | repeated | E.g. residential address or mailing address |
-| ssn | [string](#string) |  | Social Security Number |
-| email | [string](#string) |  | Email address |
-| citizenship | [string](#string) |  | Country of citizenship |
-| marital_status | [MaritalStatus](util#tech.figure.util.v1beta1.MaritalStatus) |  | Marital status |
-| is_self_employed | [bool](#bool) |  | True if individual is self-employed |
-
-
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.MaritalStatus"></a>
-
-### MaritalStatus
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| MARITAL_STATUS_UNKNOWN | 0 |  |
-| SINGLE | 1 |  |
-| MARRIED | 2 |  |
-| SEPARATED | 3 |  |
-| CIVIL_UNION | 4 |  |
-| DOMESTIC_PARTNERSHIP | 5 |  |
-| OTHER | 6 |  |
-
-
-
-
-
-
-
-
-<a name="tech/figure/util/v1beta1/credit_report.proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## tech/figure/util/v1beta1/credit_report.proto
-
-
-
-<a name="tech.figure.util.v1beta1.CreditReport"></a>
-
-### CreditReport
-Detailed breakdown of an individual's credit history prepared by a credit bureau.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of this report |
-| borrower_id | [UUID](util#tech.figure.util.v1beta1.UUID) |  | Id of the borrower for whom this report was generated |
-| report_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date and time this report was generated |
-| credit_provider | [string](#string) |  | Name of credit report provider: EXPERIAN, TRANS_UNION, EQUIFAX |
-| pull_type | [CreditReport.CreditPullType](util#tech.figure.util.v1beta1.CreditReport.CreditPullType) |  | SOFT or HARD credit pull |
-| credit_score | [uint32](#uint32) |  | Credit Score |
-| attributes | [CreditReport.AttributesEntry](util#tech.figure.util.v1beta1.CreditReport.AttributesEntry) | repeated | Attributes |
-| risk_models | [RiskModel](util#tech.figure.util.v1beta1.RiskModel) | repeated | Type of risk model used |
-| expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date credit report is valid until |
-| kv | [CreditReport.KvEntry](util#tech.figure.util.v1beta1.CreditReport.KvEntry) | repeated | Key-value store of credit report data |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.CreditReport.AttributesEntry"></a>
-
-### CreditReport.AttributesEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
 | value | [string](#string) |  |  |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.CreditReport.KvEntry"></a>
+<a name="tech.figure.util.v1beta1.Money"></a>
 
-### CreditReport.KvEntry
+### Money
+A monetary `amount` in specified `currency`.
 
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.RiskModel"></a>
-
-### RiskModel
-Detail of the risk model used in a credit report.
+In Java: Use <a href="https://www.joda.org/joda-money/">Joda Money</a>, `BigMoney`, or `BigDecimal` to represent this value.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| score | [int32](#int32) |  |  |
-| factors | [RiskModel.FactorsEntry](util#tech.figure.util.v1beta1.RiskModel.FactorsEntry) | repeated |  |
-| risk_type | [RiskModel.RiskType](util#tech.figure.util.v1beta1.RiskModel.RiskType) |  |  |
-| other_type | [RiskModel.OtherRiskType](util#tech.figure.util.v1beta1.RiskModel.OtherRiskType) |  |  |
+| currency | [string](#string) |  | ISO 4217 3-digit currency code |
+| value | [string](#string) |  | Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01. |
+| amount | [double](#double) |  | **Deprecated.** Superseded by `value`. |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.RiskModel.FactorsEntry"></a>
+<a name="tech.figure.util.v1beta1.Rate"></a>
 
-### RiskModel.FactorsEntry
+### Rate
+Rate/percentage expressed as a decimal between 0 and 1.0, where 1.0 represents 100%.
 
+In Java: Use `BigDecimal` to represent this value.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
+| rate | [string](#string) |  | Expects digits after a `.`, no + sign. Ex: 1.0, -1.0, 1, -1, 0.01. |
+| value | [double](#double) |  | **Deprecated.** Superseded by `rate`. |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.Status"></a>
+
+### Status
+A Status indicator along with the timestamp it became effective.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [string](#string) |  | Status string is context-dependant |
+| effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date/time this status was establish |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.UUID"></a>
+
+### UUID
+Universally Unique Identifier.
+
+As defined by ISO/IEC 11578:1996 and in ITU-T Rec. X.667 | ISO/IEC 9834-8:2005.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
 | value | [string](#string) |  |  |
 
 
 
 
 
-<a name="tech.figure.util.v1beta1.RiskModel.OtherRiskType"></a>
-
-### RiskModel.OtherRiskType
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-
-
-
-
-
-
-
-<a name="tech.figure.util.v1beta1.CreditReport.CreditPullType"></a>
-
-### CreditReport.CreditPullType
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN_CREDIT_PULL_TYPE | 0 |  |
-| SOFT | 1 |  |
-| HARD | 2 |  |
-
-
-<a name="tech.figure.util.v1beta1.RiskModel.RiskType"></a>
-
-### RiskModel.RiskType
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN | 0 |  |
-| OTHER | 1 |  |
-| VANTAGE3 | 2 |  |
-| FICO9 | 3 |  |
-| VANTAGE4 | 4 |  |
-| FICO2 | 5 |  |
 
 
 

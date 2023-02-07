@@ -1,54 +1,55 @@
 name: Publish
 
 on:
+  release:
+    types: [ published ]
   workflow_dispatch:
     inputs:
-      releaseType:
-        description: 'Workflow type'
+      versionTag:
+        type: string
+        description: Version tag to use for the Maven JAR, e.g. "v1.0.12", "1.1.0-rc1" (no quotes)
         required: true
-        default: 'build'
+      releaseType:
+        description: 'Release type'
+        required: true
+        default: 'prerelease'
         type: choice
         options:
-          - build
           - prerelease
           - release
-  release:
-    types: [created]
-  push:
-    branches:
-    - main
-  pull_request:
-    branches:
-    - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  java_build:
+  build_and_publish:
     name: Build and Publish Jar
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Get Version
+      - name: Get version tag
         run: |
-          # Strip git prefix from version.
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name.
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
+          # Default to using the tag from the release event for the version string, stripping the prefix
+          VERSION=$( echo ${{ github.event.release.tag_name }} | sed -e 's/^v//' )
+          # If there is no associated release event, use the input version string, still stripping the prefix
+          if [ "$VERSION" == "" ] ; then
+            VERSION=$( echo ${{ github.event.inputs.versionTag }} | sed -e 's/^v//' )
+          fi
           # Store version for later use.
           echo "VERSION=$VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
-          server-id: github
+          distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x test -Pversion=$VERSION
+        run: ./gradlew clean build --refresh-dependencies -Pversion=$VERSION
 
       - name: Install gpg secret key
         run: |
@@ -56,16 +57,14 @@ jobs:
           echo -n "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | base64 --decode | gpg --batch --import
           gpg --list-secret-keys --keyid-format LONG
           echo -n "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | base64 --decode > $GITHUB_WORKSPACE/release.gpg
-        if: github.event_name == 'release' || contains(github.event.inputs.releaseType, 'release')
 
       - name: Publish to Maven Central
         run: |
           ./gradlew publishToSonatype $(if [ "${{github.event.release.prerelease}}" = "true" || "${{github.event.inputs.releaseType}}" = "prerelease" ]; then echo 'closeSonatypeStagingRepository'; else echo 'closeAndReleaseSonatypeStagingRepository'; fi) \
             -Pversion=$VERSION \
-            -Psigning.keyId=B7D30ABE -Psigning.password="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" -Psigning.secretKeyRingFile=$GITHUB_WORKSPACE/release.gpg \
+            -Psigning.keyId=B7D30ABE -Psigning.password="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
+            -Psigning.secretKeyRingFile=$GITHUB_WORKSPACE/release.gpg \
             --info
-        if: github.event_name == 'release' || contains(github.event.inputs.releaseType, 'release')
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-
