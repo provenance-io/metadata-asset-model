@@ -1,0 +1,74 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+  - title: '🛸 Enhancements'
+    labels:
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+  - title: '🧰 Maintenance'
+    label: 'chore'
+  - title: '📦 Dependency Updates'
+    label: 'dependencies'
+  - title: '📖 Documentation'
+    label: 'docs'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+autolabeler:
+  - label: 'enhancement'
+    branch:
+      - '/refactor\/.+/'
+    title:
+      - '/refactor/i'
+  - label: 'feature'
+    title:
+      - '/(add)|(feat)/i'
+  - label: 'fix'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/fix/i'
+  - label: 'docs'
+    branch:
+      - '/(documentation)|(docs)\/.+/'
+    title:
+      - '/docs/i'
+  - label: 'dependencies'
+    title:
+      - '/update/i'
+exclude-contributors:
+  - 'renovate'
+  - 'renovate[bot]'
+replacers:
+  # For Figure contributors
+  - search: '/\[sc-(\d+)\]/gi'
+    replace: '[[sc-$1](https://app.shortcut.com/figure/story/$1)]'
+  - search: '/\[ch(\d+)\]/gi'
+    replace: '[[sc-$1](https://app.shortcut.com/figure/story/$1)]'
+  # For Renovate PRs
+  - search: '/@renovate(\[bot\])?$/gim'
+    replace: 'by [Renovate](https://github.com/renovatebot/renovate)'
+template: |
+  # Changelog
+  $CHANGES
+  # Notes
+  ## Required Updates
+  The relevant PRs and all work that needs to be done for this release to succeed (like updating dependencies) should be listed here
+  ## Contributors
+  $CONTRIBUTORS
+  ## Other
+  Other notes, if any, should be listed here
