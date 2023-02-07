@@ -18,12 +18,12 @@ A Home Equity Line of Credit (HELOC) Loan
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| lien_property | [tech.figure.util.v1beta1.Property](util#tech.figure.util.v1beta1.Property) |  | Subject property |
+| lien_property | [tech.figure.util.v1beta1.Property](util.md#tech.figure.util.v1beta1.Property) |  | Subject property |
 | lien_position | [uint32](#uint32) |  | Lien position: 1 = first lien position, 2 or higher = junior lien position |
 | draw_term_in_months | [google.protobuf.UInt32Value](#google.protobuf.UInt32Value) |  | Total number of months the borrower can draw on the line |
-| draw_percentage | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | The maximum amount a borrower can redraw as a percent of the paid balance of the original draw (borrower cannot draw more than the original balance) |
-| recording_status | [tech.figure.util.v1beta1.Status](util#tech.figure.util.v1beta1.Status) |  | Loan recording status (e.g. PENDING, RECORDED) |
-| credit_limit_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | HELOC credit limit |
+| draw_percentage | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | The maximum amount a borrower can redraw as a percent of the paid balance of the original draw (borrower cannot draw more than the original balance) |
+| recording_status | [tech.figure.util.v1beta1.Status](util.md#tech.figure.util.v1beta1.Status) |  | Loan recording status (e.g. PENDING, RECORDED) |
+| credit_limit_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | HELOC credit limit |
 | paid_draw_bonus_months | [int32](#int32) |  | Number of months draw period is extended by if paid off in original draw period |
 | static_draw_rate_flag | [bool](#bool) |  | If true, use interest_rate for any future draws. If false, use current prime rate |
 | recording_info | [Recording](#tech.figure.loan.v1beta1.Recording) |  | The registration of the lien in a public record by a government agency |

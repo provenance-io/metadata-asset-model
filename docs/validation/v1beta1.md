@@ -1,4 +1,4 @@
-# Loan Validation
+# Loan Validation (v1beta1)
 <a name="top"></a>
 
 
@@ -115,10 +115,10 @@ Validation request including a pointer to the snapshot of data requiring validat
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| request_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Unique ID for the request |
+| request_id | [tech.figure.util.v1beta1.UUID](../util.md#tech.figure.util.v1beta1.UUID) |  | Unique ID for the request |
 | effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Time the validation was requested |
 | block_height | [int64](#int64) |  | Block height to perform validation against |
-| rule_set_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | ID of rule set that needs to be executed |
+| rule_set_id | [tech.figure.util.v1beta1.UUID](../util.md#tech.figure.util.v1beta1.UUID) |  | ID of rule set that needs to be executed |
 | description | [string](#string) |  | Description of the rule set |
 | validator_name | [string](#string) |  | Party that will run the validation |
 | requester_name | [string](#string) |  | Party invoking the request for validation |
@@ -151,7 +151,7 @@ Input to the validation results p8e contract
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| request_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Unique ID for the request - should match existing request |
+| request_id | [tech.figure.util.v1beta1.UUID](../util.md#tech.figure.util.v1beta1.UUID) |  | Unique ID for the request - should match existing request |
 | results | [ValidationResults](#tech.figure.validation.v1beta1.ValidationResults) |  | Validation results associated with the request |
 
 
@@ -166,14 +166,14 @@ Validation results that get stored alongside the validation request when validat
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| result_set_uuid | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | unique ID for the result set |
+| result_set_uuid | [tech.figure.util.v1beta1.UUID](../util.md#tech.figure.util.v1beta1.UUID) |  | unique ID for the result set |
 | result_set_effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | the date the validation was finalized |
 | result_set_provider | [string](#string) |  | name of the validator |
 | validation_exception_count | [int32](#int32) |  | Total count of exceptions |
 | validation_warning_count | [int32](#int32) |  | Total count of warnings |
 | validation_items | [ValidationItem](#tech.figure.validation.v1beta1.ValidationItem) | repeated | Individual rules that were executed |
-| policy_documents | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Related Documents like TPR Indemnification Policy, deligence scope |
-| rating_agency_grading | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Document containing credit rating agency grades |
+| policy_documents | [tech.figure.util.v1beta1.DocumentMetadata](../util.md#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Related Documents like TPR Indemnification Policy, deligence scope |
+| rating_agency_grading | [tech.figure.util.v1beta1.DocumentMetadata](../util.md#tech.figure.util.v1beta1.DocumentMetadata) |  | Document containing credit rating agency grades |
 | kv | [ValidationResults.KvEntry](#tech.figure.validation.v1beta1.ValidationResults.KvEntry) | repeated | Additional fields from the validator |
 
 

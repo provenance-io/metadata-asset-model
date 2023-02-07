@@ -18,18 +18,18 @@ Terms and dates for an Adjustable-Rate Mortgage (ARM)
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| index | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
+| index | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
 | initial_fixed_rate_period_months | [uint32](#uint32) |  |  |
-| initial_payment_adj_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  |  |
-| initial_rate_adj_cap | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
-| initial_rate_adj_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  |  |
-| initial_rate_adj_floor | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
-| lifetime_rate_adj_cap | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
-| margin | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
-| max_rate | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
-| min_rate | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
-| next_rate_adj_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  |  |
-| subs_rate_adj_cap | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  |  |
+| initial_payment_adj_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  |  |
+| initial_rate_adj_cap | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
+| initial_rate_adj_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  |  |
+| initial_rate_adj_floor | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
+| lifetime_rate_adj_cap | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
+| margin | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
+| max_rate | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
+| min_rate | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
+| next_rate_adj_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  |  |
+| subs_rate_adj_cap | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  |  |
 | subs_rate_adj_period_months | [uint32](#uint32) |  |  |
 
 
@@ -45,9 +45,9 @@ such as taxes and insurance.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Sum of all monthly escrow amounts paid by the borrower in addition to the monthly payment amount |
-| pre_paid_escrow_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Prepaid escrow (paid out at closing to insurance / tax entities) |
-| initial_escrow_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Initial/starting escrow balance (held in escrow account by the servicer for future use) |
+| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Sum of all monthly escrow amounts paid by the borrower in addition to the monthly payment amount |
+| pre_paid_escrow_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Prepaid escrow (paid out at closing to insurance / tax entities) |
+| initial_escrow_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Initial/starting escrow balance (held in escrow account by the servicer for future use) |
 | insurance_coverage | [InsuranceEscrow](#tech.figure.loan.v1beta1.InsuranceEscrow) | repeated | Homeowner's insurance |
 | tax_escrow | [TaxEscrow](#tech.figure.loan.v1beta1.TaxEscrow) | repeated | Property tax escrow |
 | hoa | [HomeOwnersAssociationEscrow](#tech.figure.loan.v1beta1.HomeOwnersAssociationEscrow) |  | Home Owner's Association information and dues |
@@ -64,9 +64,9 @@ Describes how and when funds are withdrawn from an escrow account to pay an item
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| first_withdraw_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | The initial withdraw date after funding |
+| first_withdraw_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | The initial withdraw date after funding |
 | withdraw_frequency | [string](#string) |  | How often funds are withdrawn from escrow account to pay this item e.g. MONTHLY, SEMIANNUAL, YEARLY |
-| withdraw_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Amount to be withdrawn at the given frequency |
+| withdraw_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Amount to be withdrawn at the given frequency |
 
 
 
@@ -81,9 +81,9 @@ Detail about escrow withholding for a Home Owners' Association for the lien prop
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | escrow_flag | [bool](#bool) |  | Indication whether HOA dues are part of escrow |
-| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | If escrow flag is set, the amount withheld from the loan payment for this item |
+| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | If escrow flag is set, the amount withheld from the loan payment for this item |
 | withdraw_policy | [EscrowWithdrawPolicy](#tech.figure.loan.v1beta1.EscrowWithdrawPolicy) |  | HOA dues payment policy |
-| contact_info | [tech.figure.util.v1beta1.ContactInformation](util#tech.figure.util.v1beta1.ContactInformation) |  | HOA contact information |
+| contact_info | [tech.figure.util.v1beta1.ContactInformation](util.md#tech.figure.util.v1beta1.ContactInformation) |  | HOA contact information |
 
 
 
@@ -98,14 +98,14 @@ Detail about escrow withholding for insurance related to the lien property
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | escrow_flag | [bool](#bool) |  | Indication whether loan is escrowed for this type of insurance |
-| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | If escrow flag is set, the amount withheld from the loan payment for this item |
+| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | If escrow flag is set, the amount withheld from the loan payment for this item |
 | type | [string](#string) |  | Type of insurance, e.g. HOMEOWNERS, FLOOD, EARTHQUAKE, CONDO, HOA, PMI, MIP |
-| coverage_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Amount for which the property is insured |
-| expiration_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Policy expiration date |
+| coverage_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Amount for which the property is insured |
+| expiration_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Policy expiration date |
 | policy_number | [string](#string) |  | Policy account number |
 | withdraw_policy | [EscrowWithdrawPolicy](#tech.figure.loan.v1beta1.EscrowWithdrawPolicy) |  | Insurance escrow payment policy |
-| start_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Policy start date |
-| contact_info | [tech.figure.util.v1beta1.ContactInformation](util#tech.figure.util.v1beta1.ContactInformation) |  | Insurance company contact information |
+| start_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Policy start date |
+| contact_info | [tech.figure.util.v1beta1.ContactInformation](util.md#tech.figure.util.v1beta1.ContactInformation) |  | Insurance company contact information |
 
 
 
@@ -119,9 +119,9 @@ A home Mortgage loan
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| lien_property | [tech.figure.util.v1beta1.Property](util#tech.figure.util.v1beta1.Property) |  | Property for which this mortgage was obtained |
+| lien_property | [tech.figure.util.v1beta1.Property](util.md#tech.figure.util.v1beta1.Property) |  | Property for which this mortgage was obtained |
 | lien_position | [uint32](#uint32) |  | Lien position: 1 = first lien position, 2 or more = junior lien position |
-| cash_out_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Cash proceeds to the borrower from a cash out refinancing after all other loans to be paid by the mortgage proceeds have been satisfied |
+| cash_out_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Cash proceeds to the borrower from a cash out refinancing after all other loans to be paid by the mortgage proceeds have been satisfied |
 | arm_flag | [bool](#bool) |  | True if loan is an Adjustable Rate Mortgage |
 | arm | [ARM](#tech.figure.loan.v1beta1.ARM) |  | If Adjustable-Rate Mortgage, the ARM terms |
 | io_flag | [bool](#bool) |  | True if loan is an interest-only loan |
@@ -145,12 +145,12 @@ The registration of the mortgage in a public record by a government agency
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| recorded_document_id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  |  |
-| recording_status | [tech.figure.util.v1beta1.Status](util#tech.figure.util.v1beta1.Status) |  |  |
+| recorded_document_id | [tech.figure.util.v1beta1.UUID](util.md#tech.figure.util.v1beta1.UUID) |  |  |
+| recording_status | [tech.figure.util.v1beta1.Status](util.md#tech.figure.util.v1beta1.Status) |  |  |
 | recorded_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
 | instrument_number | [string](#string) |  |  |
-| security_instrument_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  |  |
-| county_recorded_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  |  |
+| security_instrument_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  |  |
+| county_recorded_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  |  |
 | document_number | [string](#string) |  |  |
 | book | [string](#string) |  |  |
 | page | [string](#string) |  |  |
@@ -174,11 +174,11 @@ Detail about escrow witholding for tax payments related to the lien property
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | escrow_flag | [bool](#bool) |  | Indication whether loan is escrowed for taxes |
-| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | If escrow flag is set, the amount withheld from the loan payment for this item |
+| escrow_monthly_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | If escrow flag is set, the amount withheld from the loan payment for this item |
 | tax_type | [string](#string) |  | Type of tax, e.g. COMBINED, CITY, COUNTY, SCHOOL, MISC, BONDS, HOA_DUES, MOBILE_HOME, GROUND_RENT, OTHER, DELINQUENT |
 | withdraw_policy | [EscrowWithdrawPolicy](#tech.figure.loan.v1beta1.EscrowWithdrawPolicy) |  | Tax escrow payment policy |
 | tax_year | [string](#string) |  | Initial tax year |
-| contact_info | [tech.figure.util.v1beta1.ContactInformation](util#tech.figure.util.v1beta1.ContactInformation) |  | Tax authority contact information |
+| contact_info | [tech.figure.util.v1beta1.ContactInformation](util.md#tech.figure.util.v1beta1.ContactInformation) |  | Tax authority contact information |
 
 
 

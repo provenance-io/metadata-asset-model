@@ -18,7 +18,7 @@ ENote controller
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| controller_uuid | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | ENote controller ID |
+| controller_uuid | [tech.figure.util.v1beta1.UUID](util.md#tech.figure.util.v1beta1.UUID) |  | ENote controller ID |
 | controller_name | [string](#string) |  | ENote controller name |
 
 
@@ -63,12 +63,12 @@ Digital Asset Registry Technology (DART) ENote metadata
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | controller | [Controller](#io.dartinc.registry.v1beta1.Controller) |  | Identity of the ENote controller |
-| e_note | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Metadata of the authoritative copy of the ENote |
-| signed_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date the ENote was signed by the borrower |
+| e_note | [tech.figure.util.v1beta1.DocumentMetadata](util.md#tech.figure.util.v1beta1.DocumentMetadata) |  | Metadata of the authoritative copy of the ENote |
+| signed_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Date the ENote was signed by the borrower |
 | vault_name | [string](#string) |  | Name of the eVault storing the Authoritative copy of the ENote |
-| modification | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing modifications to the ENote |
-| assumption | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing additional assumptions about the ENote |
-| borrower_signature_image | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing image signatures of all signers of the ENote |
+| modification | [tech.figure.util.v1beta1.DocumentMetadata](util.md#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing modifications to the ENote |
+| assumption | [tech.figure.util.v1beta1.DocumentMetadata](util.md#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing additional assumptions about the ENote |
+| borrower_signature_image | [tech.figure.util.v1beta1.DocumentMetadata](util.md#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Documents containing image signatures of all signers of the ENote |
 
 
 

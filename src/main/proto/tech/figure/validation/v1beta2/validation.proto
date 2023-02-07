@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package tech.figure.validation.v1beta2;
+
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "tech/figure/util/v1beta1/document.proto";
+import "tech/figure/util/v1beta1/types.proto";
+import "validate/validate.proto";
+
+/*
+List of validation iterations.
+Each loan can go through several rounds of validation.
+ */
+message LoanValidation {
+  repeated ValidationIteration     iteration =  1; // An iteration of a validation request and its results
+  map<string, google.protobuf.Any> kv        = 99; // Additional fields
+}
+
+/*
+List of validation requests and corresponding response objects
+ */
+message ValidationIteration {
+  ValidationRequest                request =  1; // A validation request
+  ValidationResultsMetadata        results =  2; // Validation results corresponding to the given request
+  map<string, google.protobuf.Any> kv      = 99; // Additional fields
+}
+
+/*
+Validation request, including a pointer to the snapshot of data requiring validation
+ */
+message ValidationRequest {
+  tech.figure.util.v1beta1.UUID    request_id     =  1 [(validate.rules).message.required = true];   // Unique ID for the request
+  google.protobuf.Timestamp        effective_time =  2 [(validate.rules).timestamp.required = true]; // Time that the validation was requested
+  int64                            block_height   =  3;                                              // A Provenance block height to perform validation against
+  tech.figure.util.v1beta1.UUID    rule_set_id    =  4;                                              // ID of rule set that needs to be executed
+  string                           description    =  5;                                              // Description of the rule set
+  string                           validator_name =  6 [(validate.rules).string.min_len = 1];        // Party that will run the validation
+  string                           requester_name =  7 [(validate.rules).string.min_len = 1];        // Party invoking the request for validation
+  map<string, google.protobuf.Any> kv             = 99;                                              // Additional fields from the requester
+}
+
+/*
+Submission of validation results for a specific validation request
+ */
+message ValidationResponse {
+  tech.figure.util.v1beta1.UUID request_id = 1; // Unique ID for the request - should match an existing request
+  ValidationResultsMetadata     results    = 2; // Metadata of validation results associated with the request
+}
+
+/*
+Metadata of validation results that get stored when validation is complete
+ */
+message ValidationResultsMetadata {
+  tech.figure.util.v1beta1.UUID     id             = 1 [(validate.rules).message.required = true]; // Identifier unique to this validation result set
+  google.protobuf.Timestamp         effective_time = 2;                                            // Timestamp of when these results were produced
+  string                            uri            = 3;                                            // URI Location of where the results are hosted/located
+  tech.figure.util.v1beta1.Checksum checksum       = 4;                                            // Hash or checksum of the result bytes
+}
+
+/*
+Validation results that should be created when validation is complete
+ */
+message ValidationResults {
+    tech.figure.util.v1beta1.UUID                      result_set_uuid            =  1; // Unique ID for the result set
+    google.protobuf.Timestamp                          result_set_effective_time  =  2; // The date that the validation was finalized
+    string                                             result_set_provider        =  3; // Name of the validator
+    int32                                              validation_exception_count = 10; // Total count of exceptions
+    int32                                              validation_warning_count   = 11; // Total count of warnings
+    repeated ValidationItem                            validation_items           = 20; // Individual rules that were executed
+    repeated tech.figure.util.v1beta1.DocumentMetadata policy_documents           = 30; // Related Documents, e.g. a TPR Indemnification Policy, a diligence scope, etc.
+    tech.figure.util.v1beta1.DocumentMetadata          rating_agency_grading      = 40; // Document containing credit rating agency grades
+    map<string, google.protobuf.Any>                   kv                         = 99; // Additional fields from the validator
+}
+
+/*
+Individual rules that were executed, including the actual expression that was run
+ */
+message ValidationItem {
+    string                           code               =  1; // Identifier for the rule
+    string                           label              =  2; // Short description of the rule
+    string                           description        =  3; // Long description of the rule
+    string                           expression         =  4; // Actual value, comparison operator, and expected value written as a formula or description of a comparison
+    ValidationOutcome                validation_outcome =  5; // Result of applying the rule, see enum
+    map<string, google.protobuf.Any> kv                 = 99; // Additional information related to the rule
+}
+
+/*
+Possible outcomes when applying a validation rule
+ */
+enum ValidationOutcome {
+    UNKNOWN_TYPE = 0;
+    EXCEPTION    = 1;
+    WARNING      = 2;
+    VALID        = 3;
+}
