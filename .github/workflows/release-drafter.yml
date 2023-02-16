@@ -1,0 +1,36 @@
+name: Release Drafter
+
+on:
+  # For creating draft releases
+  push:
+    branches:
+      - main
+  # For autolabeling PRs
+  pull_request:
+    types: [ synchronize, opened, reopened, ready_for_review, converted_to_draft ]
+  # For autolabeling PRs from forks
+  pull_request_target:
+    types: [ synchronize, opened, reopened, ready_for_review ]
+  # For updating the release draft (when run against main) & manually running the autolabeler (against any other branch)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update_release_draft:
+    name: Update Release Draft
+    permissions:
+      # Write permission is required to create a GitHub release
+      contents: write
+      # Write permission is required for autolabeler
+      # Otherwise, read permission is required at least
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        with:
+          # Allows the auto-labeler to run without adding unmerged PRs to the draft
+          disable-releaser: ${{ github.ref_name != 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
