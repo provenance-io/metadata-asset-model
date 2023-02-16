@@ -62,7 +62,7 @@ Example:
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Required UUID identifier for this asset |
+| id | [tech.figure.util.v1beta1.UUID](util.md#tech.figure.util.v1beta1.UUID) |  | Required UUID identifier for this asset |
 | type | [string](#string) |  | Optional user-defined type (e.g. LOAN, ART, PROPERTY TITLE, FUND, SHARE CLASS) |
 | description | [string](#string) |  | Optional user-defined description, title, name, etc. for display |
 | kv | [Asset.KvEntry](#tech.figure.asset.v1beta1.Asset.KvEntry) | repeated | Key-value store of asset data |

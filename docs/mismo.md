@@ -74,7 +74,7 @@ Example:
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | uli | [string](#string) |  | Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan originator's Legal Entity Identifier (LEI). An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/). |
-| document | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) |  | Pointer to MISMO loan file in Object Store |
+| document | [tech.figure.util.v1beta1.DocumentMetadata](util.md#tech.figure.util.v1beta1.DocumentMetadata) |  | Pointer to MISMO loan file in Object Store |
 | recording_info | [Recording](#tech.figure.loan.v1beta1.Recording) |  | The registration of the mortgage in a public record by a government agency |
 | kv | [MISMOLoanMetadata.KvEntry](#tech.figure.loan.v1beta1.MISMOLoanMetadata.KvEntry) | repeated | Key-value map allowing originator to provide additional data |
 

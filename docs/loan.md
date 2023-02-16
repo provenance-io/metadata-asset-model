@@ -19,8 +19,8 @@ Data supplied by borrower during loan application and used by the underwriting p
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | loan_purpose | [string](#string) |  | Intended use of loan (e.g. Home improvement, Debt consolidation, Major purchase, Other purchase, Cash-out Refinance, Rate Refinance) |
-| income | [tech.figure.util.v1beta1.Income](util#tech.figure.util.v1beta1.Income) | repeated | Stated and/or verified income data |
-| credit_reports | [tech.figure.util.v1beta1.CreditReport](util#tech.figure.util.v1beta1.CreditReport) | repeated | Borrower credit reports |
+| income | [tech.figure.util.v1beta1.Income](util.md#tech.figure.util.v1beta1.Income) | repeated | Stated and/or verified income data |
+| credit_reports | [tech.figure.util.v1beta1.CreditReport](util.md#tech.figure.util.v1beta1.CreditReport) | repeated | Borrower credit reports |
 | kv | [ApplicationData.KvEntry](#tech.figure.loan.v1beta1.ApplicationData.KvEntry) | repeated | Additional application data |
 
 
@@ -51,10 +51,10 @@ multiple previous student loans are being consolidated and paid off. Each previo
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Disbursement identifier |
-| amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Amount to send |
-| disburse_account | [tech.figure.util.v1beta1.Account](util#tech.figure.util.v1beta1.Account) |  | Destination to send funds |
-| status | [tech.figure.util.v1beta1.Status](util#tech.figure.util.v1beta1.Status) |  | Status of sending funds for this disbursement: UNFUNDED, INITIATED, COMPLETED, CANCELLED |
+| id | [tech.figure.util.v1beta1.UUID](util.md#tech.figure.util.v1beta1.UUID) |  | Disbursement identifier |
+| amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Amount to send |
+| disburse_account | [tech.figure.util.v1beta1.Account](util.md#tech.figure.util.v1beta1.Account) |  | Destination to send funds |
+| status | [tech.figure.util.v1beta1.Status](util.md#tech.figure.util.v1beta1.Status) |  | Status of sending funds for this disbursement: UNFUNDED, INITIATED, COMPLETED, CANCELLED |
 | started | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Time this disbursement was initiated |
 | completed | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Time this disbursement was completed |
 | kv | [Disbursement.KvEntry](#tech.figure.loan.v1beta1.Disbursement.KvEntry) | repeated | Additional process-specific data related to funding this disbursement |
@@ -86,7 +86,7 @@ Detail of the loan funding process
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [tech.figure.util.v1beta1.Status](util#tech.figure.util.v1beta1.Status) |  | Status of loan funding process: e.g. UNFUNDED, INITIATED, FUNDED, CANCELLED |
+| status | [tech.figure.util.v1beta1.Status](util.md#tech.figure.util.v1beta1.Status) |  | Status of loan funding process: e.g. UNFUNDED, INITIATED, FUNDED, CANCELLED |
 | started | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Time funding process was initiated |
 | completed | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Time funding process was completed |
 | disbursements | [Disbursement](#tech.figure.loan.v1beta1.Disbursement) | repeated | Detailed information about one or more monetary disbursements to borrower |
@@ -140,19 +140,19 @@ Example:
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Loan UUID identifier |
+| id | [tech.figure.util.v1beta1.UUID](util.md#tech.figure.util.v1beta1.UUID) |  | Loan UUID identifier |
 | originator_name | [string](#string) |  | Human-readable name of the originating firm |
 | originator_loan_id | [string](#string) |  | Originator's internal loan identifier |
-| borrowers | [tech.figure.util.v1beta1.Borrowers](util#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
+| borrowers | [tech.figure.util.v1beta1.Borrowers](util.md#tech.figure.util.v1beta1.Borrowers) |  | Borrower(s), co-signers, etc |
 | terms | [Terms](#tech.figure.loan.v1beta1.Terms) |  | Loan terms: amount, duration, rates |
 | funding | [Funding](#tech.figure.loan.v1beta1.Funding) |  | Funding detail |
 | app | [ApplicationData](#tech.figure.loan.v1beta1.ApplicationData) |  | Data collected by LOS loan application process and used for underwriting |
 | underwriting | [Underwriting](#tech.figure.loan.v1beta1.Underwriting) |  | Underwriting |
-| doc_meta | [tech.figure.util.v1beta1.DocumentMetadata](util#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Metadata about documents related to the loan (document files stored separately) |
-| signed_data | [tech.figure.util.v1beta1.SignedData](util#tech.figure.util.v1beta1.SignedData) | repeated | Digitally-signed-by-source data/documents |
-| asset_type | [tech.figure.util.v1beta1.AssetType](util#tech.figure.util.v1beta1.AssetType) |  | Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN |
+| doc_meta | [tech.figure.util.v1beta1.DocumentMetadata](util.md#tech.figure.util.v1beta1.DocumentMetadata) | repeated | Metadata about documents related to the loan (document files stored separately) |
+| signed_data | [tech.figure.util.v1beta1.SignedData](util.md#tech.figure.util.v1beta1.SignedData) | repeated | Digitally-signed-by-source data/documents |
+| asset_type | [tech.figure.util.v1beta1.AssetType](util.md#tech.figure.util.v1beta1.AssetType) |  | Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN |
 | uli | [string](#string) |  | Universal Loan Identifier (ULI) is a unique number made up of 23 to 45 characters that begins with the loan originator's Legal Entity Identifier (LEI). An originator's LEI can be found by searching the [GLEIF Website](https://search.gleif.org/#/search/). |
-| originator_uuid | [tech.figure.util.v1beta1.UUID](util#tech.figure.util.v1beta1.UUID) |  | Originator UUID identifier |
+| originator_uuid | [tech.figure.util.v1beta1.UUID](util.md#tech.figure.util.v1beta1.UUID) |  | Originator UUID identifier |
 | mortgage | [Mortgage](#tech.figure.loan.v1beta1.Mortgage) |  | Mortgage |
 | heloc | [Heloc](#tech.figure.loan.v1beta1.Heloc) |  | Home Equity Line of Credit |
 | student_loan | [StudentLoan](#tech.figure.loan.v1beta1.StudentLoan) |  | New or refinanced student loan |
@@ -186,13 +186,13 @@ Milestone dates for the loan established at origination
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| initial_offer_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date loan was offered to borrower |
-| origination_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date the loan is closed (typically same as `signed_date`) |
-| signed_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date the Note is signed |
-| funding_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date originator sent funds to borrower |
-| first_payment_due_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date first payment is due from borrower |
-| grace_period_end_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | If loan has grace period, date grace period ends and repayment must begin |
-| amortization_start_date | [tech.figure.util.v1beta1.Date](util#tech.figure.util.v1beta1.Date) |  | Date amortization schedule starts and interest begins accrual |
+| initial_offer_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Date loan was offered to borrower |
+| origination_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Date the loan is closed (typically same as `signed_date`) |
+| signed_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Date the Note is signed |
+| funding_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Date originator sent funds to borrower |
+| first_payment_due_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Date first payment is due from borrower |
+| grace_period_end_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | If loan has grace period, date grace period ends and repayment must begin |
+| amortization_start_date | [tech.figure.util.v1beta1.Date](util.md#tech.figure.util.v1beta1.Date) |  | Date amortization schedule starts and interest begins accrual |
 
 
 
@@ -206,10 +206,10 @@ Details of the payment requirements for the loan
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| first_payment_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | The amount of the first scheduled payment to be made by the borrower. Includes principal, interest, taxes, and insurance (if escrows are not waived) |
-| monthly_payment_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Principal and interest only (no escrow/fees) |
+| first_payment_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | The amount of the first scheduled payment to be made by the borrower. Includes principal, interest, taxes, and insurance (if escrows are not waived) |
+| monthly_payment_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Principal and interest only (no escrow/fees) |
 | payment_method | [string](#string) |  | Borrower-select method of payment (e.g. MANUAL or AUTOPAY) |
-| autopay_account | [tech.figure.util.v1beta1.Account](util#tech.figure.util.v1beta1.Account) |  | Populated if borrower has agreed to automated monthly payments |
+| autopay_account | [tech.figure.util.v1beta1.Account](util.md#tech.figure.util.v1beta1.Account) |  | Populated if borrower has agreed to automated monthly payments |
 
 
 
@@ -224,7 +224,7 @@ A discount on the interest rate for the loan
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | type | [string](#string) |  | Reason for the rate discount, e.g. AUTOPAY, CREDIT_UNION_MEMBERSHIP |
-| rate | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Amount interest rate is reduced |
+| rate | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Amount interest rate is reduced |
 | included_in_margin | [bool](#bool) |  | Indicate whether a discount is included in the loan margin or not. E.g. autopay discount only applied if starting on autopay. |
 
 
@@ -239,15 +239,15 @@ The terms and conditions for a loan: interest rates, fees, dates, etc.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| principal_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Loan amount, not including fees or interest |
-| total_amount | [tech.figure.util.v1beta1.Money](util#tech.figure.util.v1beta1.Money) |  | Principal loan amount + origination fees |
+| principal_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Loan amount, not including fees or interest |
+| total_amount | [tech.figure.util.v1beta1.Money](util.md#tech.figure.util.v1beta1.Money) |  | Principal loan amount + origination fees |
 | term_in_months | [int32](#int32) |  | Loan term (duration) in months |
 | rate_type | [string](#string) |  | Interest rate type (e.g. fixed or floating) See InterestRateExpectedType |
-| interest_rate | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Total interest rate for loan (margin_rate + index_rate - any rate discounts at time of origination) |
-| index_rate | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Benchmarked indexed rate value |
+| interest_rate | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Total interest rate for loan (margin_rate + index_rate - any rate discounts at time of origination) |
+| index_rate | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Benchmarked indexed rate value |
 | index_rate_type | [string](#string) |  | Benchmarked index rate type (e.g. Prime, LIBOR) See IndexRateType |
-| fees | [tech.figure.util.v1beta1.Fee](util#tech.figure.util.v1beta1.Fee) | repeated | Fees charged to the loan, e.g. origination fee, application fee, annual fee |
-| interest_rate_cap | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Maximum allow interest rate on the loan (most relevant to variable-rate loans) |
+| fees | [tech.figure.util.v1beta1.Fee](util.md#tech.figure.util.v1beta1.Fee) | repeated | Fees charged to the loan, e.g. origination fee, application fee, annual fee |
+| interest_rate_cap | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Maximum allow interest rate on the loan (most relevant to variable-rate loans) |
 | rate_discounts | [RateDiscount](#tech.figure.loan.v1beta1.RateDiscount) | repeated | All rate discounts available to this asset. |
 | payment | [Payment](#tech.figure.loan.v1beta1.Payment) |  | Details about initial and monthly payments |
 | dates | [LoanDates](#tech.figure.loan.v1beta1.LoanDates) |  | Original milestone dates for the loan |
@@ -266,13 +266,13 @@ Information derived during the underwriting process
 | ----- | ---- | ----- | ----------- |
 | effective_time | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Timestamp when underwriting was performed ("as of" date) |
 | version | [string](#string) |  | Underwriting software or algorithm version |
-| pre_loan_ltv | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Loan-to-value ratio - value of loan divided by value of asset (i.e. property value) - prior to this loan |
-| pre_loan_cltv | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Combined loan-to-value ration - sum of values of all loans divided by value of asset (i.e. property value) - prior to this loan |
-| pre_loan_dti | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Pre-loan debt to income ratio |
-| post_loan_ltv | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Loan-to-value ratio - value of loan divided by value of asset (i.e. property value) - after/including this loan |
-| post_loan_cltv | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Combined loan-to-value ratio - sum of values of all loans divided by value of asset (i.e. property value) - after/including this loan |
-| post_loan_dti | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Post-loan debt to income ratio |
-| payment_to_income | [tech.figure.util.v1beta1.Rate](util#tech.figure.util.v1beta1.Rate) |  | Ratio of monthly loan payment to monthly income |
+| pre_loan_ltv | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Loan-to-value ratio - value of loan divided by value of asset (i.e. property value) - prior to this loan |
+| pre_loan_cltv | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Combined loan-to-value ration - sum of values of all loans divided by value of asset (i.e. property value) - prior to this loan |
+| pre_loan_dti | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Pre-loan debt to income ratio |
+| post_loan_ltv | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Loan-to-value ratio - value of loan divided by value of asset (i.e. property value) - after/including this loan |
+| post_loan_cltv | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Combined loan-to-value ratio - sum of values of all loans divided by value of asset (i.e. property value) - after/including this loan |
+| post_loan_dti | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Post-loan debt to income ratio |
+| payment_to_income | [tech.figure.util.v1beta1.Rate](util.md#tech.figure.util.v1beta1.Rate) |  | Ratio of monthly loan payment to monthly income |
 | kv | [Underwriting.KvEntry](#tech.figure.loan.v1beta1.Underwriting.KvEntry) | repeated | Additional underwriting calculations |
 
 
