@@ -1,6 +1,10 @@
 package tech.figure.asset.v1beta1
 
-import com.google.protobuf.*
+import com.google.protobuf.ByteString
+import com.google.protobuf.BytesValue
+import com.google.protobuf.Int64Value
+import com.google.protobuf.Message
+import com.google.protobuf.StringValue
 import com.google.protobuf.Any
 import org.junit.jupiter.api.Test
 import tech.figure.proto.util.FileNFT
