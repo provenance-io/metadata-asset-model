@@ -76,7 +76,7 @@ val asset1 = asset {
 
 The JSON representation of this asset would look something like:
 
-```json lines
+```jsonc
 {
     "id": "4861c0c0-d46e-4ca2-b765-c66b45a41464",
     "type": "FILE",
