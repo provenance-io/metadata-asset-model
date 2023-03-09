@@ -400,6 +400,7 @@ actual contents of the file are stored elsewhere (described by the `uri`).
 | content_type | [string](#string) |  | Where possible, use MIME type, such as `application/pdf` or `application/xml` |
 | document_type | [string](#string) |  | Examples: HELOC_AGREEMENT, CREDIT_DISCLOSURE, PROOF_OF_RECORDED_DEED, TRANSFER_OF_SERVICING_RIGHTS, etc. |
 | checksum | [Checksum](util.md#tech.figure.util.v1beta1.Checksum) |  | Hash or checksum of document bytes |
+| signature | [ElectronicSignature](util.md#tech.figure.util.v1beta1.ElectronicSignature) |  | A representation of an electronic signature |
 
 
 
@@ -423,6 +424,7 @@ actual contents of the file are stored elsewhere (described by the `uri`).
 | signing_timestamp | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
 | name | [Name](util.md#tech.figure.util.v1beta1.Name) |  |  |
 | witnesses | [Witness](util.md#tech.figure.util.v1beta1.Witness) | repeated |  |
+| signature_location | [PageLocation](util.md#tech.figure.util.v1beta1.PageLocation) |  | The location of the signature on a page |
 
 
 
@@ -495,7 +497,25 @@ Detail of the notary (person) who witnessed the signing and their commission inf
 | name | [Name](util.md#tech.figure.util.v1beta1.Name) |  |  |
 | commission_id | [string](#string) |  |  |
 | commission_expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
-| is_resident | [bool](#bool) |  |  |
+| is_resident | [bool](#bool) |  | True if the notary is a resident of the state they are notarizing in |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.PageLocation"></a>
+
+### PageLocation
+A representation of a specific location on a page in a document, such as the location of a signature.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page_index | [int32](#int32) |  | The index of the location's page in a multi-page document, if applicable |
+| x | [int32](#int32) |  | The x-coordinate of the location in the plane of the page |
+| y | [int32](#int32) |  | The y-coordinate of the location in the plane of the page |
+| width | [int32](#int32) |  | The width of the page |
+| height | [int32](#int32) |  | The height of the page |
 
 
 
@@ -511,7 +531,7 @@ Data or document digitally-signed by the source that created the data/document.
 | ----- | ---- | ----- | ----------- |
 | meta | [DocumentMetadata](util.md#tech.figure.util.v1beta1.DocumentMetadata) |  | Information about the data/document |
 | signature | [DigitalSignature](util.md#tech.figure.util.v1beta1.DigitalSignature) |  | Signature of vendor on this data/document |
-| data | [google.protobuf.BytesValue](#google.protobuf.BytesValue) |  | Byte array of data/docum``ent contents |
+| data | [google.protobuf.BytesValue](#google.protobuf.BytesValue) |  | Byte array of data/document contents |
 
 
 

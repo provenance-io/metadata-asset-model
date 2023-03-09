@@ -17,7 +17,7 @@ Data or document digitally-signed by the source that created the data/document.
 message SignedData {
   DocumentMetadata           meta      = 1 [(validate.rules).message.required = true];  // Information about the data/document
   DigitalSignature           signature = 22 [(validate.rules).message.required = true]; // Signature of vendor on this data/document
-  google.protobuf.BytesValue data      = 2 [(validate.rules).message.required = true];  // Byte array of data/docum``ent contents
+  google.protobuf.BytesValue data      = 2 [(validate.rules).message.required = true];  // Byte array of data/document contents
 }
 
 /*
@@ -31,6 +31,12 @@ message DocumentMetadata {
   string                content_type  = 4 [(validate.rules).string.min_len = 1];      // Where possible, use MIME type, such as `application/pdf` or `application/xml`
   string                document_type = 5 [(validate.rules).string.min_len = 1];      // Examples: HELOC_AGREEMENT, CREDIT_DISCLOSURE, PROOF_OF_RECORDED_DEED, TRANSFER_OF_SERVICING_RIGHTS, etc.
   Checksum              checksum      = 6;                                            // Hash or checksum of document bytes
+  /*
+  Optional data for a signature of the document.
+   */
+  oneof signature_type {
+    ElectronicSignature signature     = 10;                                           // A representation of an electronic signature
+  }
 }
 
 /*
@@ -79,6 +85,7 @@ message ESigData {
   google.protobuf.Timestamp     signing_timestamp        = 9;
   tech.figure.util.v1beta1.Name name                     = 10;
   repeated Witness              witnesses                = 11;
+  PageLocation                  signature_location       = 12; // The location of the signature on a page
 }
 
 /*
@@ -89,7 +96,7 @@ message Notary {
   tech.figure.util.v1beta1.Name name                  = 2;
   string                        commission_id         = 3;
   google.protobuf.Timestamp     commission_expiration = 4;
-  bool                          is_resident           = 5;
+  bool                          is_resident           = 5; // True if the notary is a resident of the state they are notarizing in
 }
 
 /*
@@ -98,4 +105,15 @@ A non-notary witness to the document signing
 message Witness {
   tech.figure.util.v1beta1.UUID person_id = 1 [(validate.rules).message.required = true];
   tech.figure.util.v1beta1.Name name      = 2;
+}
+
+/*
+A representation of a specific location on a page in a document, such as the location of a signature.
+ */
+message PageLocation {
+  int32 page_index = 1; // The index of the location's page in a multi-page document, if applicable
+  int32 x          = 2; // The x-coordinate of the location in the plane of the page
+  int32 y          = 3; // The y-coordinate of the location in the plane of the page
+  int32 width      = 4; // The width of the page
+  int32 height     = 5; // The height of the page
 }
