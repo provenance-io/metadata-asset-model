@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package tech.figure.loan.v1beta1;
+
+option java_multiple_files = true;
+
+import "tech/figure/loan/v1beta1/mortgage.proto";
+import "tech/figure/util/v1beta1/property.proto";
+import "tech/figure/util/v1beta1/types.proto";
+
+/*
+A Home Equity Loan (HELOAN)
+ */
+message Heloan {
+  tech.figure.util.v1beta1.Property lien_property          = 1; // Subject property
+  uint32                            lien_position          = 2; // Lien position: 1 = first lien position, 2 or higher = junior lien position
+  tech.figure.util.v1beta1.Status   recording_status       = 3; // Loan recording status (e.g. PENDING, RECORDED)
+  Recording                         recording_info         = 4; // The registration of the lien in a public record by a government agency
+}

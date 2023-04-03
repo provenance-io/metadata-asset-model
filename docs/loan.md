@@ -157,6 +157,7 @@ Example:
 | heloc | [Heloc](#tech.figure.loan.v1beta1.Heloc) |  | Home Equity Line of Credit |
 | student_loan | [StudentLoan](#tech.figure.loan.v1beta1.StudentLoan) |  | New or refinanced student loan |
 | loan_type | [string](#string) |  | **Deprecated.** DEPRECATED: Please use asset_type** Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN |
+| heloan | [Heloan](#tech.figure.loan.v1beta1.Heloan) |  | Home Equity Loan |
 | kv | [Loan.KvEntry](#tech.figure.loan.v1beta1.Loan.KvEntry) | repeated | Key-value map allowing originator to provide additional data |
 
 
