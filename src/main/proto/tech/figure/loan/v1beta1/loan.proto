@@ -6,6 +6,7 @@ option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
+import "tech/figure/loan/v1beta1/heloan.proto";
 import "tech/figure/loan/v1beta1/heloc.proto";
 import "tech/figure/loan/v1beta1/mortgage.proto";
 import "tech/figure/loan/v1beta1/student_loan.proto";
@@ -50,10 +51,11 @@ message Loan {
    */
   oneof type_specific {
     option (validate.required) = true;
-    Mortgage                            mortgage                        = 20;                                                           // Mortgage
-    Heloc                               heloc                           = 21;                                                           // Home Equity Line of Credit
-    StudentLoan                         student_loan                    = 23;                                                           // New or refinanced student loan
-    string                              loan_type                       = 24 [deprecated = true];                                       // ***DEPRECATED: Please use asset_type** Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
+    Mortgage                            mortgage                        = 20;                                           // Mortgage
+    Heloc                               heloc                           = 21;                                           // Home Equity Line of Credit
+    StudentLoan                         student_loan                    = 23;                                           // New or refinanced student loan
+    string                              loan_type                       = 24 [deprecated = true];                       // ***DEPRECATED: Please use asset_type** Specify loan type if none of the above types are used, e.g. PERSONAL_LOAN
+    Heloan                              heloan                          = 25;                                           // Home Equity Loan
   }
 
   map<string, google.protobuf.Any> kv = 40; // Key-value map allowing originator to provide additional data

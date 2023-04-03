@@ -39,6 +39,7 @@ gen_doc "tech/figure/asset/v1beta1/asset.proto" "asset.md" "Asset (NFT)"
 gen_doc "tech/figure/loan/v1beta1/loan.proto" "loan.md" "Loan"
 gen_doc "tech/figure/loan/v1beta1/mortgage.proto" "mortgage.md" "Mortgage"
 gen_doc "tech/figure/loan/v1beta1/heloc.proto" "heloc.md" "HELOC"
+gen_doc "tech/figure/loan/v1beta1/heloan.proto" "heloan.md" "HELOAN"
 gen_doc "tech/figure/loan/v1beta1/mismo_loan.proto" "mismo.md" "MISMO Loan"
 gen_doc "io/dartinc/registry/v1beta1/registry.proto" "registry.md" "Digital Asset Registry Technology"
 
