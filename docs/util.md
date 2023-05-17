@@ -163,6 +163,7 @@ Physical or mailing address
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| uuid | [UUID](util.md#tech.figure.util.v1beta1.UUID) |  | Unique identifier for the address |
 | street | [string](#string) |  | Street address including number, e.g. "123 Main St." |
 | street2 | [string](#string) |  | Used for multi-line street addresses |
 | street3 | [string](#string) |  | Used for multi-line street addresses |
@@ -205,6 +206,7 @@ Telephone number
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| uuid | [UUID](util.md#tech.figure.util.v1beta1.UUID) |  | Unique identifier for the phone number |
 | number | [string](#string) |  | Phone number |
 | number_type | [string](#string) |  | e.g. HOME, MOBILE, WORK |
 
