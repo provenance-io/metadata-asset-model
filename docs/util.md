@@ -246,7 +246,7 @@ Detailed breakdown of an individual's credit history prepared by a credit bureau
 | attributes | [CreditReport.AttributesEntry](util.md#tech.figure.util.v1beta1.CreditReport.AttributesEntry) | repeated | Attributes |
 | risk_models | [RiskModel](util.md#tech.figure.util.v1beta1.RiskModel) | repeated | Type of risk model used |
 | expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date credit report is valid until |
-| eligibility_factors | [EligibilityFactors](util.md#tech.figure.util.v1beta1.EligibilityFactors) | repeated | List of eligibility factors |
+| eligibility | [EligibilityFactors](util.md#tech.figure.util.v1beta1.EligibilityFactors) |  | List of eligibility factors |
 | kv | [CreditReport.KvEntry](util.md#tech.figure.util.v1beta1.CreditReport.KvEntry) | repeated | Key-value store of credit report data |
 
 
