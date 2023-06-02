@@ -60,8 +60,14 @@ message RiskModel {
 Eligibility factors taken directly from the credit report
  */
 message EligibilityFactors {
-  repeated Factor factors = 1;
+  // repeated Factor factors = 1;
+  reserved 1; // removed unnecessary nesting
+  string factor_type  = 2;
+  string msg          = 3;
+  string subcode      = 4;
+  
   message Factor {
+    option deprecated = true;
     string factor_type  = 1;
     string msg          = 2;
     string subcode      = 3;
