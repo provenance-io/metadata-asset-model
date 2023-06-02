@@ -246,6 +246,7 @@ Detailed breakdown of an individual's credit history prepared by a credit bureau
 | attributes | [CreditReport.AttributesEntry](util.md#tech.figure.util.v1beta1.CreditReport.AttributesEntry) | repeated | Attributes |
 | risk_models | [RiskModel](util.md#tech.figure.util.v1beta1.RiskModel) | repeated | Type of risk model used |
 | expiration | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | Date credit report is valid until |
+| eligibility_factors | [EligibilityFactors](util.md#tech.figure.util.v1beta1.EligibilityFactors) | repeated | List of eligibility factors |
 | kv | [CreditReport.KvEntry](util.md#tech.figure.util.v1beta1.CreditReport.KvEntry) | repeated | Key-value store of credit report data |
 
 
@@ -282,6 +283,36 @@ Detailed breakdown of an individual's credit history prepared by a credit bureau
 
 
 
+<a name="tech.figure.util.v1beta1.EligibilityFactors"></a>
+
+### EligibilityFactors
+Eligibility factors taken directly from the credit report
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| factors | [EligibilityFactors.Factor](util.md#tech.figure.util.v1beta1.EligibilityFactors.Factor) | repeated |  |
+
+
+
+
+
+<a name="tech.figure.util.v1beta1.EligibilityFactors.Factor"></a>
+
+### EligibilityFactors.Factor
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| factor_type | [string](#string) |  |  |
+| msg | [string](#string) |  |  |
+| subcode | [string](#string) |  |  |
+
+
+
+
+
 <a name="tech.figure.util.v1beta1.RiskModel"></a>
 
 ### RiskModel
@@ -290,10 +321,10 @@ Detail of the risk model used in a credit report.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| score | [int32](#int32) |  |  |
-| factors | [RiskModel.FactorsEntry](util.md#tech.figure.util.v1beta1.RiskModel.FactorsEntry) | repeated |  |
-| risk_type | [RiskModel.RiskType](util.md#tech.figure.util.v1beta1.RiskModel.RiskType) |  |  |
-| other_type | [RiskModel.OtherRiskType](util.md#tech.figure.util.v1beta1.RiskModel.OtherRiskType) |  |  |
+| score | [int32](#int32) |  | Credit score |
+| factors | [RiskModel.FactorsEntry](util.md#tech.figure.util.v1beta1.RiskModel.FactorsEntry) | repeated | Credit factor codes mapped to their description |
+| risk_type | [RiskModel.RiskType](util.md#tech.figure.util.v1beta1.RiskModel.RiskType) |  | Credit report type |
+| other_type | [RiskModel.OtherRiskType](util.md#tech.figure.util.v1beta1.RiskModel.OtherRiskType) |  | Name and description of credit report if not a known RiskType |
 
 
 
