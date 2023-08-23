@@ -27,8 +27,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     withSourcesJar()
     withJavadocJar() /** Needed to pass Nexus validation rules */
 }
@@ -48,7 +48,7 @@ tasks.withType<KotlinCompile>().all {
         freeCompilerArgs += listOf(
             "-Xjsr305=strict",
         )
-        jvmTarget = "11"
+        jvmTarget = "17"
         apiVersion = "1.8"
         languageVersion = "1.8"
         /** Necessary to allow deprecation warnings from the Java & Kotlin generated for deprecated protobuf fields */
