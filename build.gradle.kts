@@ -13,7 +13,7 @@ buildscript {
 
 @Suppress("DSL_SCOPE_VIOLATION") /** https://github.com/gradle/gradle/issues/22797 */
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.8.21"
     alias(libs.plugins.protobuf.gradle)
     alias(libs.plugins.protocGen.krotoPlus)
     `java-library`
